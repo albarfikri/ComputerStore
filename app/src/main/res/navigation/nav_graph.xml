@@ -11,9 +11,20 @@
     <fragment
         android:id="@+id/list"
         android:name="com.albar.computerstore.ui.fragments.ComputerStoreListFragment"
-        android:label="ComputerStoreListFragment" />
+        android:label="ComputerStoreListFragment">
+        <action
+            android:id="@+id/action_list_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
     <fragment
         android:id="@+id/nearest"
         android:name="com.albar.computerstore.ui.fragments.NearestFragment"
-        android:label="NearestFragment" />
+        android:label="NearestFragment">
+        <action
+            android:id="@+id/action_nearest_to_locationFragment"
+            app:destination="@id/locationFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_locationFragment"
+        app:destination="@id/locationFragment" />
 </navigation>

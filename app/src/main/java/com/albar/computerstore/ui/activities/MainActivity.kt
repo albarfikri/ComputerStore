@@ -1,5 +1,6 @@
 package com.albar.computerstore.ui.activities
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -30,7 +31,19 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Hi There", Toast.LENGTH_SHORT).show()
         }
 
+        navigation()
+
+    }
+
+    private fun navigation() {
+
         binding.apply {
+            fabLocation.setOnClickListener {
+                navHost.findNavController().navigate(R.id.action_global_locationFragment)
+                removeAnimationWhileClickingFab(false)
+            }
+
+            removeAnimationWhileClickingFab(true)
             bottomNavigationView.setupWithNavController(navHost.findNavController())
             navHost.findNavController()
                 .addOnDestinationChangedListener { _, destination, _ ->
@@ -41,5 +54,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+
+    @SuppressLint("ResourceAsColor")
+    private fun removeAnimationWhileClickingFab(status: Boolean) {
+        binding.bottomNavigationView.menu.getItem(0).isChecked = status
+        binding.bottomNavigationView.menu.getItem(1).isChecked = status
     }
 }
