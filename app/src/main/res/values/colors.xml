@@ -11,5 +11,5 @@
     <color name="colorPrimaryVariant">#b50039</color>
     <color name="colorSecondary">#ed4a63</color>
     <color name="colorSecondaryVariant">#b50039</color>
-
+    <color name="defaultColor">#666666</color>
 </resources>
