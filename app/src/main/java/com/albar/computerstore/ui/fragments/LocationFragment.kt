@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.albar.computerstore.databinding.FragmentLocationBinding
+import com.google.android.gms.maps.GoogleMap
 
 class LocationFragment : Fragment() {
     private var _binding: FragmentLocationBinding? = null

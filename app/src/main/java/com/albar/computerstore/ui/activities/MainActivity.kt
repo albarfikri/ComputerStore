@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigation() {
-
         binding.fabLocation.setOnClickListener {
             navHost.findNavController().navigate(R.id.locationFragment)
             removeEffectsWhileClickingFab(false)

@@ -16,9 +16,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComputerStore">
         <activity
-            android:name=".ui.activities.SplashScreenActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">
             <intent-filter>
