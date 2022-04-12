@@ -7,7 +7,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivityMainBinding
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var _navHost: View
+    private lateinit var _navHost: NavHostFragment
     private val navHost get() = _navHost
 
 
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        _navHost = findViewById(R.id.navHostFragment)
+        _navHost = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
 
         // bottom navigation
         binding.bottomNavigationView.background = null
@@ -44,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigation() {
         binding.fabLocation.setOnClickListener {
-            navHost.findNavController().navigate(R.id.locationFragment)
+            navHost.navController.navigate(R.id.locationFragment)
             removeEffectsWhileClickingFab(false)
         }
 
