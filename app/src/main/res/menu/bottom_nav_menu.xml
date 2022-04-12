@@ -8,8 +8,7 @@
         />
 
     <item
-        android:id="@+id/placeholder"
-        android:enabled="false"
+        android:id="@+id/middle"
         android:title="" />
 
     <item
