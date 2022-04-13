@@ -14,7 +14,6 @@ import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentSplashScreenBinding
 import com.albar.computerstore.others.AppUtility
 import com.albar.computerstore.others.Constants.REQUEST_CODE_LOCATION_PERMISSION
-import com.google.android.gms.maps.GoogleMap
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -28,11 +27,9 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
-        Handler(Looper.myLooper()!!).postDelayed({
-            findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
-        }, 5000L)
 
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +41,7 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     // Checking permissions with EasyPermissions
     private fun requestPermission() {
         if (AppUtility.hasLocationPermission(requireContext())) {
+            navigate()
             return
         }
 
@@ -66,6 +64,12 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    private fun navigate() {
+        Handler(Looper.myLooper()!!).postDelayed({
+            findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
+        }, 1000L)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -73,7 +77,6 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -82,5 +85,15 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         } else {
             requestPermission()
         }
+    }
+
+
+    // AndroidFramework Functions.
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }
