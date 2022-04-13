@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
@@ -17,7 +18,8 @@ import com.albar.computerstore.others.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
-class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks,
+    EasyPermissions.RationaleCallbacks {
 
     private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!
@@ -77,6 +79,10 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        Toast.makeText(requireContext(), "accepted", Toast.LENGTH_SHORT).show()
+        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
+            navigate()
+        }
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -87,6 +93,15 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    override fun onRationaleAccepted(requestCode: Int) {}
+
+    override fun onRationaleDenied(requestCode: Int) {
+        Toast.makeText(requireContext(), "App cannot work without permission", Toast.LENGTH_SHORT)
+            .show()
+        Handler(Looper.myLooper()!!).postDelayed({
+            requestPermission()
+        }, 1500L)
+    }
 
     // AndroidFramework Functions.
     override fun onRequestPermissionsResult(
