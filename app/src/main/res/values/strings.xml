@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ComputerStore</string>
+    <string name="app_name">Computer Store</string>
     <string name="list">List</string>
     <string name="nearest">Nearest</string>
     <string name="location">Location</string>
