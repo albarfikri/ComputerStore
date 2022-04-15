@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "547778820981",
+    "firebase_url": "https://computer-store-3b7ee-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "computer-store-3b7ee",
+    "storage_bucket": "computer-store-3b7ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547778820981:android:86f4cfe2c54f688a98b13c",
+        "android_client_info": {
+          "package_name": "com.albar.computerstore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547778820981-7e6fnttteu0o8nhkctin1rvhrpm63ld7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx9PIywybvhFNZXHHhWROcCSkSk20TA_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547778820981-7e6fnttteu0o8nhkctin1rvhrpm63ld7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

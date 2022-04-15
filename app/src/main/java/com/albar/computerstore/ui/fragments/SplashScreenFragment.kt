@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentSplashScreenBinding
@@ -23,6 +25,7 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks,
 
     private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,9 +70,17 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks,
     }
 
     private fun navigate() {
+
         Handler(Looper.myLooper()!!).postDelayed({
+
             findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
         }, 1000L)
+    }
+
+    private fun askingForPermissionAgain() {
+        Handler(Looper.myLooper()!!).postDelayed({
+            requestPermission()
+        }, 1500L)
     }
 
 
@@ -88,6 +99,7 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks,
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
+            askingForPermissionAgain()
         } else {
             requestPermission()
         }
@@ -98,9 +110,7 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks,
     override fun onRationaleDenied(requestCode: Int) {
         Toast.makeText(requireContext(), "App cannot work without permission", Toast.LENGTH_SHORT)
             .show()
-        Handler(Looper.myLooper()!!).postDelayed({
-            requestPermission()
-        }, 1500L)
+        askingForPermissionAgain()
     }
 
     // AndroidFramework Functions.

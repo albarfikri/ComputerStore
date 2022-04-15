@@ -41,16 +41,22 @@ class MainActivity : AppCompatActivity() {
         binding.login.setOnClickListener {
             Toast.makeText(this, "Hi There", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun navigation() {
         binding.fabLocation.setOnClickListener {
             navHost.navController.navigate(R.id.locationFragment)
             removeEffectsWhileClickingFab(false)
+
+            val inflater = navHost.navController.navInflater
+            val graph = inflater.inflate(R.navigation.nav_graph)
+            graph.setStartDestination(R.id.locationFragment)
         }
 
         binding.apply {
             bottomNavigationView.setOnItemSelectedListener {
+
                 removeEffectsWhileClickingFab(true)
                 when (it.itemId) {
                     R.id.list -> {

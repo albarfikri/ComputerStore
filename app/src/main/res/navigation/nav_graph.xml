@@ -8,23 +8,22 @@
     <fragment
         android:id="@+id/locationFragment"
         android:name="com.albar.computerstore.ui.fragments.LocationFragment"
-        android:label="LocationFragment" />
+        android:label="LocationFragment" >
+        <action
+            android:id="@+id/action_locationFragment_to_list"
+            app:destination="@id/list" />
+        <action
+            android:id="@+id/action_locationFragment_to_nearest"
+            app:destination="@id/nearest" />
+    </fragment>
     <fragment
         android:id="@+id/list"
         android:name="com.albar.computerstore.ui.fragments.ComputerStoreListFragment"
-        android:label="ComputerStoreListFragment">
-        <action
-            android:id="@+id/action_list_to_locationFragment"
-            app:destination="@id/locationFragment" />
-    </fragment>
+        android:label="ComputerStoreListFragment"/>
     <fragment
         android:id="@+id/nearest"
         android:name="com.albar.computerstore.ui.fragments.NearestFragment"
-        android:label="NearestFragment">
-        <action
-            android:id="@+id/action_nearest_to_locationFragment"
-            app:destination="@id/locationFragment" />
-    </fragment>
+        android:label="NearestFragment"/>
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.albar.computerstore.ui.fragments.SplashScreenFragment"
@@ -33,7 +32,12 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_locationFragment"
             app:destination="@id/locationFragment"
-            app:launchSingleTop="true"
-            app:popUpToInclusive="true" />
-    </fragment><action android:id="@+id/action_global_locationFragment" app:destination="@id/locationFragment"/>
+            app:launchSingleTop="false"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_locationFragment"
+        app:destination="@id/locationFragment"
+        app:launchSingleTop="false"
+        app:popUpToInclusive="false" />
 </navigation>
