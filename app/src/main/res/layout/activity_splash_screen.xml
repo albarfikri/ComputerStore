@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.SplashScreenActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/splashScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toBottomOf="parent" />
 
     <com.cuberto.liquid_swipe.LiquidPager
-        android:id="@+id/pager"
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

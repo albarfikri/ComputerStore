@@ -1,10 +1,12 @@
 package com.albar.computerstore.ui.activities
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.albar.computerstore.databinding.ActivitySplashScreenBinding
+import com.albar.computerstore.ui.adapter.ScreenSlidePagerAdapter
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
@@ -14,9 +16,12 @@ class SplashScreenActivity : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btn.setOnClickListener {
-            val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
-            startActivity(intent)
-        }
+        setUpAdapter()
+    }
+
+    private fun setUpAdapter() {
+        val pagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager)
+        binding.viewPager.adapter = pagerAdapter
     }
 }
+

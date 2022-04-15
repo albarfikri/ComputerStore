@@ -2,13 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorSecondary">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/image_slider"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@color/colorPrimary"
+        android:src="@color/black"
+        app:lottie_rawRes="@raw/indication"
         android:tooltipText="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
