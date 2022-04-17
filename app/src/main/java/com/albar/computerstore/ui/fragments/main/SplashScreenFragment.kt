@@ -1,4 +1,4 @@
-package com.albar.computerstore.ui.fragments
+package com.albar.computerstore.ui.fragments.main
 
 import android.Manifest
 import android.os.Build

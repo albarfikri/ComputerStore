@@ -1,15 +1,15 @@
-package com.albar.computerstore.ui.fragments
+package com.albar.computerstore.ui.fragments.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.albar.computerstore.databinding.FragmentNearestBinding
+import com.albar.computerstore.databinding.FragmentComputerStoreListBinding
 
-class NearestFragment : Fragment() {
+class ComputerStoreListFragment : Fragment() {
 
-    private var _binding: FragmentNearestBinding? = null
+    private var _binding: FragmentComputerStoreListBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,7 +17,7 @@ class NearestFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentNearestBinding.inflate(inflater, container, false)
+        _binding = FragmentComputerStoreListBinding.inflate(inflater, container, false)
         return binding.root
     }
 

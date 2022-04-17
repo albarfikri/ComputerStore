@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/locationFragment"
-        android:name="com.albar.computerstore.ui.fragments.LocationFragment"
+        android:name="com.albar.computerstore.ui.fragments.main.LocationFragment"
         android:label="LocationFragment" >
         <action
             android:id="@+id/action_locationFragment_to_list"
@@ -18,15 +18,15 @@
     </fragment>
     <fragment
         android:id="@+id/list"
-        android:name="com.albar.computerstore.ui.fragments.ComputerStoreListFragment"
+        android:name="com.albar.computerstore.ui.fragments.main.ComputerStoreListFragment"
         android:label="ComputerStoreListFragment"/>
     <fragment
         android:id="@+id/nearest"
-        android:name="com.albar.computerstore.ui.fragments.NearestFragment"
+        android:name="com.albar.computerstore.ui.fragments.main.NearestFragment"
         android:label="NearestFragment"/>
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.albar.computerstore.ui.fragments.SplashScreenFragment"
+        android:name="com.albar.computerstore.ui.fragments.main.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
