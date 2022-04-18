@@ -118,7 +118,6 @@ dependencies {
     // Liquid
     implementation 'com.cuberto:liquid-swipe:1.0.0'
 
-
     //implementation 'com.android.support:design:29.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.0"
     implementation 'androidx.core:core:1.7.0'
@@ -126,4 +125,9 @@ dependencies {
 
     // Lottie for splash screen and not found icon
     implementation "com.airbnb.android:lottie:3.6.1"
+
+    // Data Store
+    implementation 'androidx.datastore:datastore-preferences:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.1"
 }

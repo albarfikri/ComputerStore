@@ -116,7 +116,7 @@
         app:layout_constraintVertical_bias=".6" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_location"
+        android:id="@+id/fab_get_started"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/location"

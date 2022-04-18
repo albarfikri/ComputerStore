@@ -70,11 +70,9 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks,
     }
 
     private fun navigate() {
-
         Handler(Looper.myLooper()!!).postDelayed({
-
             findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
-        }, 1000L)
+        }, 2000L)
     }
 
     private fun askingForPermissionAgain() {

@@ -6,4 +6,7 @@ object Constants {
 
     // for onBoarding screen
     const val NUM_PAGES = 3
+
+    // Data store key
+    const val ON_BOARDING_DATA_STORE_KEY = "OnBoardingStatusWithDataStore"
 }

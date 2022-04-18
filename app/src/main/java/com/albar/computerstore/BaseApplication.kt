@@ -1,4 +1,4 @@
-package com.albar.computerstore.di
+package com.albar.computerstore
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
