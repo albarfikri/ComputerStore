@@ -10,8 +10,10 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.albar.computerstore.databinding.ActivityOnBoardingBinding
 import com.albar.computerstore.ui.adapter.ScreenSlidePagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 
+@AndroidEntryPoint
 class OnBoardingActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnBoardingBinding
 

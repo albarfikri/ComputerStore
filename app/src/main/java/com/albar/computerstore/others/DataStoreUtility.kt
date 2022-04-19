@@ -6,25 +6,25 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-@AndroidEntryPoint
-class DataStoreUtility(val context: Context) {
-
+class DataStoreUtility @Inject constructor(appContext: Context) {
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "onBoardingStatus")
+    private val dataStoreContext = appContext.dataStore
 
-    private suspend fun save(key: String, value: Boolean) {
-        val dataStoreKey = stringPreferencesKey(key.toString())
-        context.dataStore.edit { onBoarding ->
+    suspend fun save(key: String, value: Boolean) {
+        val dataStoreKey = stringPreferencesKey(key)
+        dataStoreContext.edit { onBoarding ->
             onBoarding[dataStoreKey] = value.toString()
         }
     }
 
-    private suspend fun run(key: String): Boolean {
+    fun getDataStore(key: String): Flow<String> {
         val dataStoreKey = stringPreferencesKey(key)
-        val preferences =
-            context.dataStore.data.first() // emit single preferences object using first()
-        return preferences[dataStoreKey].toBoolean()
+        return dataStoreContext.data.map { preferences ->
+            preferences[dataStoreKey] ?: ""
+        }
     }
 }

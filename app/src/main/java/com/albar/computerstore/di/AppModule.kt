@@ -1,6 +1,8 @@
 package com.albar.computerstore.di
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.albar.computerstore.others.DataStoreUtility
 import dagger.Module
 import dagger.Provides
@@ -9,13 +11,13 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-@Module
 
 @InstallIn(SingletonComponent::class)
+@Module
 object AppModule {
 
-    @Singleton
     @Provides
-    fun provideContextDataStoreUtility(@ApplicationContext app: Context): DataStoreUtility =
-        DataStoreUtility(app)
+    @Singleton
+    fun provideDataStoreContext(@ApplicationContext appContext: Context): DataStoreUtility=
+        DataStoreUtility(appContext)
 }
