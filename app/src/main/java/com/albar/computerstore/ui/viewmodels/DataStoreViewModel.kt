@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DataStoreViewModel @Inject constructor(private val dataStoreUtility: DataStoreUtility) :
     ViewModel() {
-    fun getDataStoreStatus(): LiveData<String> {
+    fun getDataStoreStatus(): LiveData<Boolean> {
         return dataStoreUtility.getDataStore(ON_BOARDING_DATA_STORE_KEY).asLiveData()
     }
 

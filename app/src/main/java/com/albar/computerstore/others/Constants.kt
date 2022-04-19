@@ -9,4 +9,5 @@ object Constants {
 
     // Data store key
     const val ON_BOARDING_DATA_STORE_KEY = "OnBoardingStatusWithDataStore"
+    const val PREFERENCES_NAME = "onBoardingStatus"
 }

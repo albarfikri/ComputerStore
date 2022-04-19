@@ -1,5 +1,6 @@
 package com.albar.computerstore.ui.fragments.opening
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.albar.computerstore.databinding.FragmentOnBoarding3Binding
 import com.albar.computerstore.others.Constants.ON_BOARDING_DATA_STORE_KEY
+import com.albar.computerstore.ui.activities.MainActivity
 import com.albar.computerstore.ui.viewmodels.DataStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,12 +35,23 @@ class OnBoardingFragment3 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.fabGetStarted.setOnClickListener {
             viewModel.saveDataStoreStatus(ON_BOARDING_DATA_STORE_KEY, true)
             Handler(Looper.myLooper()!!).postDelayed({
-                viewModel.getDataStoreStatus().observe(viewLifecycleOwner) {
-                    Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
+                viewModel.getDataStoreStatus().observe(viewLifecycleOwner) { status ->
+                    if (status) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Welcome",
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            val intent = Intent(context, MainActivity::class.java)
+                            startActivity(intent)
+                        }, 2000L)
+
+                    }
                 }
             }, 1500L)
         }

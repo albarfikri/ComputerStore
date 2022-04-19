@@ -1,23 +1,27 @@
 package com.albar.computerstore.ui.activities
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.albar.computerstore.databinding.ActivitySplashScreenBinding
 import com.albar.computerstore.others.AppUtility
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.ui.viewmodels.DataStoreViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
+@AndroidEntryPoint
 class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks,
     EasyPermissions.RationaleCallbacks {
     private lateinit var binding: ActivitySplashScreenBinding
+    private val viewModel: DataStoreViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,12 +29,23 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         setContentView(binding.root)
 
         requestPermission()
+
+    }
+
+    private fun navigateBasedOnStatus() {
+        viewModel.getDataStoreStatus().observe(this) { status ->
+            if (status) {
+                navigate(2)
+            } else {
+                navigate(1)
+            }
+        }
     }
 
     // Checking permissions with EasyPermissions
     private fun requestPermission() {
         if (AppUtility.hasLocationPermission(this)) {
-            navigate()
+            navigateBasedOnStatus()
             return
         }
 
@@ -53,11 +68,23 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         }
     }
 
-    private fun navigate() {
-        Handler(Looper.myLooper()!!).postDelayed({
-            val intent = Intent(this, OnBoardingActivity::class.java)
-            startActivity(intent)
-        }, 1000L)
+    private fun navigate(navigationCode: Int) {
+        // code == 1 to OnBoardingActivity
+        // code == 2 to MainActivity
+
+        if (navigationCode == 1) {
+            Handler(Looper.myLooper()!!).postDelayed({
+                val intent = Intent(this, OnBoardingActivity::class.java)
+                startActivity(intent)
+            }, 1000L)
+        }
+
+        if (navigationCode == 2) {
+            Handler(Looper.myLooper()!!).postDelayed({
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }, 1000L)
+        }
     }
 
     private fun askingForPermissionAgain() {
@@ -69,7 +96,7 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show()
         if (requestCode == Constants.REQUEST_CODE_LOCATION_PERMISSION) {
-            navigate()
+            navigateBasedOnStatus()
         }
     }
 
