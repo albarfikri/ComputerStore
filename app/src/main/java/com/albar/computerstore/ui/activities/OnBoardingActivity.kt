@@ -23,7 +23,6 @@ class OnBoardingActivity : AppCompatActivity() {
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         setUpAdapter()
 
         binding.splashScreen

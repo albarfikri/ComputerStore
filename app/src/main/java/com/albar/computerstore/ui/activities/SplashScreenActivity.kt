@@ -29,7 +29,6 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         setContentView(binding.root)
 
         requestPermission()
-
     }
 
     private fun navigateBasedOnStatus() {
@@ -71,20 +70,19 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
     private fun navigate(navigationCode: Int) {
         // code == 1 to OnBoardingActivity
         // code == 2 to MainActivity
-
-        if (navigationCode == 1) {
-            Handler(Looper.myLooper()!!).postDelayed({
+        Handler(Looper.myLooper()!!).postDelayed({
+            if (navigationCode == 1) {
                 val intent = Intent(this, OnBoardingActivity::class.java)
                 startActivity(intent)
-            }, 1000L)
-        }
+                finish()
+            }
 
-        if (navigationCode == 2) {
-            Handler(Looper.myLooper()!!).postDelayed({
+            if (navigationCode == 2) {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
-            }, 1000L)
-        }
+                finish()
+            }
+        }, 1500L)
     }
 
     private fun askingForPermissionAgain() {
