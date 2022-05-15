@@ -4,9 +4,21 @@
     <string name="nearest">Nearest</string>
     <string name="location">Location</string>
     <string name="computer_store">Computer Store</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loading">Loading...</string>
     <string name="tag_line">your realiable computer store</string>
     <string name="app_version">v.1</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="username">Username</string>
+    <string name="detailWelcome">Hello there, sign in to continue !</string>
+    <string name="welcome">Welcome Back</string>
+
+
+    <style name="loginSignupConfig">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+    </style>
 </resources>
