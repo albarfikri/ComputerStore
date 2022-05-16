@@ -82,7 +82,7 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
                 startActivity(intent)
                 finish()
             }
-        }, 8000L)
+        }, 1500L)
     }
 
     private fun askingForPermissionAgain() {

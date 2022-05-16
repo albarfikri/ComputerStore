@@ -8,11 +8,17 @@
     <string name="loading">Loading...</string>
     <string name="tag_line">your realiable computer store</string>
     <string name="app_version">v.1</string>
-    <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="username">Username</string>
     <string name="detailWelcome">Hello there, sign in to continue !</string>
     <string name="welcome">Welcome Back</string>
+    <string name="password">Password</string>
+    <string name="usernameHint">Enter your username</string>
+    <string name="passwordHint">Enter your password</string>
+    <string name="signIn">Sign in</string>
+    <string name="signUp">Sign up</string>
+    <string name="welcomeSignUp">Hi there</string>
+    <string name="detailWelcomeSignUp">Register your account to participate in.</string>
 
 
     <style name="loginSignupConfig">

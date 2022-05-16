@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/locationFragment"
@@ -40,4 +40,9 @@
         app:destination="@id/locationFragment"
         app:launchSingleTop="false"
         app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.albar.computerstore.ui.fragments.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
 </navigation>
