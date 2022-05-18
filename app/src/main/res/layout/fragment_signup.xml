@@ -67,16 +67,92 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/welcome" />
 
-        <TextView
-            android:id="@+id/tvUsername"
-            style="@style/loginSignupConfig"
-            android:layout_marginTop="52dp"
-            android:fontFamily="@font/poppinsbold"
-            android:text="@string/username"
-            android:textSize="16sp"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutStoreName"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/storeNameHint"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome" />
+            app:layout_constraintTop_toBottomOf="@+id/welcome"
+            app:startIconDrawable="@drawable/ic_store_name">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etStoreName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutAddress"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="32dp"
+            android:hint="@string/addressHint"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutStoreName"
+            app:startIconDrawable="@drawable/ic_address">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutLatLng"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="90dp"
+            android:hint="@string/latLngHint"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/btnGetLatLng"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutAddress"
+            app:startIconDrawable="@drawable/ic_location">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etLatLng"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGetLatLng"
+            style="@style/loginSignupConfig"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_input"
+            android:textAllCaps="false"
+            app:icon="@drawable/ic_search"
+            app:layout_constraintBaseline_toBaselineOf="@+id/textInputLayoutLatLng"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutUsername"
@@ -84,6 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="18dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/usernameHint"
             app:boxCornerRadiusBottomEnd="10dp"
@@ -92,7 +169,7 @@
             app:boxCornerRadiusTopStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvUsername"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutLatLng"
             app:startIconDrawable="@drawable/ic_person">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -102,24 +179,13 @@
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/tvPassword"
-            style="@style/loginSignupConfig"
-            android:layout_marginTop="24dp"
-            android:fontFamily="@font/poppinsbold"
-            android:text="@string/password"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.75"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutUsername" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutPass"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="18dp"
             android:layout_marginEnd="32dp"
             android:hint="@string/passwordHint"
             app:boxCornerRadiusBottomEnd="10dp"
@@ -128,7 +194,7 @@
             app:boxCornerRadiusTopStart="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPassword"
+            app:layout_constraintTop_toBottomOf="@id/textInputLayoutUsername"
             app:startIconDrawable="@drawable/ic_lock">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -145,7 +211,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="42dp"
             android:background="@drawable/custom_input"
-            android:text="@string/signIn"
+            android:text="@string/signUp"
             android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +230,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account?"
+                android:text="Have an account?"
                 android:textSize="12sp" />
 
             <TextView
@@ -172,7 +238,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsmedium"
-                android:text=" Sign up."
+                android:text=" Sign in."
                 android:textColor="@color/colorPrimary"
                 android:textSize="12sp" />
         </LinearLayout>

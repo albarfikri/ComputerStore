@@ -19,6 +19,11 @@
     <string name="signUp">Sign up</string>
     <string name="welcomeSignUp">Hi there</string>
     <string name="detailWelcomeSignUp">Register your account to participate in.</string>
+    <string name="storeName">Store Name</string>
+    <string name="storeNameHint">Enter your store name</string>
+    <string name="address">Address</string>
+    <string name="addressHint">Enter your address</string>
+    <string name="latLngHint">Enter your Latitude and Longitude</string>
 
 
     <style name="loginSignupConfig">

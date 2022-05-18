@@ -17,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComputerStore">
         <activity
+            android:name=".ui.activities.SignInSignUpActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
@@ -27,14 +30,10 @@
         </activity>
         <activity
             android:name=".ui.activities.OnBoardingActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".ui.activities.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

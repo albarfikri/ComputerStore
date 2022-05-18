@@ -1,10 +1,10 @@
 package com.albar.computerstore.ui.activities
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
@@ -38,11 +38,17 @@ class MainActivity : AppCompatActivity() {
 
         navigation()
 
+
         binding.login.setOnClickListener {
-            Toast.makeText(this, "Hi There", Toast.LENGTH_SHORT).show()
+            val moveToSignInSignUpActivity =
+                Intent(this@MainActivity, SignInSignUpActivity::class.java)
+            startActivity(moveToSignInSignUpActivity).apply{
+                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
+            }
         }
 
     }
+
 
     private fun navigation() {
         binding.fabLocation.setOnClickListener {
