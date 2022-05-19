@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.login.LoginFragment">
+    tools:context=".ui.fragments.login.SignupFragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -234,7 +234,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/signUp"
+                android:id="@+id/signIn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsmedium"
@@ -243,5 +243,4 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

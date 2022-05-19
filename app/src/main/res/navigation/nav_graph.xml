@@ -40,13 +40,4 @@
         app:destination="@id/locationFragment"
         app:launchSingleTop="false"
         app:popUpToInclusive="false" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.albar.computerstore.ui.fragments.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
-    <fragment
-        android:id="@+id/signupFragment"
-        android:name="com.albar.computerstore.ui.fragments.login.SignupFragment"
-        android:label="SignupFragment" />
 </navigation>
