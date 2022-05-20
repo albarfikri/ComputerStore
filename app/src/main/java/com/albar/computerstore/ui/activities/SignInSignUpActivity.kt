@@ -1,9 +1,9 @@
 package com.albar.computerstore.ui.activities
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivitySignInSignUpBinding
 
@@ -24,12 +24,12 @@ class SignInSignUpActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val moveBackToMainActivity =
-            Intent(this@SignInSignUpActivity, MainActivity::class.java)
-        startActivity(moveBackToMainActivity).apply {
-            overridePendingTransition(R.anim.enter_from_left, R.anim.exit_to_right)
-        }
-        super.onBackPressed()
+        navHost.findNavController()
+            .addOnDestinationChangedListener { _, destination, _ ->
+                when (destination.id) {
+                    R.id.signupFragment, R.id.signinFragment -> {
+                    }
+                }
+            }
     }
-
 }

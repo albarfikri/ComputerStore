@@ -1,5 +1,6 @@
 package com.albar.computerstore.ui.fragments.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentSigninBinding
+import com.albar.computerstore.ui.activities.MainActivity
 
 class SigninFragment : Fragment() {
 
@@ -27,6 +29,18 @@ class SigninFragment : Fragment() {
 
         binding.signUp.setOnClickListener {
             findNavController().navigate(R.id.action_signinFragment_to_signupFragment)
+        }
+
+        binding.back.setOnClickListener {
+            val moveToSignInSignUpActivity =
+                Intent(context, MainActivity::class.java)
+            startActivity(moveToSignInSignUpActivity).apply {
+                requireActivity().overridePendingTransition(
+                    R.anim.enter_from_left,
+                    R.anim.exit_to_right
+                )
+            }
+            activity?.finish()
         }
     }
 
