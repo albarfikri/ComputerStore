@@ -28,9 +28,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        _navHost = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+
         setContentView(binding.root)
 
-        _navHost = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
 
         // bottom navigation
         binding.bottomNavigationView.background = null
@@ -82,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                     when (destination.id) {
                         R.id.list, R.id.locationFragment, R.id.nearest ->
                             hidingSomeViewsInSplashScreen(false)
-                        else -> hidingSomeViewsInSplashScreen(true)
+                        else -> hidingSomeViewsInSplashScreen(false)
                     }
                 }
         }

@@ -28,7 +28,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/loginsignupbackground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".27"
+        app:layout_constraintHeight_percent=".18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
         android:background="@drawable/loginsignup_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent=".78"
+        app:layout_constraintHeight_percent=".88"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1">
