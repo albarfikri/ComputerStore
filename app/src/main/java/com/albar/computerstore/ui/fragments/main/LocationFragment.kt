@@ -27,7 +27,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLocationBinding.inflate(layoutInflater, container, false)
-
         return binding.root
     }
 

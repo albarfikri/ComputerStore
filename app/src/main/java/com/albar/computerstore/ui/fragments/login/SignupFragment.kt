@@ -8,11 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentSignupBinding
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
 
-class SignupFragment : Fragment() {
+class SignupFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var mMap: GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,5 +37,9 @@ class SignupFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+
     }
 }
