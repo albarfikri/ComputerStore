@@ -24,6 +24,7 @@
     <string name="address">Address</string>
     <string name="addressHint">Enter your address</string>
     <string name="latLngHint">Enter your Latitude and Longitude</string>
+    <string name="save">Save</string>
 
 
     <style name="loginSignupConfig">

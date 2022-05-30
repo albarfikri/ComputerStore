@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentSignupBinding
+import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 
@@ -31,6 +32,12 @@ class SignupFragment : Fragment(), OnMapReadyCallback {
 
         binding.signIn.setOnClickListener {
             findNavController().navigate(R.id.action_signupFragment_to_signinFragment)
+        }
+
+        binding.btnGetLatLng.setOnClickListener {
+            var dialog = CustomDialogSearchlatlngFragment()
+
+            dialog.show(parentFragmentManager, "CustomDialogSearchlatlngFragment")
         }
     }
 
