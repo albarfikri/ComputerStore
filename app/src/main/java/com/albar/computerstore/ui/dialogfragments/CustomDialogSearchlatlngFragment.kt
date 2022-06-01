@@ -1,5 +1,7 @@
 package com.albar.computerstore.ui.dialogfragments
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCustomDialogSearchlatlngBinding.inflate(inflater, container, false)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return binding.root
     }
 

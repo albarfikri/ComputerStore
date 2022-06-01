@@ -36,7 +36,6 @@ class SignupFragment : Fragment(), OnMapReadyCallback {
 
         binding.btnGetLatLng.setOnClickListener {
             var dialog = CustomDialogSearchlatlngFragment()
-
             dialog.show(parentFragmentManager, "CustomDialogSearchlatlngFragment")
         }
     }
