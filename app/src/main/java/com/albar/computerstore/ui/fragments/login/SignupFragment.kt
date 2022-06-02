@@ -14,6 +14,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 
 class SignupFragment : Fragment(), OnMapReadyCallback {
 
+    companion object {
+        const val EXTRA_LATITUDE = "latitude"
+        const val EXTRA_LONGITUDE = "longitude"
+    }
+
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
 
@@ -35,7 +40,7 @@ class SignupFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.btnGetLatLng.setOnClickListener {
-            var dialog = CustomDialogSearchlatlngFragment()
+            val dialog = CustomDialogSearchlatlngFragment()
             dialog.show(parentFragmentManager, "CustomDialogSearchlatlngFragment")
         }
     }
