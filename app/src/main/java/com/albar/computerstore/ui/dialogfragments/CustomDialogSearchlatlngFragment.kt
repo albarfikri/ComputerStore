@@ -12,13 +12,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
+import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
+import com.albar.computerstore.data.Coordinate
 import com.albar.computerstore.databinding.FragmentCustomDialogSearchlatlngBinding
 import com.albar.computerstore.others.AppUtility
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.Constants.BUNDLE_KEY
+import com.albar.computerstore.others.Constants.REQUEST_KEY
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -26,22 +31,28 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
+import timber.log.Timber
 import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     EasyPermissions.PermissionCallbacks {
 
     private var _binding: FragmentCustomDialogSearchlatlngBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var currentLocation: Location? = null
     private var currentMarker: Marker? = null
-
     private var map: GoogleMap? = null
-
     private var isCurrentLocation: Boolean = false
+
+    private lateinit var setLocation: LatLng
+
+    @Inject
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,14 +61,23 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     ): View? {
         _binding = FragmentCustomDialogSearchlatlngBinding.inflate(inflater, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        binding.setCoordinate.setOnClickListener {
+            Timber.d("Coordinate $setLocation")
+            val coordinate = Coordinate(
+                setLocation.latitude,
+                setLocation.longitude
+            )
+
+            parentFragment?.setFragmentResult(REQUEST_KEY, bundleOf(
+                BUNDLE_KEY to coordinate))
+           dismiss()
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        fusedLocationProviderClient =
-            LocationServices.getFusedLocationProviderClient(requireContext())
 
         requestPermission()
 
@@ -71,25 +91,13 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-//        val location = LatLng(PEKANBARU_LATITUDE, PEKANBARU_LONGITUDE)
-//
-//        map!!.addMarker(
-//            MarkerOptions()
-//                .position(location)
-//                .title("Gg. Al Khalish")
-//                .draggable(true)
-//        )
-//        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
-
         // getting current latitude and longitude
         val latLng = LatLng(currentLocation?.latitude!!, currentLocation?.longitude!!)
         drawMarker(latLng)
 
         // get coordinates by dragging marker
         map!!.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
-            override fun onMarkerDrag(marker: Marker) {
-
-            }
+            override fun onMarkerDrag(marker: Marker) {}
 
             override fun onMarkerDragEnd(marker: Marker) {
                 // if marker is dragged, remove marker and add the new one
@@ -103,10 +111,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
                 drawMarker(newLatLng)
             }
 
-            override fun onMarkerDragStart(marker: Marker) {
-
-            }
-
+            override fun onMarkerDragStart(marker: Marker) {}
         })
     }
 
@@ -126,6 +131,9 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
         currentMarker = map?.addMarker(markerOptions)
         currentMarker?.showInfoWindow()
+
+        setLocation = latLng
+
         isCurrentLocation = false
     }
 
@@ -148,7 +156,6 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
                     this.currentLocation = location
                     val mapFragment =
                         childFragmentManager.findFragmentById(R.id.mapViewSignUp) as SupportMapFragment
-
                     mapFragment.getMapAsync(this)
                 }
             }

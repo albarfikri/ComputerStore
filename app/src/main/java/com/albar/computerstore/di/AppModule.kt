@@ -1,9 +1,9 @@
 package com.albar.computerstore.di
 
+import android.annotation.SuppressLint
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import com.albar.computerstore.others.DataStoreUtility
+import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +18,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDataStoreContext(@ApplicationContext appContext: Context): DataStoreUtility=
+    fun provideDataStoreContext(@ApplicationContext appContext: Context): DataStoreUtility =
         DataStoreUtility(appContext)
+
+    @SuppressLint("VisibleForTests")
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(@ApplicationContext app: Context) =
+        FusedLocationProviderClient(app)
 }

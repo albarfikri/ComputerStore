@@ -55,13 +55,13 @@
         app:layout_constraintVertical_bias=".0" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/saveLocation"
+        android:id="@+id/setCoordinate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="14dp"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="24dp"
-        android:text="@string/save"
+        android:text="@string/set"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

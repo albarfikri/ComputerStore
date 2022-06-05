@@ -26,7 +26,7 @@
     <string name="latLngHint">Enter your Latitude and Longitude</string>
     <string name="latHint">Enter your Latitude</string>
     <string name="lngHint">Enter your Longitude</string>
-    <string name="save">Save</string>
+    <string name="set">Set Coordinate</string>
 
 
     <style name="loginSignupConfig">

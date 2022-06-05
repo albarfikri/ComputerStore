@@ -25,5 +25,12 @@
             app:destination="@id/signinFragment"
             app:launchSingleTop="true"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signupFragment_to_customDialogSearchlatlngFragment2"
+            app:destination="@id/customDialogSearchlatlngFragment2" />
     </fragment>
+    <dialog
+        android:id="@+id/customDialogSearchlatlngFragment2"
+        android:name="com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment"
+        android:label="CustomDialogSearchlatlngFragment" />
 </navigation>

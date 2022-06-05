@@ -6,7 +6,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivitySignInSignUpBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInSignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInSignUpBinding
