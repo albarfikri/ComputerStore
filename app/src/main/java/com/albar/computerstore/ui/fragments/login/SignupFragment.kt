@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
-import com.albar.computerstore.data.Coordinate
+import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.databinding.FragmentSignupBinding
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY

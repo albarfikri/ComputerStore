@@ -1,4 +1,4 @@
-package com.albar.computerstore.data
+package com.albar.computerstore.data.local.entity
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -15,9 +15,8 @@ import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
-import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
-import com.albar.computerstore.data.Coordinate
+import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.databinding.FragmentCustomDialogSearchlatlngBinding
 import com.albar.computerstore.others.AppUtility
 import com.albar.computerstore.others.Constants
