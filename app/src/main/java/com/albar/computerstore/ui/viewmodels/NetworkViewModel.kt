@@ -1,7 +1,9 @@
 package com.albar.computerstore.ui.viewmodels
 
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,20 +19,32 @@ class NetworkViewModel @Inject constructor(private val connectivityManager: Conn
     val hasConnection: LiveData<Boolean>
         get() = isConnectionAvailable()
 
+    private val networkRequest: NetworkRequest = NetworkRequest.Builder()
+        .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+        .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+        .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
+        .build()
+
     private fun isConnectionAvailable(): MutableLiveData<Boolean> {
-        var result= false
-        connectivityManager.run {
-            getNetworkCapabilities(activeNetwork)?.run {
-                result = when {
-                    hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                    hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                    else -> false
-                }
-            }
-        }
-        _hasConnection.postValue(result)
+        connectivityManager.requestNetwork(networkRequest, networkCallback)
         return _hasConnection
     }
+
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        // network is available for use
+        override fun onAvailable(network: Network) {
+            super.onAvailable(network)
+            _hasConnection.postValue(true)
+        }
+
+        // lost network connection
+        override fun onLost(network: Network) {
+            _hasConnection.postValue(false)
+            super.onLost(network)
+        }
+    }
+
+
 }
 

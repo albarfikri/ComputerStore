@@ -47,7 +47,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
             if (!isConnected) {
                 Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
                     .show()
+                binding.mapView.visibility = View.GONE
             } else {
+                binding.mapView.visibility = View.VISIBLE
                 Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
                     .show()
                 val mapFragment =

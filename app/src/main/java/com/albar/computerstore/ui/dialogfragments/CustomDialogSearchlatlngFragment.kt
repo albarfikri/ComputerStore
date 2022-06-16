@@ -63,6 +63,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
 
         binding.setCoordinate.setOnClickListener {
             Timber.d("Coordinate $setLocation")
+
             val coordinate = Coordinate(
                 setLocation.latitude,
                 setLocation.longitude
@@ -83,7 +84,6 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         binding.cancelBtn.setOnClickListener {
             dismiss()
         }
-
 
     }
 

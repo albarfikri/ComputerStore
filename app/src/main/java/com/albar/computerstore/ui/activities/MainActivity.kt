@@ -5,13 +5,17 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivityMainBinding
+import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -45,13 +49,11 @@ class MainActivity : AppCompatActivity() {
         binding.login.setOnClickListener {
             val moveToSignInSignUpActivity =
                 Intent(this@MainActivity, SignInSignUpActivity::class.java)
-            startActivity(moveToSignInSignUpActivity).apply{
+            startActivity(moveToSignInSignUpActivity).apply {
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
             }
         }
-
     }
-
 
     private fun navigation() {
         binding.fabLocation.setOnClickListener {
@@ -130,4 +132,6 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.menu.getItem(getItemNumber1).isChecked = statusId1
         binding.bottomNavigationView.menu.getItem(getItemNumber2).isChecked = statusId2
     }
+
+
 }

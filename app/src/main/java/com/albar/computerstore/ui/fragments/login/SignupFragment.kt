@@ -56,8 +56,6 @@ class SignupFragment : Fragment(), OnMapReadyCallback {
                 CustomDialogSearchlatlngFragment::class.java.simpleName
             )
         }
-
-
     }
 
     private fun setFragmentListener() {
