@@ -17,6 +17,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class LocationFragment : Fragment(), OnMapReadyCallback {
@@ -33,6 +34,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLocationBinding.inflate(layoutInflater, container, false)
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        mapFragment.getMapAsync(this)
         return binding.root
     }
 
@@ -44,18 +48,15 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private fun networkStatus() {
         networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
+            Timber.d("Ini Koneksi $isConnected")
             if (!isConnected) {
                 Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
                     .show()
-                binding.mapView.visibility = View.GONE
+                noNetworkAvailableSign(isConnected)
             } else {
-                binding.mapView.visibility = View.VISIBLE
                 Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
                     .show()
-                val mapFragment =
-                    childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-                mapFragment.getMapAsync(this)
-
+                noNetworkAvailableSign(isConnected)
             }
         }
     }
@@ -78,5 +79,17 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         )
         map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
 
+    }
+
+    private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
+        if (!isConnectionAvailable) {
+            binding.mapView.visibility = View.GONE
+            binding.noDataLottie.visibility = View.VISIBLE
+            binding.txtNoConnection.visibility = View.VISIBLE
+        } else {
+            binding.mapView.visibility = View.VISIBLE
+            binding.noDataLottie.visibility = View.GONE
+            binding.txtNoConnection.visibility = View.GONE
+        }
     }
 }

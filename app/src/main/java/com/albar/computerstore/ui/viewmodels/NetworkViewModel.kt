@@ -27,6 +27,7 @@ class NetworkViewModel @Inject constructor(private val connectivityManager: Conn
         .build()
 
     private fun isConnectionAvailable(): MutableLiveData<Boolean> {
+        _hasConnection.postValue(false)
         connectivityManager.requestNetwork(networkRequest, networkCallback)
         return _hasConnection
     }
@@ -40,11 +41,9 @@ class NetworkViewModel @Inject constructor(private val connectivityManager: Conn
 
         // lost network connection
         override fun onLost(network: Network) {
-            _hasConnection.postValue(false)
             super.onLost(network)
+            _hasConnection.postValue(false)
         }
     }
-
-
 }
 

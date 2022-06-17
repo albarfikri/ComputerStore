@@ -27,6 +27,7 @@
     <string name="latHint">Enter your Latitude</string>
     <string name="lngHint">Enter your Longitude</string>
     <string name="set">Set Coordinate</string>
+    <string name="checkInternet">Checking your internet connection.</string>
 
 
     <style name="loginSignupConfig">
