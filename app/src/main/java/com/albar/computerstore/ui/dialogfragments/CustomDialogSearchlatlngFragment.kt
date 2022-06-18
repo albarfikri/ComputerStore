@@ -8,6 +8,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,9 @@ import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -46,12 +50,16 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     private var currentLocation: Location? = null
     private var currentMarker: Marker? = null
     private var map: GoogleMap? = null
-    private var isCurrentLocation: Boolean = false
+    private var isCurrentLocation = false
+    private var isRequestingLocationUpdates = false
 
     private lateinit var setLocation: LatLng
 
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,6 +68,20 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     ): View? {
         _binding = FragmentCustomDialogSearchlatlngBinding.inflate(inflater, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        startLocationUpdates()
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        requestPermission()
+        actionButton()
+    }
+
+    private fun actionButton() {
+        binding.cancelBtn.setOnClickListener {
+            dismiss()
+        }
 
         binding.setCoordinate.setOnClickListener {
             Timber.d("Coordinate $setLocation")
@@ -69,22 +91,93 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
                 setLocation.longitude
             )
 
-            parentFragment?.setFragmentResult(REQUEST_KEY, bundleOf(
-                BUNDLE_KEY to coordinate))
-           dismiss()
-        }
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        requestPermission()
-
-        binding.cancelBtn.setOnClickListener {
+            parentFragment?.setFragmentResult(
+                REQUEST_KEY, bundleOf(
+                    BUNDLE_KEY to coordinate
+                )
+            )
             dismiss()
         }
+    }
 
+    @SuppressLint("MissingPermission")
+    private fun startLocationUpdates() {
+        locationRequest = LocationRequest.create()
+
+        locationRequest.apply {
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            interval = 2000L
+        }
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+                for (location in locationResult.locations) {
+                    if (location != null) {
+                        currentLocation?.latitude
+                        currentLocation?.longitude
+                    }
+                }
+            }
+        }
+
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest, locationCallback,
+            Looper.getMainLooper()
+        )
+    }
+
+    private fun stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private fun requestPermission() {
+        if (AppUtility.hasLocationPermission(requireContext())) {
+            val task = fusedLocationProviderClient.lastLocation
+
+            task.addOnSuccessListener { location ->
+                if (location != null) {
+                    isRequestingLocationUpdates = false
+                    this.currentLocation = location
+                    val mapFragment =
+                        childFragmentManager.findFragmentById(R.id.mapViewSignUp) as SupportMapFragment
+                    mapFragment.getMapAsync(this)
+                    isBtnEnabledWhileGpsDisabled(true)
+                } else {
+                    isRequestingLocationUpdates = true
+                    isBtnEnabledWhileGpsDisabled(false)
+                    Toast.makeText(
+                        requireContext(),
+                        "Turn on gps, close and open again.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            EasyPermissions.requestPermissions(
+                this, "You need to accept to location permissions to use this app.",
+                Constants.REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        } else {
+            EasyPermissions.requestPermissions(
+                this,
+                "You need to accept to location permissions to use this app.",
+                Constants.REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+        }
+    }
+
+    private fun isBtnEnabledWhileGpsDisabled(status: Boolean) {
+        binding.setCoordinate.isEnabled = status
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -92,6 +185,12 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
 
         // getting current latitude and longitude
         val latLng = LatLng(currentLocation?.latitude!!, currentLocation?.longitude!!)
+        Timber.d("Current loclat dan loclong $currentLocation")
+        Toast.makeText(
+            requireContext(),
+            "Position ${currentLocation!!.latitude}, ${currentLocation!!.longitude}",
+            Toast.LENGTH_SHORT
+        ).show()
         drawMarker(latLng)
 
         // get coordinates by dragging marker
@@ -145,40 +244,18 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         return ""
     }
 
-    @SuppressLint("MissingPermission")
-    private fun requestPermission() {
-        if (AppUtility.hasLocationPermission(requireContext())) {
-            val task = fusedLocationProviderClient.lastLocation
-
-            task.addOnSuccessListener { location ->
-                if (location != null) {
-                    this.currentLocation = location
-                    val mapFragment =
-                        childFragmentManager.findFragmentById(R.id.mapViewSignUp) as SupportMapFragment
-                    mapFragment.getMapAsync(this)
-                }
-            }
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            EasyPermissions.requestPermissions(
-                this, "You need to accept to location permissions to use this app.",
-                Constants.REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        } else {
-            EasyPermissions.requestPermissions(
-                this,
-                "You need to accept to location permissions to use this app.",
-                Constants.REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            )
-        }
+    override fun onPause() {
+        super.onPause()
+        Toast.makeText(requireContext(), "OnPause is called", Toast.LENGTH_SHORT).show()
+        stopLocationUpdates()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isRequestingLocationUpdates) startLocationUpdates()
+
+        Toast.makeText(requireContext(), "OnResume is called", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
