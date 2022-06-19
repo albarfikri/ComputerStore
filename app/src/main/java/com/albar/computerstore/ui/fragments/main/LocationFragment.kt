@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentLocationBinding
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -83,13 +85,13 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
         if (!isConnectionAvailable) {
-            binding.mapView.visibility = View.GONE
-            binding.noDataLottie.visibility = View.VISIBLE
-            binding.txtNoConnection.visibility = View.VISIBLE
+            binding.mapView.hide()
+            binding.noDataLottie.show()
+            binding.txtNoConnection.show()
         } else {
-            binding.mapView.visibility = View.VISIBLE
-            binding.noDataLottie.visibility = View.GONE
-            binding.txtNoConnection.visibility = View.GONE
+            binding.mapView.show()
+            binding.noDataLottie.hide()
+            binding.txtNoConnection.hide()
         }
     }
 }
