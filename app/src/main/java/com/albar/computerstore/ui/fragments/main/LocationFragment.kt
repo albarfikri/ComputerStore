@@ -80,7 +80,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 .draggable(true)
         )
         map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
-
     }
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {

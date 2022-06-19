@@ -121,6 +121,12 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
             }
         }
 
+        Toast.makeText(
+            requireContext(),
+            "Location ${currentLocation?.latitude} and ${currentLocation?.longitude}",
+            Toast.LENGTH_SHORT
+        ).show()
+
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest, locationCallback as LocationCallback,
             Looper.getMainLooper()
@@ -150,7 +156,6 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
                     isBtnEnabledWhileGpsDisabled(true)
                 } else {
                     isRequestingLocationUpdates = true
-                    startLocationUpdates()
                     isBtnEnabledWhileGpsDisabled(false)
 
                     view?.let {
@@ -249,12 +254,12 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
 
     override fun onPause() {
         super.onPause()
-        stopLocationUpdates()
+        if (!isRequestingLocationUpdates) stopLocationUpdates()
     }
 
     override fun onResume() {
+        if (!isRequestingLocationUpdates) startLocationUpdates()
         super.onResume()
-        if (isRequestingLocationUpdates) startLocationUpdates()
     }
 
     override fun onDestroy() {
