@@ -34,6 +34,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
@@ -59,7 +60,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var locationRequest: LocationRequest
-    private lateinit var locationCallback: LocationCallback
+    private var locationCallback: LocationCallback? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,7 +69,6 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     ): View? {
         _binding = FragmentCustomDialogSearchlatlngBinding.inflate(inflater, container, false)
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        startLocationUpdates()
         return binding.root
     }
 
@@ -122,15 +122,18 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         }
 
         fusedLocationProviderClient.requestLocationUpdates(
-            locationRequest, locationCallback,
+            locationRequest, locationCallback as LocationCallback,
             Looper.getMainLooper()
         )
     }
 
     private fun stopLocationUpdates() {
-        fusedLocationProviderClient.removeLocationUpdates(locationCallback)
+        locationCallback?.let {
+            fusedLocationProviderClient.removeLocationUpdates(
+                it
+            )
+        }
     }
-
 
     @SuppressLint("MissingPermission")
     private fun requestPermission() {
@@ -147,12 +150,17 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
                     isBtnEnabledWhileGpsDisabled(true)
                 } else {
                     isRequestingLocationUpdates = true
+                    startLocationUpdates()
                     isBtnEnabledWhileGpsDisabled(false)
-                    Toast.makeText(
-                        requireContext(),
-                        "Turn on gps, close and open again.",
-                        Toast.LENGTH_LONG
-                    ).show()
+
+                    view?.let {
+                        Snackbar.make(
+                            it,
+                            "Turn on gps, close and open again",
+                            Snackbar.LENGTH_SHORT
+                        )
+                            .show()
+                    }
                 }
             }
         }
@@ -185,12 +193,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
 
         // getting current latitude and longitude
         val latLng = LatLng(currentLocation?.latitude!!, currentLocation?.longitude!!)
-        Timber.d("Current loclat dan loclong $currentLocation")
-        Toast.makeText(
-            requireContext(),
-            "Position ${currentLocation!!.latitude}, ${currentLocation!!.longitude}",
-            Toast.LENGTH_SHORT
-        ).show()
+
         drawMarker(latLng)
 
         // get coordinates by dragging marker
@@ -246,19 +249,17 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
 
     override fun onPause() {
         super.onPause()
-        Toast.makeText(requireContext(), "OnPause is called", Toast.LENGTH_SHORT).show()
         stopLocationUpdates()
     }
 
     override fun onResume() {
         super.onResume()
         if (isRequestingLocationUpdates) startLocationUpdates()
-
-        Toast.makeText(requireContext(), "OnResume is called", Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        stopLocationUpdates()
         _binding = null
     }
 
