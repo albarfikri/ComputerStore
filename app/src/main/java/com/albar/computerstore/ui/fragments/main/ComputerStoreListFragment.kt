@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentComputerStoreListBinding
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class ComputerStoreListFragment : Fragment() {
@@ -32,7 +34,18 @@ class ComputerStoreListFragment : Fragment() {
 
         viewModel.getComputerStore()
         viewModel.computerStore.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {}
+                is Result.Error -> {
 
+                }
+                is Result.Success -> {
+                    it.data.forEach { value ->
+                        Timber.d("Output data ${value.id}")
+
+                    }
+                }
+            }
         }
     }
 
