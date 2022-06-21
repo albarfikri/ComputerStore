@@ -35,10 +35,10 @@ class ComputerStoreRepositoryImp(val database: FirebaseFirestore) : ComputerStor
                 isVerified = false
             )
         )
-        if (data.isNullOrEmpty()) {
-            return Result.Error("Data is Empty")
+        return if (data.isEmpty()) {
+            Result.Error("Data is Empty")
         }else{
-            return Result.Success(data)
+            Result.Success(data)
         }
     }
 }
