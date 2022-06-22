@@ -76,6 +76,11 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         super.onViewCreated(view, savedInstanceState)
         requestPermission()
         actionButton()
+        Toast.makeText(
+            requireContext(),
+            "Location ${currentLocation?.latitude} and ${currentLocation?.longitude}",
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun actionButton() {
@@ -120,12 +125,6 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
                 }
             }
         }
-
-        Toast.makeText(
-            requireContext(),
-            "Location ${currentLocation?.latitude} and ${currentLocation?.longitude}",
-            Toast.LENGTH_SHORT
-        ).show()
 
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest, locationCallback as LocationCallback,

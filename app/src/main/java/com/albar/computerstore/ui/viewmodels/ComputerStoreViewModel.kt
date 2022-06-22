@@ -15,12 +15,24 @@ class ComputerStoreViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _computerStore = MutableLiveData<Result<List<ComputerStore>>>()
-
     val computerStore: LiveData<Result<List<ComputerStore>>>
         get() = _computerStore
 
+    private val _insertComputerStore = MutableLiveData<Result<String>>()
+    val insertComputerStore: LiveData<Result<String>>
+        get() = _insertComputerStore
+
     fun getComputerStore() {
-        _computerStore.value = repository.getComputerStore()
+        _computerStore.value = Result.Loading
+        repository.getComputerStore { _computerStore.value = it }
+    }
+
+    fun insertComputerStore(computerStore: ComputerStore) {
+        _insertComputerStore.value = Result.Loading
+        repository.insertComputerStore(computerStore) {
+            _insertComputerStore.value = it
+        }
+
     }
 
 }

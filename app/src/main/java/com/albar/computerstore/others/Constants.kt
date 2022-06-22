@@ -14,4 +14,7 @@ object Constants {
     //Coordinate Request and Bundle Key
     const val REQUEST_KEY = "request_key"
     const val BUNDLE_KEY = "bundle_key"
+
+    // Firebase
+    const val FIRESTORE_TABLE = "computerstore" // firestore table name
 }

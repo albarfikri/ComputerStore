@@ -4,5 +4,7 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 
 interface ComputerStoreRepository {
-    fun getComputerStore(): Result<List<ComputerStore>>
+    fun getComputerStore(result: (Result<List<ComputerStore>>) -> Unit)
+
+    fun insertComputerStore(computerStore: ComputerStore, result: (Result<String>) -> Unit)
 }

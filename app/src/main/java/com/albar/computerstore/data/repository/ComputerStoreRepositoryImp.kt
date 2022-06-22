@@ -2,43 +2,50 @@ package com.albar.computerstore.data.repository
 
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
+import com.albar.computerstore.others.Constants.FIRESTORE_TABLE
 import com.google.firebase.firestore.FirebaseFirestore
-import java.util.*
 
-class ComputerStoreRepositoryImp(val database: FirebaseFirestore) : ComputerStoreRepository {
+class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
+    ComputerStoreRepository {
 
     // get data from firebase
-    override fun getComputerStore(): Result<List<ComputerStore>> {
-        val data = arrayListOf(
-            ComputerStore(
-                id = "123",
-                name = "albarComp",
-                address = "Jl. Al khalish No.5",
-                lat = 101.2222,
-                lng = 53.000,
-                image = "https://google.com",
-                username = "albarfikri",
-                password = "albarfikri",
-                createAt = Date(),
-                isVerified = false
-            ),
-            ComputerStore(
-                id = "1234",
-                name = "albarComp",
-                address = "Jl. Al khalish No.5",
-                lat = 101.2222,
-                lng = 53.000,
-                image = "https://google.com",
-                username = "albarfikri",
-                password = "albarfikri",
-                createAt = Date(),
-                isVerified = false
-            )
-        )
-        return if (data.isEmpty()) {
-            Result.Error("Data is Empty")
-        }else{
-            Result.Success(data)
-        }
+    override fun getComputerStore(
+        result: (Result<List<ComputerStore>>) -> Unit
+    ) {
+        database.collection(FIRESTORE_TABLE)
+            .get()
+            .addOnSuccessListener {
+                val computerStoreList = arrayListOf<ComputerStore>()
+                it.forEach { document ->
+                    //convert document from firebase to our data class
+                    val computerStore = document.toObject(ComputerStore::class.java)
+
+                    // then adding to our array list
+                    computerStoreList.add(computerStore)
+
+                    result.invoke(Result.Success(computerStoreList))
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    Result.Error(it.localizedMessage!!)
+                )
+            }
+    }
+
+    override fun insertComputerStore(computerStore: ComputerStore, result: (Result<String>) -> Unit) {
+        database.collection(FIRESTORE_TABLE)
+            .add(computerStore)
+            .addOnSuccessListener {
+                result.invoke(
+                    Result.Success(it.id)
+                )
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    Result.Error(it.localizedMessage!!)
+                )
+            }
     }
 }
+

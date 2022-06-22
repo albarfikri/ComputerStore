@@ -71,7 +71,6 @@ class SignupFragment : Fragment() {
     }
 
     private fun checkIfFieldEmpty() {
-
         binding.apply {
             btnSignup.setOnClickListener {
                 var isEmptyFields = false
