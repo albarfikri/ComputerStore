@@ -16,6 +16,6 @@ class ComputerStore(
     val username: String = "",
     val password: String = "",
     @ServerTimestamp
-    val createAt: Date,
+    val createAt: Date = Date(),
     val isVerified: Boolean = false
 ) : Parcelable

@@ -7,15 +7,22 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
+import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.local.entity.Coordinate
+import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentSignupBinding
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
-import com.albar.computerstore.others.toast
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment
+import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class SignupFragment : Fragment() {
@@ -24,6 +31,8 @@ class SignupFragment : Fragment() {
 
     private var latValue: String? = null
     private var lngValue: String? = null
+
+    private val viewModel: ComputerStoreViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +53,26 @@ class SignupFragment : Fragment() {
 
         openDialogFragment()
         checkIfFieldEmpty()
+
+        viewModel.insertComputerStore.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {
+                    binding.btnProgressSignUp.show()
+                    binding.btnSignup.text = ""
+                    toastShort("Loading please wait.")
+                }
+                is Result.Error -> {
+                    binding.btnProgressSignUp.hide()
+                    binding.btnSignup.text = getString(R.string.signup)
+                    toastShort(it.error)
+                }
+                is Result.Success -> {
+                    binding.btnProgressSignUp.hide()
+                    binding.btnSignup.text = getString(R.string.signup)
+                    toastShort("Note has been created successfully")
+                }
+            }
+        }
     }
 
     private fun openDialogFragment() {
@@ -132,11 +161,26 @@ class SignupFragment : Fragment() {
                 }
 
                 if (!isEmptyFields) {
-                    toast("Success")
+                    viewModel.insertComputerStore(
+                        ComputerStore(
+                            id = "",
+                            name = inputStoreName,
+                            address = inputAddress,
+                            lat = inputLat.toDouble(),
+                            lng = inputLng.toDouble(),
+                            image = "",
+                            username = inputUsername,
+                            password = inputPassword,
+                            createAt = Date(),
+                            isVerified = false
+                        )
+                    )
+                    toastShort("insert")
                 }
             }
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

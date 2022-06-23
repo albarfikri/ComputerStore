@@ -20,6 +20,10 @@ fun View.disable() {
     isEnabled = false
 }
 
-fun Fragment.toast(msg: String?) {
+fun Fragment.toastLong(msg: String?) {
     Toast.makeText(requireContext(), msg, Toast.LENGTH_LONG).show()
+}
+
+fun Fragment.toastShort(msg: String?) {
+    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
 }

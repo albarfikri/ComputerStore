@@ -90,6 +90,7 @@
                 android:id="@+id/etStoreName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:longClickable="true"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,7 +116,8 @@
                 android:id="@+id/etAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="text"
+                android:longClickable="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -140,7 +142,8 @@
                 android:id="@+id/etLat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:longClickable="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -163,6 +166,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etLng"
+                android:longClickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
@@ -201,6 +205,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etUsername"
                 android:layout_width="match_parent"
+                android:longClickable="true"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -216,10 +221,10 @@
             android:hint="@string/passwordHint"
             app:boxCornerRadiusBottomEnd="10dp"
             app:boxCornerRadiusBottomStart="10dp"
-            app:counterEnabled="true"
-            app:counterMaxLength="10"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutUsername"
@@ -232,18 +237,37 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/btnSignup"
-            style="@style/loginSignupConfig"
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/button_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:background="@drawable/custom_input"
-            android:text="@string/signUp"
-            android:textAllCaps="false"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textInputLayoutPass" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPass">
+
+            <Button
+                android:id="@+id/btnSignup"
+                style="@style/loginSignupConfig"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/custom_input"
+                android:text="@string/signUp"
+                android:textAllCaps="false" />
+
+            <ProgressBar
+                android:id="@+id/btnProgressSignUp"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="16dp"
+                android:elevation="10dp"
+                android:indeterminateTint="@color/white"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
