@@ -67,6 +67,7 @@ class SignupFragment : Fragment() {
                     toastShort(it.error)
                 }
                 is Result.Success -> {
+                    clearFields()
                     binding.btnProgressSignUp.hide()
                     binding.btnSignup.text = getString(R.string.signup)
                     toastShort("Note has been created successfully")
@@ -181,6 +182,16 @@ class SignupFragment : Fragment() {
         }
     }
 
+    private fun clearFields() {
+        binding.apply {
+            etStoreName.setText("")
+            etAddress.setText("")
+            etLat.setText("")
+            etLng.setText("")
+            etUsername.setText("")
+            etPassword.setText("")
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
