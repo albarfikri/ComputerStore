@@ -10,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentSplashScreenBinding
@@ -70,9 +68,7 @@ class SplashScreenFragment : Fragment(), EasyPermissions.PermissionCallbacks,
     }
 
     private fun navigate() {
-        Handler(Looper.myLooper()!!).postDelayed({
-            findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
-        }, 2000L)
+        findNavController().navigate(R.id.action_splashScreenFragment_to_locationFragment)
     }
 
     private fun askingForPermissionAgain() {

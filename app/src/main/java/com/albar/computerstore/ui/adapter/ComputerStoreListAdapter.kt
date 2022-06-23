@@ -45,7 +45,6 @@ class ComputerStoreListAdapter(
     inner class MyViewHolder(val binding: ItemComputerStoreListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ComputerStore) {
-            binding.tvId.text = item.id
             binding.tvAddress.text = item.address
             binding.edit.setOnClickListener { onEditClicked.invoke(adapterPosition, item) }
             binding.delete.setOnClickListener { onDeleteClicked.invoke(adapterPosition, item) }

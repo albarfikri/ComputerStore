@@ -50,7 +50,6 @@ class SignupFragment : Fragment() {
             findNavController().navigate(R.id.action_signupFragment_to_signinFragment)
         }
 
-
         openDialogFragment()
         checkIfFieldEmpty()
 
@@ -67,10 +66,10 @@ class SignupFragment : Fragment() {
                     toastShort(it.error)
                 }
                 is Result.Success -> {
+                    toastShort("Computer store has been created successfully")
                     clearFields()
                     binding.btnProgressSignUp.hide()
                     binding.btnSignup.text = getString(R.string.signup)
-                    toastShort("Note has been created successfully")
                 }
             }
         }
@@ -176,7 +175,6 @@ class SignupFragment : Fragment() {
                             isVerified = false
                         )
                     )
-                    toastShort("insert")
                 }
             }
         }
@@ -190,6 +188,12 @@ class SignupFragment : Fragment() {
             etLng.setText("")
             etUsername.setText("")
             etPassword.setText("")
+            etStoreName.clearFocus()
+            etAddress.clearFocus()
+            etLat.clearFocus()
+            etLng.clearFocus()
+            etUsername.clearFocus()
+            etPassword.clearFocus()
         }
     }
 

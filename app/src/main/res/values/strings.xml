@@ -28,6 +28,7 @@
     <string name="lngHint">Enter your Longitude</string>
     <string name="set">Set Coordinate</string>
     <string name="checkInternet">Checking your internet connection.</string>
+    <string name="image">image</string>
 
 
     <style name="loginSignupConfig">
