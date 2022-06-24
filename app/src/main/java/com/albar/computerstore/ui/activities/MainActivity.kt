@@ -5,17 +5,16 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivityMainBinding
-import com.albar.computerstore.ui.viewmodels.NetworkViewModel
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_LIST
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_MAPS
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_NEAREST
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -43,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.background = null
         binding.bottomNavigationView.menu.getItem(1).isEnabled = false
 
+        binding.textView.text = COMPUTER_STORE_MAPS
+
         navigation()
 
 
@@ -57,24 +58,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigation() {
         binding.fabLocation.setOnClickListener {
-            navHost.navController.navigate(R.id.locationFragment)
+            binding.textView.text = COMPUTER_STORE_MAPS
             removeEffectsWhileClickingFab(false)
-
             val inflater = navHost.navController.navInflater
             val graph = inflater.inflate(R.navigation.nav_graph)
-            graph.setStartDestination(R.id.locationFragment)
+            graph.setStartDestination(R.id.location)
+            navHost.navController.navigate(R.id.location)
         }
 
         binding.apply {
             bottomNavigationView.setOnItemSelectedListener {
-
+                binding.textView.text = COMPUTER_STORE_MAPS
                 removeEffectsWhileClickingFab(true)
                 when (it.itemId) {
                     R.id.list -> {
+                        binding.textView.text = COMPUTER_STORE_LIST
                         navHost.findNavController().navigate(R.id.list)
                         showClickedItemBottomNav(2, true, 0, false)
                     }
                     R.id.nearest -> {
+                        binding.textView.text = COMPUTER_STORE_NEAREST
                         navHost.findNavController().navigate(R.id.nearest)
                         showClickedItemBottomNav(0, false, 2, true)
                     }
@@ -85,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             navHost.findNavController()
                 .addOnDestinationChangedListener { _, destination, _ ->
                     when (destination.id) {
-                        R.id.list, R.id.locationFragment, R.id.nearest ->
+                        R.id.list, R.id.location, R.id.nearest ->
                             hidingSomeViewsInSplashScreen(false)
                         else -> hidingSomeViewsInSplashScreen(false)
                     }

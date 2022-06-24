@@ -6,7 +6,7 @@
     app:startDestination="@id/splashScreenFragment">
 
     <fragment
-        android:id="@+id/locationFragment"
+        android:id="@+id/location"
         android:name="com.albar.computerstore.ui.fragments.main.LocationFragment"
         android:label="LocationFragment" >
         <action
@@ -31,13 +31,13 @@
         tools:layout="@layout/fragment_splash_screen" >
         <action
             android:id="@+id/action_splashScreenFragment_to_locationFragment"
-            app:destination="@id/locationFragment"
+            app:destination="@id/location"
             app:launchSingleTop="false"
             app:popUpToInclusive="false" />
     </fragment>
     <action
         android:id="@+id/action_global_locationFragment"
-        app:destination="@id/locationFragment"
+        app:destination="@id/location"
         app:launchSingleTop="false"
         app:popUpToInclusive="false" />
 </navigation>

@@ -8,10 +8,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvComputerList"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,4 +26,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/noDataLottie"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@color/white"
+        android:tooltipText="@string/app_name"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_internet_connection"
+        app:lottie_speed="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

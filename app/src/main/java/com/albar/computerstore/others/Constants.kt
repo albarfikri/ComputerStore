@@ -11,6 +11,11 @@ object Constants {
     const val ON_BOARDING_DATA_STORE_KEY = "OnBoardingStatusWithDataStore"
     const val PREFERENCES_NAME = "onBoardingStatus"
 
+    //App Bar Name
+    const val COMPUTER_STORE_LIST = "Computer Store List"
+    const val COMPUTER_STORE_MAPS = "Computer Store Maps"
+    const val COMPUTER_STORE_NEAREST = "Computer Store Nearest"
+
     //Coordinate Request and Bundle Key
     const val REQUEST_KEY = "request_key"
     const val BUNDLE_KEY = "bundle_key"
