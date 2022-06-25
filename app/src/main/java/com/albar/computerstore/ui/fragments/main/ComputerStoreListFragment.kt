@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentComputerStoreListBinding
 import com.albar.computerstore.others.hide
@@ -31,7 +33,7 @@ class ComputerStoreListFragment : Fragment() {
     private val adapter by lazy {
         ComputerStoreListAdapter(
             onItemClicked = { position, item ->
-
+                findNavController().navigate(R.id.action_list_to_detailList)
 
             },
             onEditClicked = { position, item ->
@@ -75,6 +77,7 @@ class ComputerStoreListFragment : Fragment() {
                     when (it) {
                         is Result.Loading -> {
                             binding.shimmer.show()
+                            binding.rvComputerList.hide()
                             binding.shimmer.startShimmer()
                         }
                         is Result.Error -> {
@@ -85,6 +88,7 @@ class ComputerStoreListFragment : Fragment() {
                         is Result.Success -> {
                             binding.shimmer.stopShimmer()
                             binding.shimmer.hide()
+                            binding.rvComputerList.show()
                             adapter.updateList(it.data.toMutableList())
                         }
                     }

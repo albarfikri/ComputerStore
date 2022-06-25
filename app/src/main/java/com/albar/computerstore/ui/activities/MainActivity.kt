@@ -14,6 +14,8 @@ import com.albar.computerstore.databinding.ActivityMainBinding
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_LIST
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_MAPS
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_NEAREST
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,7 +53,10 @@ class MainActivity : AppCompatActivity() {
             val moveToSignInSignUpActivity =
                 Intent(this@MainActivity, SignInSignUpActivity::class.java)
             startActivity(moveToSignInSignUpActivity).apply {
-                overridePendingTransition(com.airbnb.lottie.R.anim.abc_slide_in_bottom, com.airbnb.lottie.R.anim.abc_slide_out_top)
+                overridePendingTransition(
+                    com.airbnb.lottie.R.anim.abc_slide_in_bottom,
+                    com.airbnb.lottie.R.anim.abc_slide_out_top
+                )
             }
             finish()
         }
@@ -91,6 +96,9 @@ class MainActivity : AppCompatActivity() {
                     when (destination.id) {
                         R.id.list, R.id.location, R.id.nearest ->
                             hidingSomeViewsInSplashScreen(false)
+                        R.id.detailList -> {
+                            hidingSomeViewsInSplashScreen(true)
+                        }
                         else -> hidingSomeViewsInSplashScreen(true)
                     }
                 }
@@ -99,17 +107,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun hidingSomeViewsInSplashScreen(statusGone: Boolean) {
         if (!statusGone) {
-            binding.bottomAppBar.visibility = View.VISIBLE
-            binding.textView.visibility = View.VISIBLE
-            binding.login.visibility = View.VISIBLE
-            binding.fabLocation.visibility = View.VISIBLE
-            binding.bottomNavigationView.visibility = View.VISIBLE
+            binding.apply {
+                bottomAppBar.visibility = View.VISIBLE
+                fabLocation.visibility = View.VISIBLE
+                bottomNavigationView.visibility = View.VISIBLE
+                toolbar.show()
+            }
         } else {
-            binding.bottomAppBar.visibility = View.GONE
-            binding.textView.visibility = View.GONE
-            binding.login.visibility = View.GONE
-            binding.fabLocation.visibility = View.GONE
-            binding.bottomNavigationView.visibility = View.GONE
+            binding.apply {
+                bottomAppBar.visibility = View.GONE
+                fabLocation.visibility = View.GONE
+                bottomNavigationView.visibility = View.GONE
+                toolbar.hide()
+            }
+
         }
     }
 

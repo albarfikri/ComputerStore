@@ -93,7 +93,10 @@ class SignupFragment : Fragment() {
             lngValue = result.lng.toString()
 
             binding.etLat.setText(latValue)
+
             binding.etLng.setText(lngValue)
+            binding.etLat.error = null
+            binding.etLng.error = null
 
             Toast.makeText(activity, "$latValue, $lngValue", Toast.LENGTH_SHORT).show()
         }

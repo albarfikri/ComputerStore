@@ -1,14 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.main.DetailComputerStoreFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.albar.computerstore.others.CollapsibleAppbar
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="420dp"
+        android:background="?attr/colorSurface"
+        android:elevation="12dp">
 
-</FrameLayout>
+        <com.albar.computerstore.others.CollapsibleToolbar
+            android:id="@+id/motionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="420dp"
+            android:background="@color/colorPrimaryVariant"
+            android:minHeight="?attr/actionBarSize"
+            app:layoutDescription="@xml/motion_app_scene"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+
+            <TextView
+                android:id="@+id/expandedTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="?attr/actionBarSize"
+                android:paddingHorizontal="@dimen/space_normal"
+                android:text="BOLT Komputer"
+                android:textAppearance="?attr/textAppearanceHeadline4"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/bgToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="@id/bgToolbar"
+                app:layout_constraintStart_toStartOf="@+id/bgToolbar"
+                app:layout_constraintTop_toTopOf="@+id/bgToolbar"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/collapsedTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="36dp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical"
+                android:text="BOLT Komputer"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/bgToolbar"
+                app:layout_constraintStart_toStartOf="@+id/back"
+                app:layout_constraintTop_toTopOf="@+id/bgToolbar"
+                tools:text="Halo" />
+
+
+            <ImageView
+                android:id="@+id/imgComputerStore"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/ic_broke_image"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/expandedTitle" />
+        </com.albar.computerstore.others.CollapsibleToolbar>
+    </com.albar.computerstore.others.CollapsibleAppbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/loginsignup_bg"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_normal"
+            android:text="Output"
+            android:textAppearance="?attr/textAppearanceBody1" />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/dark_blue"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:contentDescription="@string/loading"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:src="@drawable/ic_baseline_phone"
+        app:fabSize="normal"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="end|bottom" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
