@@ -1,9 +1,9 @@
 package com.albar.computerstore.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivitySignInSignUpBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,13 +25,19 @@ class SignInSignUpActivity : AppCompatActivity() {
         _navHost = supportFragmentManager.findFragmentById(R.id.navHostFragment2) as NavHostFragment
     }
 
+    private fun backToHome() {
+        val moveToMainActivity =
+            Intent(this@SignInSignUpActivity, MainActivity::class.java)
+        startActivity(moveToMainActivity).apply {
+            this@SignInSignUpActivity.overridePendingTransition(
+                R.anim.enter_from_left,
+                R.anim.exit_to_right
+            )
+        }
+        finish()
+    }
+
     override fun onBackPressed() {
-        navHost.findNavController()
-            .addOnDestinationChangedListener { _, destination, _ ->
-                when (destination.id) {
-                    R.id.signupFragment, R.id.signinFragment -> {
-                    }
-                }
-            }
+        backToHome()
     }
 }

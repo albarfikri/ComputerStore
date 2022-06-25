@@ -66,7 +66,7 @@ class SignupFragment : Fragment() {
                     toastShort(it.error)
                 }
                 is Result.Success -> {
-                    toastShort("Computer store has been created successfully")
+                    toastShort(it.data)
                     clearFields()
                     binding.btnProgressSignUp.hide()
                     binding.btnSignup.text = getString(R.string.signup)

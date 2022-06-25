@@ -11,5 +11,6 @@
     <color name="colorSecondary">#ed4a63</color>
     <color name="colorSecondaryVariant">#b50039</color>
     <color name="defaultColor">#666666</color>
+    <color name="shimmer">#E2919191</color>
     <color name="customInput">#E4E4E4</color>
 </resources>

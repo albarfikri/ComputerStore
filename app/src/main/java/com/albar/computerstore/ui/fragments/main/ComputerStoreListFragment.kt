@@ -74,14 +74,17 @@ class ComputerStoreListFragment : Fragment() {
                 viewModel.computerStore.observe(viewLifecycleOwner) {
                     when (it) {
                         is Result.Loading -> {
-                            binding.progressBar.show()
+                            binding.shimmer.show()
+                            binding.shimmer.startShimmer()
                         }
                         is Result.Error -> {
-                            binding.progressBar.hide()
+                            binding.shimmer.stopShimmer()
+                            binding.shimmer.hide()
                             toastShort(it.error)
                         }
                         is Result.Success -> {
-                            binding.progressBar.hide()
+                            binding.shimmer.stopShimmer()
+                            binding.shimmer.hide()
                             adapter.updateList(it.data.toMutableList())
                         }
                     }

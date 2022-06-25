@@ -19,7 +19,11 @@
     <fragment
         android:id="@+id/list"
         android:name="com.albar.computerstore.ui.fragments.main.ComputerStoreListFragment"
-        android:label="ComputerStoreListFragment"/>
+        android:label="ComputerStoreListFragment">
+        <action
+            android:id="@+id/action_list_to_detailList"
+            app:destination="@id/detailList" />
+    </fragment>
     <fragment
         android:id="@+id/nearest"
         android:name="com.albar.computerstore.ui.fragments.main.NearestFragment"
@@ -40,4 +44,13 @@
         app:destination="@id/location"
         app:launchSingleTop="false"
         app:popUpToInclusive="false" />
+    <fragment
+        android:id="@+id/detailList"
+        android:name="com.albar.computerstore.ui.fragments.main.DetailComputerStoreFragment"
+        android:label="fragment_detail_computer_store"
+        tools:layout="@layout/fragment_detail_computer_store" >
+        <action
+            android:id="@+id/action_detailList_to_list"
+            app:destination="@id/list" />
+    </fragment>
 </navigation>

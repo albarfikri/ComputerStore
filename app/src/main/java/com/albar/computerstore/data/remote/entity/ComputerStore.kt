@@ -7,7 +7,7 @@ import java.util.*
 
 @Parcelize
 class ComputerStore(
-    val id: String = "",
+    var id: String = "",
     val name: String = "",
     val address: String = "",
     val lat: Double = 0.0,

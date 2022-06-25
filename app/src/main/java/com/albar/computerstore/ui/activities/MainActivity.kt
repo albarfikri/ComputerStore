@@ -51,8 +51,9 @@ class MainActivity : AppCompatActivity() {
             val moveToSignInSignUpActivity =
                 Intent(this@MainActivity, SignInSignUpActivity::class.java)
             startActivity(moveToSignInSignUpActivity).apply {
-                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left)
+                overridePendingTransition(com.airbnb.lottie.R.anim.abc_slide_in_bottom, com.airbnb.lottie.R.anim.abc_slide_out_top)
             }
+            finish()
         }
     }
 
@@ -90,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                     when (destination.id) {
                         R.id.list, R.id.location, R.id.nearest ->
                             hidingSomeViewsInSplashScreen(false)
-                        else -> hidingSomeViewsInSplashScreen(false)
+                        else -> hidingSomeViewsInSplashScreen(true)
                     }
                 }
         }

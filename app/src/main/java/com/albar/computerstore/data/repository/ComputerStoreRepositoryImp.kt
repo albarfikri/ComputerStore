@@ -33,12 +33,16 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
             }
     }
 
-    override fun insertComputerStore(computerStore: ComputerStore, result: (Result<String>) -> Unit) {
-        database.collection(FIRESTORE_TABLE)
-            .add(computerStore)
+    override fun insertComputerStore(
+        computerStore: ComputerStore,
+        result: (Result<String>) -> Unit
+    ) {
+        val document = database.collection(FIRESTORE_TABLE).document()
+        computerStore.id = document.id
+        document.set(computerStore)
             .addOnSuccessListener {
                 result.invoke(
-                    Result.Success(it.id)
+                    Result.Success("Note has been created successfully")
                 )
             }
             .addOnFailureListener {
