@@ -1,11 +1,27 @@
 package com.albar.computerstore.others
 
+import androidx.annotation.StringRes
+import com.albar.computerstore.R
+
 object Constants {
 
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
     // for onBoarding screen Adapter
     const val NUM_PAGES = 3
+
+    // Detail viewpager Tab Titles
+    @StringRes
+    val TAB_TITLES = intArrayOf(
+        R.string.detail_tab_text_1,
+        R.string.detail_tab_text_2
+    )
+
+    // Bundle key for detail
+    const val KEY = "type"
+
+    // Parcelable key
+    const val PARCELABLE_KEY = "computerStore"
 
     // Data store key
     const val ON_BOARDING_DATA_STORE_KEY = "OnBoardingStatusWithDataStore"
@@ -22,4 +38,5 @@ object Constants {
 
     // Firebase
     const val FIRESTORE_TABLE = "computerstore" // firestore table name
+
 }

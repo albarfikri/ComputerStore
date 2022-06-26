@@ -11,10 +11,13 @@ import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentComputerStoreListBinding
+import com.albar.computerstore.others.Constants.KEY
+import com.albar.computerstore.others.Constants.PARCELABLE_KEY
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreListAdapter
+import com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment.Companion.DETAIL_CLICKED
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,14 +36,17 @@ class ComputerStoreListFragment : Fragment() {
     private val adapter by lazy {
         ComputerStoreListAdapter(
             onItemClicked = { position, item ->
-                findNavController().navigate(R.id.action_list_to_detailList)
+
 
             },
-            onEditClicked = { position, item ->
+            onCallClicked = { position, item ->
 
             },
-            onDeleteClicked = { position, item ->
-
+            onDetailClicked = { _, item ->
+                findNavController().navigate(R.id.action_list_to_detailList, Bundle().apply {
+                    putString(KEY, DETAIL_CLICKED)
+                    putParcelable(PARCELABLE_KEY, item)
+                })
             }
         )
 
@@ -58,7 +64,6 @@ class ComputerStoreListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvComputerList.adapter = adapter
-
         networkStatus()
     }
 

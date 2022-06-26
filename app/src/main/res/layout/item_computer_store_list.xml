@@ -85,25 +85,25 @@
             app:layout_constraintTop_toBottomOf="@+id/msg" />
 
         <ImageView
-            android:id="@+id/edit"
+            android:id="@+id/call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:padding="8dp"
-            android:src="@drawable/ic_baseline_edit_24"
-            app:layout_constraintEnd_toStartOf="@+id/delete"
+            android:src="@drawable/ic_baseline_phone"
+            app:layout_constraintEnd_toStartOf="@+id/detail"
             app:layout_constraintTop_toBottomOf="@+id/divider"
             app:tint="@color/black" />
 
         <ImageView
-            android:id="@+id/delete"
+            android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:padding="8dp"
-            android:src="@drawable/ic_baseline_delete_24"
+            android:src="@drawable/ic_detail"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider"
             app:tint="@color/black" />

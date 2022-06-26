@@ -8,8 +8,8 @@ import com.albar.computerstore.databinding.ItemComputerStoreListBinding
 
 class ComputerStoreListAdapter(
     val onItemClicked: (Int, ComputerStore) -> Unit,
-    val onEditClicked: (Int, ComputerStore) -> Unit,
-    val onDeleteClicked: (Int, ComputerStore) -> Unit,
+    val onCallClicked: (Int, ComputerStore) -> Unit,
+    val onDetailClicked: (Int, ComputerStore) -> Unit,
 ) : RecyclerView.Adapter<ComputerStoreListAdapter.MyViewHolder>() {
 
     private var list: MutableList<ComputerStore> = arrayListOf()
@@ -47,8 +47,8 @@ class ComputerStoreListAdapter(
         fun bind(item: ComputerStore) {
             binding.tvName.text = item.name
             binding.tvAddress.text = item.address
-            binding.edit.setOnClickListener { onEditClicked.invoke(adapterPosition, item) }
-            binding.delete.setOnClickListener { onDeleteClicked.invoke(adapterPosition, item) }
+            binding.detail.setOnClickListener { onDetailClicked.invoke(adapterPosition, item) }
+            binding.call.setOnClickListener { onCallClicked.invoke(adapterPosition, item) }
             binding.itemComputerStoreListLayout.setOnClickListener {
                 onItemClicked.invoke(
                     adapterPosition,

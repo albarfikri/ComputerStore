@@ -42,7 +42,27 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
         document.set(computerStore)
             .addOnSuccessListener {
                 result.invoke(
-                    Result.Success("Note has been created successfully")
+                    Result.Success("Data has been created successfully")
+                )
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    Result.Error(it.localizedMessage!!)
+                )
+            }
+    }
+
+    override fun updateComputerStore(
+        computerStore: ComputerStore,
+        result: (Result<String>) -> Unit
+    ) {
+        val document = database.collection(FIRESTORE_TABLE).document(computerStore.id)
+
+        document
+            .set(computerStore)
+            .addOnSuccessListener {
+                result.invoke(
+                    Result.Success("Data has been updated successfully")
                 )
             }
             .addOnFailureListener {
