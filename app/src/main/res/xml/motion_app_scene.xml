@@ -59,11 +59,10 @@
             <KeyAttribute
                 android:alpha="1"
                 app:framePosition="0"
-
                 app:motionTarget="@id/imgComputerStore" />
 
             <KeyAttribute
-                android:alpha="1"
+                android:alpha="0"
                 app:framePosition="50"
                 app:motionTarget="@id/imgComputerStore" />
 
@@ -76,6 +75,26 @@
                 android:alpha="0"
                 app:framePosition="100"
                 app:motionTarget="@id/imgComputerStore" />
+
+            <KeyAttribute
+                android:alpha="1"
+                app:framePosition="0"
+                app:motionTarget="@id/detailExpandedTitle" />
+
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="50"
+                app:motionTarget="@id/detailExpandedTitle" />
+
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="80"
+                app:motionTarget="@id/detailExpandedTitle" />
+
+            <KeyAttribute
+                android:alpha="0"
+                app:framePosition="100"
+                app:motionTarget="@id/detailExpandedTitle" />
         </KeyFrameSet>
     </Transition>
 </MotionScene>

@@ -58,8 +58,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
 
-    // Material Design
+    // Material Design and ViewPager2
     implementation 'com.google.android.material:material:1.7.0-alpha02'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     // Architectural Components
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
