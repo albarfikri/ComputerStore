@@ -1,4 +1,4 @@
-package com.albar.computerstore.ui.fragments.main
+package com.albar.computerstore.ui.fragments.detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,7 +21,7 @@ class DetailComputerStoreFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailComputerStoreBinding.inflate(inflater, container, false)
         return binding.root
     }

@@ -46,7 +46,7 @@
         app:popUpToInclusive="false" />
     <fragment
         android:id="@+id/detailList"
-        android:name="com.albar.computerstore.ui.fragments.main.DetailComputerStoreFragment"
+        android:name="com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment"
         android:label="fragment_detail_computer_store"
         tools:layout="@layout/fragment_detail_computer_store" >
         <action

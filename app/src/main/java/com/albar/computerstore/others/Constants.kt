@@ -4,7 +4,7 @@ object Constants {
 
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
-    // for onBoarding screen
+    // for onBoarding screen Adapter
     const val NUM_PAGES = 3
 
     // Data store key
