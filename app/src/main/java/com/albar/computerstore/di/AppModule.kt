@@ -3,6 +3,8 @@ package com.albar.computerstore.di
 import android.annotation.SuppressLint
 import android.content.Context
 import com.albar.computerstore.others.DataStoreUtility
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.Module
 import dagger.Provides
@@ -26,4 +28,9 @@ object AppModule {
     @Singleton
     fun provideFusedLocationProviderClient(@ApplicationContext app: Context) =
         FusedLocationProviderClient(app)
+
+    @Provides
+    @Singleton
+    fun provideGlideContext(@ApplicationContext context: Context): RequestManager =
+        Glide.with(context)
 }

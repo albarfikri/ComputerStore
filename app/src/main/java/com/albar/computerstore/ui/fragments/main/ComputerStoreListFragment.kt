@@ -77,28 +77,32 @@ class ComputerStoreListFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
                     .show()
-                viewModel.getComputerStore()
-                viewModel.computerStore.observe(viewLifecycleOwner) {
-                    when (it) {
-                        is Result.Loading -> {
-                            binding.shimmer.show()
-                            binding.rvComputerList.hide()
-                            binding.shimmer.startShimmer()
-                        }
-                        is Result.Error -> {
-                            binding.shimmer.stopShimmer()
-                            binding.shimmer.hide()
-                            toastShort(it.error)
-                        }
-                        is Result.Success -> {
-                            binding.shimmer.stopShimmer()
-                            binding.shimmer.hide()
-                            binding.rvComputerList.show()
-                            adapter.updateList(it.data.toMutableList())
-                        }
-                    }
+                retrieveData()
+            }
+        }
+    }
+
+    private fun retrieveData() {
+        viewModel.getComputerStore()
+        viewModel.computerStore.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {
+                    binding.rvComputerList.hide()
+                    binding.shimmer.startShimmer()
+                    binding.shimmer.show()
                 }
-                noNetworkAvailableSign(isConnected)
+                is Result.Error -> {
+                    binding.shimmer.hide()
+                    binding.shimmer.stopShimmer()
+                    binding.rvComputerList.hide()
+                    toastShort(it.error)
+                }
+                is Result.Success -> {
+                    binding.shimmer.hide()
+                    binding.shimmer.stopShimmer()
+                    binding.rvComputerList.show()
+                    adapter.updateList(it.data.toMutableList())
+                }
             }
         }
     }

@@ -32,8 +32,7 @@ class SigninFragment : Fragment() {
         }
 
         binding.back.setOnClickListener {
-            val moveToMainActivity =
-                Intent(context, MainActivity::class.java)
+            val moveToMainActivity = Intent(context, MainActivity::class.java)
             startActivity(moveToMainActivity).apply {
                 requireActivity().overridePendingTransition(
                     R.anim.enter_from_left,

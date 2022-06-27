@@ -6,16 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.albar.computerstore.R
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentDetailComputerStoreBinding
 import com.albar.computerstore.others.Constants.KEY
 import com.albar.computerstore.others.Constants.PARCELABLE_KEY
 import com.albar.computerstore.others.Constants.TAB_TITLES
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
 import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class DetailComputerStoreFragment : Fragment() {
 
     companion object {
@@ -23,6 +29,9 @@ class DetailComputerStoreFragment : Fragment() {
         const val CALL_CLICKED = "call"
         const val DETAIL_CLICKED = "detail"
     }
+
+    @Inject
+    lateinit var Glide: RequestManager
 
     private var _binding: FragmentDetailComputerStoreBinding? = null
     private val binding get() = _binding!!
@@ -46,7 +55,7 @@ class DetailComputerStoreFragment : Fragment() {
     }
 
     private fun buttonBack() {
-        binding.back.setOnClickListener{
+        binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
     }
@@ -57,13 +66,27 @@ class DetailComputerStoreFragment : Fragment() {
             when (it) {
                 DETAIL_CLICKED -> {
                     objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
-                    binding.apply{
+                    binding.apply {
+                        progressBar(true)
+                        Glide
+                            .load(objectComputerStore?.image)
+                            .transform(CenterCrop(), RoundedCorners(10))
+                            .into(imgComputerStore)
+                        progressBar(false)
                         expandedTitle.text = objectComputerStore?.name
                         collapsedTitle.text = objectComputerStore?.name
                     }
                 }
                 else -> {}
             }
+        }
+    }
+
+    private fun progressBar(status: Boolean) {
+        if (!status) {
+            binding.progressBar.hide()
+        } else {
+            binding.progressBar.show()
         }
     }
 
