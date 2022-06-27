@@ -28,6 +28,4 @@ class ComputerFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
-
 }

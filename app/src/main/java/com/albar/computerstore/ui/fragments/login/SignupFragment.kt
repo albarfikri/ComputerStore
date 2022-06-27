@@ -16,6 +16,7 @@ import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentSignupBinding
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
+import com.albar.computerstore.others.Tools.encrypt
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
@@ -173,7 +174,7 @@ class SignupFragment : Fragment() {
                             lng = inputLng.toDouble(),
                             image = "",
                             username = inputUsername,
-                            password = inputPassword,
+                            password = encrypt(inputPassword),
                             createAt = Date(),
                             isVerified = false
                         )

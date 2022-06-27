@@ -77,6 +77,7 @@ class ComputerStoreListFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
                     .show()
+                noNetworkAvailableSign(isConnected)
                 retrieveData()
             }
         }
@@ -102,6 +103,7 @@ class ComputerStoreListFragment : Fragment() {
                     binding.shimmer.stopShimmer()
                     binding.rvComputerList.show()
                     adapter.updateList(it.data.toMutableList())
+                    adapter.notifyDataSetChanged()
                 }
             }
         }
@@ -115,7 +117,6 @@ class ComputerStoreListFragment : Fragment() {
             }
         } else {
             binding.apply {
-                rvComputerList.show()
                 noDataLottie.hide()
             }
         }

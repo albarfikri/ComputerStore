@@ -8,13 +8,14 @@ import java.util.*
 @Parcelize
 class ComputerStore(
     var id: String = "",
-    val name: String = "",
-    val address: String = "",
+    val name: String = "Not Set",
+    val address: String = "Not Set",
     val lat: Double = 0.0,
     val lng: Double = 0.0,
     val image: String = "",
-    val username: String = "",
-    val password: String = "",
+    val phone: String = "Not set",
+    val username: String = "Not set",
+    val password: String = "Not set",
     @ServerTimestamp
     val createAt: Date = Date(),
     val isVerified: Boolean = false
