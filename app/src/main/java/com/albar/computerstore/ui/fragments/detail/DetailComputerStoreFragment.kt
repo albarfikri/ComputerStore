@@ -13,6 +13,7 @@ import com.albar.computerstore.others.Constants.PARCELABLE_KEY
 import com.albar.computerstore.others.Constants.TAB_TITLES
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -31,7 +32,7 @@ class DetailComputerStoreFragment : Fragment() {
     }
 
     @Inject
-    lateinit var Glide: RequestManager
+    lateinit var glide: RequestManager
 
     private var _binding: FragmentDetailComputerStoreBinding? = null
     private val binding get() = _binding!!
@@ -68,7 +69,7 @@ class DetailComputerStoreFragment : Fragment() {
                     objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
                     binding.apply {
                         progressBar(true)
-                        Glide
+                        glide
                             .load(objectComputerStore?.image)
                             .transform(CenterCrop(), RoundedCorners(10))
                             .into(imgComputerStore)
@@ -91,7 +92,11 @@ class DetailComputerStoreFragment : Fragment() {
     }
 
     private fun setUpAdapterAndViewPager() {
+        // Sending object to DetailSectionsPagerAdapter
         val detailSectionsPagerAdapter = DetailSectionsPagerAdapter(this)
+        objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
+        detailSectionsPagerAdapter.objectComputerStore = objectComputerStore
+
 
         binding.apply {
             viewPager2.adapter = detailSectionsPagerAdapter

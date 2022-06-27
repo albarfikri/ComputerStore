@@ -2,6 +2,8 @@ package com.albar.computerstore.di
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.albar.computerstore.others.DataStoreUtility
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
