@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentOverviewBinding
 import com.albar.computerstore.others.Constants.PARCELABLE_KEY
-import com.albar.computerstore.others.toastShort
 
 class OverviewFragment : Fragment() {
     private var _binding: FragmentOverviewBinding? = null
@@ -35,7 +34,6 @@ class OverviewFragment : Fragment() {
         binding.apply {
             tvAddress.text = objectComputerStore?.address
             tvPhone.text = objectComputerStore?.phone
-            toastShort("${objectComputerStore?.address}")
         }
     }
 

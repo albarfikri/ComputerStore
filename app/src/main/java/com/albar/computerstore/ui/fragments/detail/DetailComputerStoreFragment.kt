@@ -1,5 +1,7 @@
 package com.albar.computerstore.ui.fragments.detail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +15,6 @@ import com.albar.computerstore.others.Constants.PARCELABLE_KEY
 import com.albar.computerstore.others.Constants.TAB_TITLES
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -49,10 +50,18 @@ class DetailComputerStoreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        doCall()
         setUpAdapterAndViewPager()
         showDetail()
         buttonBack()
+    }
+
+    private fun doCall() {
+        binding.call.setOnClickListener {
+            val phoneNumber = objectComputerStore?.phone
+            val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+            startActivity(dialPhoneIntent)
+        }
     }
 
     private fun buttonBack() {

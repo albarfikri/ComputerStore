@@ -10,9 +10,6 @@ import com.albar.computerstore.ui.fragments.detail.OverviewFragment
 
 class DetailSectionsPagerAdapter(fm: Fragment) : FragmentStateAdapter(fm) {
     var objectComputerStore: ComputerStore? = null
-    var objectComputerStore2: ComputerStore = ComputerStore(
-        id = "Test",
-    )
 
     var fragment: Fragment? = null
 
