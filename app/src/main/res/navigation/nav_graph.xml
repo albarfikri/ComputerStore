@@ -22,7 +22,8 @@
         android:label="ComputerStoreListFragment">
         <action
             android:id="@+id/action_list_to_detailList"
-            app:destination="@id/detailList" />
+            app:destination="@id/detailList"
+            app:enterAnim="@anim/open_center" />
     </fragment>
     <fragment
         android:id="@+id/nearest"

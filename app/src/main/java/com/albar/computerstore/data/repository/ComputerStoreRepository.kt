@@ -7,5 +7,5 @@ interface ComputerStoreRepository {
     fun getComputerStore(result: (Result<List<ComputerStore>>) -> Unit)
     fun insertComputerStore(computerStore: ComputerStore, result: (Result<String>) -> Unit)
     fun updateComputerStore(computerStore: ComputerStore, result: (Result<String>) -> Unit)
-
+    fun isUsernameUsed(username: String, result: (Result<Boolean>) -> Unit)
 }

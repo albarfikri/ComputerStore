@@ -6,15 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
+import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentSigninBinding
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.activities.MainActivity
+import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SigninFragment : Fragment() {
 
     private var _binding: FragmentSigninBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: ComputerStoreViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +49,38 @@ class SigninFragment : Fragment() {
             }
             activity?.finish()
         }
+
+        binding.btnSignin.setOnClickListener {
+            if (loginValidation()) {
+
+            }
+        }
+    }
+
+    private fun loginValidation(): Boolean {
+        var isValid = true
+
+        binding.apply {
+            val username = etUsername.text.toString().trim()
+            val password = etPassword.text.toString().trim()
+
+            if (username.isEmpty()) {
+                isValid = false
+                textInputLayoutUsername.error = "Password field cannot be empty"
+            }
+
+            if (password.length < 5) {
+                isValid = false
+                textInputLayoutPass.error = "Password length minimum 5 Character"
+            }
+
+            if (password.isEmpty()) {
+                isValid = false
+                textInputLayoutPass.error = "Password field cannot be empty"
+            }
+
+        }
+        return isValid
     }
 
     override fun onDestroy() {

@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/tv_movieImage"
+            android:id="@+id/imgComputerStore"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:contentDescription="@string/image"
@@ -42,7 +42,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.93"
-            app:layout_constraintStart_toEndOf="@+id/tv_movieImage"
+            app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/tvName"
             app:layout_constraintHorizontal_bias="0.93"
-            app:layout_constraintStart_toEndOf="@+id/tv_movieImage"
+            app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
 
@@ -81,7 +81,7 @@
             android:layout_marginTop="16dp"
             android:background="#26000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_movieImage"
+            app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
             app:layout_constraintTop_toBottomOf="@+id/msg" />
 
         <ImageView

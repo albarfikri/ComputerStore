@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -14,12 +15,10 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentSignupBinding
+import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
 import com.albar.computerstore.others.Tools.encrypt
-import com.albar.computerstore.others.hide
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,6 +33,8 @@ class SignupFragment : Fragment() {
     private var lngValue: String? = null
 
     private val viewModel: ComputerStoreViewModel by viewModels()
+
+    private var isUsernameUsed = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,23 +55,24 @@ class SignupFragment : Fragment() {
         openDialogFragment()
         checkIfFieldEmpty()
 
-        viewModel.insertComputerStore.observe(viewLifecycleOwner) {
-            when (it) {
+
+        viewModel.insertComputerStore.observe(viewLifecycleOwner) { output ->
+            when (output) {
                 is Result.Loading -> {
                     binding.btnProgressSignUp.show()
                     binding.btnSignup.text = ""
-                    toastShort("Loading please wait.")
                 }
                 is Result.Error -> {
                     binding.btnProgressSignUp.hide()
                     binding.btnSignup.text = getString(R.string.signup)
-                    toastShort(it.error)
+                    toastShort(output.error)
                 }
                 is Result.Success -> {
-                    toastShort(it.data)
+                    toastShort(output.data)
                     clearFields()
                     binding.btnProgressSignUp.hide()
                     binding.btnSignup.text = getString(R.string.signup)
+                    toastShort("Saving!")
                 }
             }
         }
@@ -105,6 +107,29 @@ class SignupFragment : Fragment() {
 
     private fun checkIfFieldEmpty() {
         binding.apply {
+            binding.etUsername.doOnTextChanged { _, _, _, _ ->
+                viewModel.isUsernameUsed(binding.etUsername.text.toString().trim())
+                viewModel.isUsernameUsed.observe(viewLifecycleOwner) { isUsernameUsed ->
+                    when (isUsernameUsed) {
+                        is Result.Success -> {
+                            if (isUsernameUsed.data) {
+                                binding.btnSignup.enable()
+                            } else {
+                                etUsername.error = "Username is Already used"
+                                binding.btnSignup.disable()
+                            }
+                        }
+                        is Result.Error -> {
+                            toastShort(isUsernameUsed.error)
+                        }
+                        is Result.Loading -> {
+
+                        }
+                        else -> {}
+                    }
+                }
+            }
+
             btnSignup.setOnClickListener {
                 var isEmptyFields = false
 
@@ -179,10 +204,13 @@ class SignupFragment : Fragment() {
                             isVerified = false
                         )
                     )
+                    clearFields()
+
                 }
             }
         }
     }
+
 
     private fun clearFields() {
         binding.apply {

@@ -61,15 +61,25 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
         document
             .set(computerStore)
             .addOnSuccessListener {
-                result.invoke(
-                    Result.Success("Data has been updated successfully")
-                )
+                result.invoke(Result.Success("Data has been updated successfully"))
             }
             .addOnFailureListener {
-                result.invoke(
-                    Result.Error(it.localizedMessage!!)
-                )
+                result.invoke(Result.Error(it.localizedMessage!!))
+            }
+    }
+
+    override fun isUsernameUsed(username: String, result: (Result<Boolean>) -> Unit) {
+        val databaseRef = database.collection(FIRESTORE_TABLE)
+        databaseRef.whereEqualTo("username", username).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.isEmpty) {
+                    result.invoke(Result.Success(true))
+                } else {
+                    result.invoke(Result.Success(false))
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(Result.Error(it.localizedMessage!!))
             }
     }
 }
-

@@ -19,4 +19,5 @@ class ComputerStore(
     @ServerTimestamp
     val createAt: Date = Date(),
     val isVerified: Boolean = false
+    //val computerStoreData: List<ComputerStoreData>? = null
 ) : Parcelable

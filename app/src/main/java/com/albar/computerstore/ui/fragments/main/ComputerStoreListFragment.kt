@@ -1,5 +1,7 @@
 package com.albar.computerstore.ui.fragments.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +22,10 @@ import com.albar.computerstore.ui.adapter.ComputerStoreListAdapter
 import com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment.Companion.DETAIL_CLICKED
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
+import com.bumptech.glide.RequestManager
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ComputerStoreListFragment : Fragment() {
@@ -33,23 +37,26 @@ class ComputerStoreListFragment : Fragment() {
 
     private val networkStatusViewModel: NetworkViewModel by viewModels()
 
+    @Inject
+    lateinit var glide: RequestManager
+
     private val adapter by lazy {
         ComputerStoreListAdapter(
             onItemClicked = { position, item ->
 
-
             },
-            onCallClicked = { position, item ->
-
+            onCallClicked = { _, item ->
+                val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$item"))
+                startActivity(dialPhoneIntent)
             },
             onDetailClicked = { _, item ->
                 findNavController().navigate(R.id.action_list_to_detailList, Bundle().apply {
                     putString(KEY, DETAIL_CLICKED)
                     putParcelable(PARCELABLE_KEY, item)
                 })
-            }
+            },
+            glide
         )
-
     }
 
     override fun onCreateView(

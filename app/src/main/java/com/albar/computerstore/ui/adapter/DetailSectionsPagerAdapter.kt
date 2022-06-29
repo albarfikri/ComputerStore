@@ -19,12 +19,15 @@ class DetailSectionsPagerAdapter(fm: Fragment) : FragmentStateAdapter(fm) {
 
         when (position) {
             0 -> {
-                fragment = totalFragment[position]
-                (fragment as OverviewFragment).arguments = Bundle().apply {
-                    putParcelable(PARCELABLE_KEY, objectComputerStore)
+                fragment = totalFragment[position].apply {
+                    this.arguments = Bundle().apply {
+                        putParcelable(PARCELABLE_KEY, objectComputerStore)
+                    }
                 }
             }
-            1 -> fragment = totalFragment[position]
+            1 -> {
+                fragment = totalFragment[position]
+            }
         }
         return fragment as Fragment
     }

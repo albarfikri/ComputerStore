@@ -33,6 +33,7 @@
 
     <string name="detail_tab_text_1">Overview</string>
     <string name="detail_tab_text_2">Computer</string>
+    <string name="calling">Calling</string>
 
 
     <style name="loginSignupConfig">
