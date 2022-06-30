@@ -3,6 +3,7 @@ package com.albar.computerstore.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.albar.computerstore.R
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.ItemComputerStoreListBinding
 import com.bumptech.glide.RequestManager
@@ -54,6 +55,7 @@ class ComputerStoreListAdapter(
                 tvAddress.text = item.address
                 glide
                     .load(item.image)
+                    .placeholder(R.drawable.ic_broke_image)
                     .transform(CenterCrop(), RoundedCorners(10))
                     .into(imgComputerStore)
                 detail.setOnClickListener { onDetailClicked.invoke(adapterPosition, item) }

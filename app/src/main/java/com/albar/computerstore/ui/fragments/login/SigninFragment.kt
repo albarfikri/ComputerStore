@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentSigninBinding
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.activities.MainActivity
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
@@ -39,6 +41,37 @@ class SigninFragment : Fragment() {
             findNavController().navigate(R.id.action_signinFragment_to_signupFragment)
         }
 
+        backToThePrevious()
+        loginButtonClicked()
+        observeStatusLogin()
+    }
+
+    private fun observeStatusLogin() {
+        viewModel.loginComputerStore.observe(viewLifecycleOwner) { status ->
+            when (status) {
+                is Result.Loading -> {
+                    binding.btnProgressSignUp.show()
+                    binding.btnSignIn.text = ""
+                }
+                is Result.Error -> {
+                    binding.btnProgressSignUp.hide()
+                    binding.btnSignIn.text = getString(R.string.signIn)
+                    toastShort(status.error)
+                }
+                is Result.Success -> {
+                    if (status.data) {
+                        toastShort("Login Successfully")
+                    }else{
+                        toastShort("Username and password don't match")
+                    }
+                    binding.btnProgressSignUp.hide()
+                    binding.btnSignIn.text = getString(R.string.signIn)
+                }
+            }
+        }
+    }
+
+    private fun backToThePrevious() {
         binding.back.setOnClickListener {
             val moveToMainActivity = Intent(context, MainActivity::class.java)
             startActivity(moveToMainActivity).apply {
@@ -49,10 +82,15 @@ class SigninFragment : Fragment() {
             }
             activity?.finish()
         }
+    }
 
-        binding.btnSignin.setOnClickListener {
+    private fun loginButtonClicked() {
+        binding.btnSignIn.setOnClickListener {
+            val username = binding.etUsername.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+
             if (loginValidation()) {
-
+                viewModel.login(username, password)
             }
         }
     }

@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentLocationBinding
+import com.albar.computerstore.others.Tools.decrypt
+import com.albar.computerstore.others.Tools.encrypt
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel

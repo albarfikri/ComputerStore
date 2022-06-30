@@ -5,7 +5,7 @@ import com.albar.computerstore.data.remote.entity.ComputerStore
 
 interface ComputerStoreRepository {
     fun getComputerStore(result: (Result<List<ComputerStore>>) -> Unit)
-    fun insertComputerStore(computerStore: ComputerStore, result: (Result<String>) -> Unit)
+
     fun updateComputerStore(computerStore: ComputerStore, result: (Result<String>) -> Unit)
     fun isUsernameUsed(username: String, result: (Result<Boolean>) -> Unit)
 }

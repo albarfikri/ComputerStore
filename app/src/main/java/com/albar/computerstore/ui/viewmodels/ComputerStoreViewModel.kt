@@ -5,22 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
+import com.albar.computerstore.data.repository.AuthRepository
 import com.albar.computerstore.data.repository.ComputerStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ComputerStoreViewModel @Inject constructor(
-    private val repository: ComputerStoreRepository
+    private val repository: ComputerStoreRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _computerStore = MutableLiveData<Result<List<ComputerStore>>>()
     val computerStore: LiveData<Result<List<ComputerStore>>>
         get() = _computerStore
-
-    private val _insertComputerStore = MutableLiveData<Result<String>>()
-    val insertComputerStore: LiveData<Result<String>>
-        get() = _insertComputerStore
 
     private val _updateComputerStore = MutableLiveData<Result<String>>()
     val updateComputerStore: LiveData<Result<String>>
@@ -30,16 +28,17 @@ class ComputerStoreViewModel @Inject constructor(
     val isUsernameUsed: LiveData<Result<Boolean>>
         get() = _isUsernameUsed
 
+    private val _registerComputerStore = MutableLiveData<Result<String>>()
+    val registerComputerStore: LiveData<Result<String>>
+        get() = _registerComputerStore
+
+    private val _loginComputerStore = MutableLiveData<Result<Boolean>>()
+    val loginComputerStore: LiveData<Result<Boolean>>
+        get() = _loginComputerStore
+
     fun getComputerStore() {
         _computerStore.value = Result.Loading
         repository.getComputerStore { _computerStore.value = it }
-    }
-
-    fun insertComputerStore(computerStore: ComputerStore) {
-        _insertComputerStore.value = Result.Loading
-        repository.insertComputerStore(computerStore) {
-            _insertComputerStore.value = it
-        }
     }
 
     fun updateComputerStore(computerStore: ComputerStore) {
@@ -56,4 +55,19 @@ class ComputerStoreViewModel @Inject constructor(
         }
     }
 
+    // Auth Repository
+    fun registerComputerStore(computerStore: ComputerStore) {
+        _registerComputerStore.value = Result.Loading
+        authRepository.registerComputerStore(computerStore) {
+            _registerComputerStore.value = it
+        }
+    }
+
+    // Auth Repository
+    fun login(username: String, password: String) {
+        _loginComputerStore.value = Result.Loading
+        authRepository.loginComputerStore(username, password) {
+            _loginComputerStore.value = it
+        }
+    }
 }

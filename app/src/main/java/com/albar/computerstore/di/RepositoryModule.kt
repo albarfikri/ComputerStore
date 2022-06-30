@@ -1,5 +1,7 @@
 package com.albar.computerstore.di
 
+import com.albar.computerstore.data.repository.AuthRepository
+import com.albar.computerstore.data.repository.AuthRepositoryImp
 import com.albar.computerstore.data.repository.ComputerStoreRepository
 import com.albar.computerstore.data.repository.ComputerStoreRepositoryImp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,5 +21,12 @@ object RepositoryModule {
         database: FirebaseFirestore
     ): ComputerStoreRepository {
         return ComputerStoreRepositoryImp(database)
+    }
+
+    @Provides
+    fun provideAuthRepository(
+        database: FirebaseFirestore
+    ):AuthRepository{
+        return AuthRepositoryImp(database)
     }
 }

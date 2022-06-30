@@ -56,7 +56,7 @@ class SignupFragment : Fragment() {
         checkIfFieldEmpty()
 
 
-        viewModel.insertComputerStore.observe(viewLifecycleOwner) { output ->
+        viewModel.registerComputerStore.observe(viewLifecycleOwner) { output ->
             when (output) {
                 is Result.Loading -> {
                     binding.btnProgressSignUp.show()
@@ -190,7 +190,7 @@ class SignupFragment : Fragment() {
                 }
 
                 if (!isEmptyFields) {
-                    viewModel.insertComputerStore(
+                    viewModel.registerComputerStore(
                         ComputerStore(
                             id = "",
                             name = inputStoreName,
