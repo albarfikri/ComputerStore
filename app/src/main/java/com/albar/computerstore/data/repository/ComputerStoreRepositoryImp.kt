@@ -12,7 +12,8 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
     override fun getComputerStore(
         result: (Result<List<ComputerStore>>) -> Unit
     ) {
-        database.collection(FIRESTORE_TABLE)
+        val document = database.collection(FIRESTORE_TABLE)
+        document.whereNotEqualTo("isAdmin", true).whereEqualTo("isVerified", true)
             .get()
             .addOnSuccessListener {
                 val computerStoreList = arrayListOf<ComputerStore>()

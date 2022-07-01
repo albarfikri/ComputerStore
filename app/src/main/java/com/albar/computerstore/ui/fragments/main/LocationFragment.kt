@@ -1,6 +1,7 @@
 package com.albar.computerstore.ui.fragments.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentLocationBinding
-import com.albar.computerstore.others.Tools.decrypt
-import com.albar.computerstore.others.Tools.encrypt
+import com.albar.computerstore.others.Tools.decryptCBC
+import com.albar.computerstore.others.Tools.encryptCBC
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
@@ -62,6 +63,10 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 noNetworkAvailableSign(isConnected)
             }
         }
+
+        val input = "Admin"
+        Log.d("Output", input.encryptCBC())
+        Log.d("Output", input.encryptCBC().decryptCBC())
     }
 
     override fun onDestroy() {

@@ -38,5 +38,8 @@ object Constants {
 
     // Firebase
     const val FIRESTORE_TABLE = "computerstore" // firestore table name
+    const val USERNAME_FIELD = "username"
+    const val PASSWORD_FIELD = "password"
+
 
 }

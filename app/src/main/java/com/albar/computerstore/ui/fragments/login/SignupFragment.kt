@@ -18,7 +18,7 @@ import com.albar.computerstore.databinding.FragmentSignupBinding
 import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
-import com.albar.computerstore.others.Tools.encrypt
+import com.albar.computerstore.others.Tools.encryptCBC
 import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -199,7 +199,7 @@ class SignupFragment : Fragment() {
                             lng = inputLng.toDouble(),
                             image = "",
                             username = inputUsername,
-                            password = encrypt(inputPassword),
+                            password = inputPassword.encryptCBC(),
                             createAt = Date(),
                             isVerified = false
                         )

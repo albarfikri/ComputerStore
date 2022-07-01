@@ -18,6 +18,9 @@ class ComputerStore(
     val password: String = "Not set",
     @ServerTimestamp
     val createAt: Date = Date(),
-    val isVerified: Boolean = false
+    @field:JvmField
+    val isVerified: Boolean = false,
+    @field:JvmField
+    val isAdmin: Boolean = false
     //val computerStoreData: List<ComputerStoreData>? = null
 ) : Parcelable

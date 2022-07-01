@@ -60,9 +60,9 @@ class SigninFragment : Fragment() {
                 }
                 is Result.Success -> {
                     if (status.data) {
-                        toastShort("Login Successfully")
-                    }else{
-                        toastShort("Username and password don't match")
+                        toastShort("Login As User")
+                    } else {
+                        toastShort("Login As Admin")
                     }
                     binding.btnProgressSignUp.hide()
                     binding.btnSignIn.text = getString(R.string.signIn)

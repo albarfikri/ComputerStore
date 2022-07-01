@@ -1,42 +1,33 @@
 package com.albar.computerstore.others
 
-import java.nio.charset.StandardCharsets
-import java.security.KeyPair
-import java.security.KeyPairGenerator
-import java.security.PrivateKey
-import java.security.PublicKey
-import java.util.*
+import android.util.Base64
 import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 
 object Tools {
-    private val generator: KeyPairGenerator = KeyPairGenerator.getInstance("RSA").also {
-        it.initialize(512)
-    }
-    private val pair: KeyPair = generator.generateKeyPair()
 
-    private val publicKey: PublicKey = pair.public
+    private const val SECRET_KEY = "abcdefghijklmnop"
+    private const val SECRET_IV = "ponmlkjihgfedcba"
 
-    private val privateKey: PrivateKey = pair.private
-
-    var byteForMoment: ByteArray = byteArrayOf(0x01, 0x02, 0x03)
-
-    var saveToDecrypt: String = ""
-
-    fun encrypt(message: String): String {
-        val encryptCipher: Cipher = Cipher.getInstance("RSA")
-        encryptCipher.init(Cipher.ENCRYPT_MODE, publicKey)
-        val charsets = Charsets.UTF_8
-        val secretMessageBytes = message.toByteArray(charsets)
-        val encryptedMessageBytes = encryptCipher.doFinal(secretMessageBytes)
-        byteForMoment = encryptedMessageBytes
-        return Base64.getEncoder().encodeToString(encryptedMessageBytes)
+     fun String.encryptCBC(): String {
+        val iv = IvParameterSpec(SECRET_IV.toByteArray())
+        val keySpec = SecretKeySpec(SECRET_KEY.toByteArray(), "AES")
+        val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+        cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv)
+        val crypted = cipher.doFinal(this.toByteArray())
+        val encodedByte = Base64.encode(crypted, Base64.DEFAULT)
+        return String(encodedByte)
     }
 
-    fun decrypt(): String {
-        val decryptCipher = Cipher.getInstance("RSA")
-        decryptCipher.init(Cipher.DECRYPT_MODE, privateKey)
-        val decryptedMessageBytes = decryptCipher.doFinal(byteForMoment)
-        return String(decryptedMessageBytes, StandardCharsets.UTF_8)
+     fun String.decryptCBC(): String {
+        val decodedByte: ByteArray = Base64.decode(this, Base64.DEFAULT)
+        val iv = IvParameterSpec(SECRET_IV.toByteArray())
+        val keySpec = SecretKeySpec(SECRET_KEY.toByteArray(), "AES")
+        val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+        cipher.init(Cipher.DECRYPT_MODE, keySpec, iv)
+        val output = cipher.doFinal(decodedByte)
+        return String(output)
     }
 }
