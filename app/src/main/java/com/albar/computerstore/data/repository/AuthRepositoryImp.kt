@@ -1,6 +1,5 @@
 package com.albar.computerstore.data.repository
 
-import android.util.Log
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.others.Constants
@@ -26,14 +25,18 @@ class AuthRepositoryImp(private val database: FirebaseFirestore) : AuthRepositor
 
                     if (computerStore.username == username &&
                         computerStore.password.decryptCBC() == password && !computerStore.isAdmin
+                        && !computerStore.isVerified
+                    ) {
+                        result.invoke(Result.Error("Your account hasn't verified yet"))
+                    } else if (computerStore.username == username &&
+                        computerStore.password.decryptCBC() == password && !computerStore.isAdmin
+                        && computerStore.isVerified
                     ) {
                         result.invoke(Result.Success(true))
-                        Log.d("Output", "${computerStore.id}, ${computerStore.isAdmin}, ${computerStore.address}")
                     } else if (computerStore.username == username &&
                         computerStore.password.decryptCBC() == password && computerStore.isAdmin
                     ) {
                         result.invoke(Result.Success(false))
-                        Log.d("Output", "${computerStore.id}, ${computerStore.isAdmin}")
                     } else {
                         result.invoke(Result.Error("Not match"))
                     }

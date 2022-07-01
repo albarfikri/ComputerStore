@@ -20,10 +20,8 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
                 it.forEach { document ->
                     //convert document from firebase to our data class
                     val computerStore = document.toObject(ComputerStore::class.java)
-
                     // then adding to our array list
                     computerStoreList.add(computerStore)
-
                     result.invoke(Result.Success(computerStoreList))
                 }
             }
