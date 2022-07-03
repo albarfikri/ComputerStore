@@ -18,7 +18,7 @@ class AuthRepositoryImp(private val database: FirebaseFirestore) : AuthRepositor
             .get()
             .addOnSuccessListener { snapshot ->
                 if (snapshot.isEmpty) {
-                    result.invoke(Result.Error("Not match"))
+                    result.invoke(Result.Error("You are not registered"))
                 }
                 snapshot.forEach { document ->
                     val computerStore = document.toObject(ComputerStore::class.java)
@@ -38,7 +38,7 @@ class AuthRepositoryImp(private val database: FirebaseFirestore) : AuthRepositor
                     ) {
                         result.invoke(Result.Success(false))
                     } else {
-                        result.invoke(Result.Error("Not match"))
+                        result.invoke(Result.Error("Username and password not match"))
                     }
                 }
             }

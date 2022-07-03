@@ -2,6 +2,8 @@ package com.albar.computerstore.ui.fragments.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +13,13 @@ import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentSigninBinding
+import com.albar.computerstore.others.Constants.DELAY_TO_MOVE_ANOTHER_ACTIVITY
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
+import com.albar.computerstore.ui.activities.AdministratorActivity
 import com.albar.computerstore.ui.activities.MainActivity
+import com.albar.computerstore.ui.activities.MemberActivity
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,9 +65,17 @@ class SigninFragment : Fragment() {
                 }
                 is Result.Success -> {
                     if (status.data) {
-                        toastShort("Login As User")
+                        toastShort("Login As Member")
+                        clearFields()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            headingToMember()
+                        }, DELAY_TO_MOVE_ANOTHER_ACTIVITY)
                     } else {
                         toastShort("Login As Admin")
+                        clearFields()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            headingToAdmin()
+                        }, DELAY_TO_MOVE_ANOTHER_ACTIVITY)
                     }
                     binding.btnProgressSignUp.hide()
                     binding.btnSignIn.text = getString(R.string.signIn)
@@ -121,9 +134,37 @@ class SigninFragment : Fragment() {
         return isValid
     }
 
+    private fun clearFields() {
+        binding.etUsername.setText("")
+        binding.etPassword.setText("")
+        binding.etUsername.clearFocus()
+        binding.etPassword.clearFocus()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
+    private fun headingToAdmin() {
+        val moveToMainActivity =
+            Intent(requireActivity(), AdministratorActivity::class.java)
+        startActivity(moveToMainActivity).apply {
+            requireActivity().overridePendingTransition(
+                com.airbnb.lottie.R.anim.abc_slide_in_bottom,
+                com.airbnb.lottie.R.anim.abc_slide_out_top
+            )
+        }
+    }
+
+    private fun headingToMember() {
+        val moveToMainActivity =
+            Intent(requireActivity(), MemberActivity::class.java)
+        startActivity(moveToMainActivity).apply {
+            requireActivity().overridePendingTransition(
+                com.airbnb.lottie.R.anim.abc_slide_in_bottom,
+                com.airbnb.lottie.R.anim.abc_slide_out_top
+            )
+        }
+    }
 }

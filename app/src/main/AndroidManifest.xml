@@ -19,19 +19,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComputerStore">
         <activity
-            android:name=".AdministratorActivity"
-            android:exported="false" />
+            android:name=".ui.activities.MemberActivity"
+
+            android:exported="true" >
+
+        </activity>
+
         <activity
             android:name=".ui.activities.SignInSignUpActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.activities.SplashScreenActivity"
+            android:screenOrientation="portrait"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".ui.activities.AdministratorActivity"
+            android:screenOrientation="portrait"
             android:exported="false"></activity>
         <activity
             android:name=".ui.activities.OnBoardingActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ui.activities.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

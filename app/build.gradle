@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.albar.computerstore"
-        minSdk 28
+        minSdk 25
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -137,4 +137,7 @@ dependencies {
 
     // Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    // Circular Image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

@@ -41,5 +41,7 @@ object Constants {
     const val USERNAME_FIELD = "username"
     const val PASSWORD_FIELD = "password"
 
+    // Handler to head up to Admin and Member
+    const val DELAY_TO_MOVE_ANOTHER_ACTIVITY = 500L
 
 }
