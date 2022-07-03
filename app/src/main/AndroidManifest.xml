@@ -20,25 +20,25 @@
         android:theme="@style/Theme.ComputerStore">
         <activity
             android:name=".ui.activities.MemberActivity"
-
-            android:exported="true" >
-
+            android:exported="false" >
         </activity>
 
         <activity
             android:name=".ui.activities.SignInSignUpActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.activities.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:exported="false">
 
         </activity>
-        <activity
-            android:name=".ui.activities.AdministratorActivity"
-            android:screenOrientation="portrait"
-            android:exported="false"></activity>
         <activity
             android:name=".ui.activities.OnBoardingActivity"
             android:screenOrientation="portrait"
@@ -47,11 +47,7 @@
             android:name=".ui.activities.MainActivity"
             android:screenOrientation="portrait"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data

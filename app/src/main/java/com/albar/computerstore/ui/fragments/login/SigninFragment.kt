@@ -17,7 +17,6 @@ import com.albar.computerstore.others.Constants.DELAY_TO_MOVE_ANOTHER_ACTIVITY
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
-import com.albar.computerstore.ui.activities.AdministratorActivity
 import com.albar.computerstore.ui.activities.MainActivity
 import com.albar.computerstore.ui.activities.MemberActivity
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
@@ -147,14 +146,7 @@ class SigninFragment : Fragment() {
     }
 
     private fun headingToAdmin() {
-        val moveToMainActivity =
-            Intent(requireActivity(), AdministratorActivity::class.java)
-        startActivity(moveToMainActivity).apply {
-            requireActivity().overridePendingTransition(
-                com.airbnb.lottie.R.anim.abc_slide_in_bottom,
-                com.airbnb.lottie.R.anim.abc_slide_out_top
-            )
-        }
+        findNavController().navigate(R.id.action_signinFragment_to_administratorFragment)
     }
 
     private fun headingToMember() {

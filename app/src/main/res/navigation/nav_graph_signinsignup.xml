@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_signinsignup"
-    app:startDestination="@id/signinFragment">
+    app:startDestination="@id/administratorFragment">
     <fragment
         android:id="@+id/signinFragment"
         android:name="com.albar.computerstore.ui.fragments.login.SigninFragment"
@@ -14,6 +14,10 @@
             app:destination="@id/signupFragment"
             app:launchSingleTop="true"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_signinFragment_to_administratorFragment"
+            app:destination="@id/administratorFragment"
+            app:enterAnim="@anim/top_animation" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -33,4 +37,8 @@
         android:id="@+id/customDialogSearchlatlngFragment2"
         android:name="com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment"
         android:label="CustomDialogSearchlatlngFragment" />
+    <fragment
+        android:id="@+id/administratorFragment"
+        android:name="com.albar.computerstore.ui.fragments.admin.AdministratorFragment"
+        android:label="AdministratorFragment" />
 </navigation>
