@@ -20,8 +20,8 @@ class AdministratorFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val tabTitles = mutableMapOf(
-        "Unverified" to R.drawable.ic_baseline_access_time,
-        "Verified" to R.drawable.ic_baseline_check
+        "Unverified" to R.drawable.ic_unverified,
+        "Verified" to R.drawable.ic_verified
     )
 
     override fun onCreateView(
@@ -48,10 +48,10 @@ class AdministratorFragment : Fragment() {
         tabTitles.values.forEachIndexed { index, imageResId ->
             val textView =
                 LayoutInflater.from(requireContext()).inflate(R.layout.tab_title, null) as TextView
-//            textView.setCompoundDrawablesWithIntrinsicBounds(imageResId, 0, 0, 0)
-//            textView.compoundDrawablePadding = TypedValue.applyDimension(
-//                TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics
-//            ).roundToInt()
+            textView.setCompoundDrawablesWithIntrinsicBounds(imageResId, 0, 0, 0)
+            textView.compoundDrawablePadding = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics
+            ).roundToInt()
             binding.tabLayout.getTabAt(index)?.customView = textView
         }
     }

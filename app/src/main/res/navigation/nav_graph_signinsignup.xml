@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_signinsignup"
-    app:startDestination="@id/administratorFragment">
+    app:startDestination="@id/signinFragment">
     <fragment
         android:id="@+id/signinFragment"
         android:name="com.albar.computerstore.ui.fragments.login.SigninFragment"

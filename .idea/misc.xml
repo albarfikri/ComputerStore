@@ -26,9 +26,13 @@
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_login.xml" value="0.152" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_logout.xml" value="0.1" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_person.xml" value="0.1785" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_round_chevron_right_24.xml" value="0.204" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_round_person.xml" value="0.19" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_round_phone_24.xml" value="0.204" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_round_settings.xml" value="0.1" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_store_name.xml" value="0.204" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_unverified.xml" value="0.147" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_verified.xml" value="0.147" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/ic_wav_header.xml" value="0.169" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/img_view_bg.xml" value="0.1" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/drawable/loginsignup_bg.xml" value="0.1" />
@@ -53,6 +57,7 @@
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_custom_dialog_searchlatlng.xml" value="0.264" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_custom_dialog_searchlocation.xml" value="0.1" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_detail_computer_store.xml" value="0.536" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_detail_unverified_and_verified.xml" value="0.1" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_location.xml" value="0.264" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_login.xml" value="0.2958477508650519" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_maps.xml" value="0.19479166666666667" />
@@ -67,11 +72,13 @@
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_unverified.xml" value="0.536" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_unverified_and_verified.xml" value="0.24583333333333332" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/fragment_verified.xml" value="0.34660421545667447" />
-        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_computer_store_list.xml" value="0.59" />
-        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_computer_store_list_member.xml" value="0.2046875" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_administrator_shimmer.xml" value="0.4812646370023419" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_computer_store_list.xml" value="0.8044444444444444" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_computer_store_list_member.xml" value="0.6" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_computer_store_list_shimmer.xml" value="0.264" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_nearest_list.xml" value="0.1" />
-        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_unverified_list.xml" value="1.0715835140997831" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_unverified_list.xml" value="0.7510373443983402" />
+        <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/item_unverified_shimmer.xml" value="0.8" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/location_list_adapter.xml" value="0.1" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/tab_selecter_background.xml" value="0.1" />
         <entry key="..\:/Politeknik Caltex Riau/Final/Project Proyek Akhir/Computer Store/app/src/main/res/layout/tab_title.xml" value="0.536" />

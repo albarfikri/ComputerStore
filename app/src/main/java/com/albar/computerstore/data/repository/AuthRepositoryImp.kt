@@ -65,4 +65,8 @@ class AuthRepositoryImp(private val database: FirebaseFirestore) : AuthRepositor
                 )
             }
     }
+
+    private fun setSession() {
+
+    }
 }

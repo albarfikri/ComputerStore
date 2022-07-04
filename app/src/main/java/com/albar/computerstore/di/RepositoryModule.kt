@@ -1,5 +1,6 @@
 package com.albar.computerstore.di
 
+import android.content.SharedPreferences
 import com.albar.computerstore.data.repository.*
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -29,7 +30,8 @@ object RepositoryModule {
 
     @Provides
     fun provideAdministratorRepository(
-        database: FirebaseFirestore
+        database: FirebaseFirestore,
+        sharedPref: SharedPreferences
     ): AdministratorRepository {
         return AdministratorRepositoryImp(database)
     }

@@ -229,7 +229,7 @@
                 app:tabIconTintMode="src_over"
                 app:tabIndicatorAnimationDuration="@android:integer/config_mediumAnimTime"
                 app:tabIndicatorAnimationMode="elastic"
-                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorFullWidth="true"
                 app:tabIndicatorHeight="0dp"
                 app:tabMode="scrollable"
                 app:tabRippleColor="@null" />
