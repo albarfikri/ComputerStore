@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentSplashScreenBinding
-import com.albar.computerstore.others.AppUtility
+import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.Constants.REQUEST_CODE_LOCATION_PERMISSION
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions

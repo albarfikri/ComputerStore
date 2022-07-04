@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.albar.computerstore.others.CollapsibleAppbar
+    <com.albar.computerstore.others.uicustom.CollapsibleAppbar
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="420dp"
         android:background="?attr/colorSurface"
         android:elevation="12dp">
 
-        <com.albar.computerstore.others.CollapsibleToolbar
+        <com.albar.computerstore.others.uicustom.CollapsibleToolbar
             android:id="@+id/motionLayout"
             android:layout_width="match_parent"
             android:layout_height="420dp"
@@ -103,8 +103,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/detailExpandedTitle" />
-        </com.albar.computerstore.others.CollapsibleToolbar>
-    </com.albar.computerstore.others.CollapsibleAppbar>
+        </com.albar.computerstore.others.uicustom.CollapsibleToolbar>
+    </com.albar.computerstore.others.uicustom.CollapsibleAppbar>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

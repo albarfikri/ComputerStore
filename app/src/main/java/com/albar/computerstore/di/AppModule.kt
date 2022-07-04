@@ -2,7 +2,9 @@ package com.albar.computerstore.di
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.widget.PopupMenu
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.albar.computerstore.R
 import com.albar.computerstore.others.DataStoreUtility
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -34,5 +36,6 @@ object AppModule {
     @Singleton
     fun provideGlideContext(@ApplicationContext context: Context): RequestManager =
         Glide.with(context)
+
 
 }

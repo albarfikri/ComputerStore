@@ -5,6 +5,8 @@
     android:id="@+id/item_computer_store_list_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
     app:cardCornerRadius="14dp"
     app:cardElevation="10dp"
     app:cardUseCompatPadding="true">
@@ -49,30 +51,57 @@
             android:id="@+id/tvAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:fontFamily="@font/avenir_medium"
+            android:fontFamily="@font/avenir_regular"
             android:gravity="right"
             android:text="Address"
             android:textColor="@color/black"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/tvName"
-            app:layout_constraintHorizontal_bias="0.93"
             app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <TextView
-            android:id="@+id/msg"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_verifiedStatus"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="70dp"
-            android:text=""
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="right"
+            android:text="Not verified yet"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintBottom_toTopOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="@+id/tvName"
+            app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
+            app:layout_constraintTop_toBottomOf="@id/tvAddress" />
+
+        <TextView
+            android:id="@+id/tv_registeredTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:fontFamily="@font/avenir_regular"
+            android:gravity="left"
+            android:text="12, july 2022"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/call"
+            app:layout_constraintEnd_toStartOf="@id/call"
+            app:layout_constraintHorizontal_bias="0.93"
+            app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
+            app:layout_constraintTop_toTopOf="@+id/call" />
+
+        <TextView
+            android:id="@+id/msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_medium"
             android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="86dp" />
+            app:layout_constraintEnd_toEndOf="@+id/tvAddress"
+            app:layout_constraintStart_toEndOf="@id/imgComputerStore"
+            app:layout_constraintTop_toBottomOf="@id/tvAddress" />
 
         <View
             android:id="@+id/divider"

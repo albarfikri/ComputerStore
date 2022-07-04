@@ -38,7 +38,7 @@
             android:layout_marginEnd="18dp"
             android:layout_gravity="right"
             android:elevation="1dp"
-            android:src="@drawable/ic_login"
+            android:src="@drawable/ic_round_person"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.912"

@@ -35,16 +35,3 @@ class DetailSectionsPagerAdapter(fm: Fragment) : FragmentStateAdapter(fm) {
     override fun getItemCount(): Int = totalFragment.size
 
 }
-
-//override fun createFragment(position: Int): Fragment {
-//
-//    when (position) {
-//        0 -> fragment = totalFragment[position].apply {
-//            Bundle().apply {
-//                putParcelable(PARCELABLE_KEY, objectComputerStore)
-//            }
-//        }
-//        1 -> fragment = totalFragment[position]
-//    }
-//    return fragment as Fragment
-//}

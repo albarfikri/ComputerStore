@@ -1,4 +1,4 @@
-package com.albar.computerstore.others
+package com.albar.computerstore.others.uicustom
 
 import android.content.Context
 import android.util.AttributeSet

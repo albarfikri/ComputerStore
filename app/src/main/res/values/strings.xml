@@ -31,14 +31,15 @@
     <string name="checkInternet">Checking your internet connection.</string>
     <string name="image">image</string>
 
-
     <string name="detail_tab_text_1">Overview</string>
     <string name="detail_tab_text_2">Computer</string>
     <string name="calling">Calling</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="logout">Logout</string>
     <string name="detail">Detail</string>
-    <string name="waiting">12 waiting</string>
+    <string name="unverified">Not yet verified</string>
+    <string name="verified">Already verified</string>
+    <string name="waiting">12 Waiting</string>
 
 
     <style name="adminMember">

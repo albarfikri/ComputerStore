@@ -1,4 +1,4 @@
-package com.albar.computerstore.others
+package com.albar.computerstore.others.permissions
 
 import android.Manifest
 import android.content.Context

@@ -19,7 +19,7 @@ import androidx.fragment.app.setFragmentResult
 import com.albar.computerstore.R
 import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.databinding.FragmentCustomDialogSearchlatlngBinding
-import com.albar.computerstore.others.AppUtility
+import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY

@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.albar.computerstore.databinding.ActivitySplashScreenBinding
-import com.albar.computerstore.others.AppUtility
+import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.ui.viewmodels.DataStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint

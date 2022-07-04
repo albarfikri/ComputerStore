@@ -7,7 +7,6 @@ import javax.crypto.spec.SecretKeySpec
 
 
 object Tools {
-
     private const val SECRET_KEY = "abcdefghijklmnop"
     private const val SECRET_IV = "ponmlkjihgfedcba"
 
