@@ -1,5 +1,6 @@
 package com.albar.computerstore.ui.fragments.admin
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentAdministratorBinding
+import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.AdministratorPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -66,7 +68,7 @@ class AdministratorFragment : Fragment() {
                     true
                 }
                 R.id.nav_logout -> {
-                    toastShort("Head up to Exit")
+                    dialogBuilder()
                     true
                 }
                 else -> true
@@ -87,8 +89,26 @@ class AdministratorFragment : Fragment() {
             } finally {
                 popupMenu.show()
             }
-
             true
+        }
+    }
+
+    private fun dialogBuilder() {
+        val viewDialog = ViewConfirmationDialogBinding.inflate(layoutInflater, null, false)
+
+        val builder = AlertDialog.Builder(requireContext())
+            .setView(viewDialog.root)
+
+        val dialog = builder.create()
+        dialog.setCancelable(false)
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        viewDialog.button.setOnClickListener {
+            toastShort("Exit")
+        }
+        viewDialog.imgCancelAction.setOnClickListener {
+            dialog.dismiss()
         }
     }
 

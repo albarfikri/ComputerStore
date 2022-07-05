@@ -1,13 +1,20 @@
 package com.albar.computerstore.data.repository
 
+import android.content.SharedPreferences
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_SESSION
 import com.albar.computerstore.others.Constants.USERNAME_FIELD
 import com.albar.computerstore.others.Tools.decryptCBC
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 
-class AuthRepositoryImp(private val database: FirebaseFirestore) : AuthRepository {
+class AuthRepositoryImp(
+    private val database: FirebaseFirestore,
+    private val sharedPref: SharedPreferences,
+    private val gson: Gson
+) : AuthRepository {
     override fun loginComputerStore(
         username: String,
         password: String,
@@ -36,7 +43,13 @@ class AuthRepositoryImp(private val database: FirebaseFirestore) : AuthRepositor
                     } else if (computerStore.username == username &&
                         computerStore.password.decryptCBC() == password && computerStore.isAdmin
                     ) {
-                        result.invoke(Result.Success(false))
+                        storeSession(computerStore.id) {
+                            if (it == null) {
+                                result.invoke(Result.Error("Failed to restore local data"))
+                            } else {
+                                result.invoke(Result.Success(false))
+                            }
+                        }
                     } else {
                         result.invoke(Result.Error("Username and password not match"))
                     }
@@ -66,7 +79,37 @@ class AuthRepositoryImp(private val database: FirebaseFirestore) : AuthRepositor
             }
     }
 
-    private fun setSession() {
+    private fun storeSession(id: String, result: (ComputerStore?) -> Unit) {
+        val document = database.collection(Constants.FIRESTORE_TABLE).document(id)
+        document.get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val computerStore = it.result.toObject(ComputerStore::class.java)
+                    sharedPref.edit()
+                        .putString(COMPUTER_STORE_SESSION, gson.toJson(computerStore))
+                        .apply()
+                    result.invoke(computerStore)
+                } else {
+                    result.invoke(null)
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(null)
+            }
+    }
 
+    override fun getSession(result: (ComputerStore?) -> Unit) {
+        val user = sharedPref.getString(COMPUTER_STORE_SESSION, null)
+        if (user == null) {
+            result.invoke(null)
+        } else {
+            val computerStore = gson.fromJson(user, ComputerStore::class.java)
+            result.invoke(computerStore)
+        }
+    }
+
+    override fun logout(result: () -> Unit) {
+        sharedPref.edit().putString(COMPUTER_STORE_SESSION, null).apply()
+        result.invoke()
     }
 }

@@ -40,6 +40,8 @@
     <string name="unverified">Not yet verified</string>
     <string name="verified">Already verified</string>
     <string name="waiting">12 Waiting</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
 
 
     <style name="adminMember">

@@ -38,7 +38,8 @@ class ComputerStoreViewModel @Inject constructor(
     val loginComputerStore: LiveData<Result<Boolean>>
         get() = _loginComputerStore
 
-    private val _unverifiedOrVerifiedComputerStoreList = MutableLiveData<Result<List<ComputerStore>>>()
+    private val _unverifiedOrVerifiedComputerStoreList =
+        MutableLiveData<Result<List<ComputerStore>>>()
     val unverifiedOrVerifiedComputerStoreList: LiveData<Result<List<ComputerStore>>>
         get() = _unverifiedOrVerifiedComputerStoreList
 
@@ -83,5 +84,13 @@ class ComputerStoreViewModel @Inject constructor(
         administratorRepository.getUnverifiedOrVerifiedList(isVerified) {
             _unverifiedOrVerifiedComputerStoreList.value = it
         }
+    }
+
+    fun logout(result: () -> Unit) {
+        authRepository.logout(result)
+    }
+
+    fun getSession(result: (ComputerStore?) -> Unit) {
+        authRepository.getSession(result)
     }
 }

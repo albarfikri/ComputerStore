@@ -2,10 +2,13 @@ package com.albar.computerstore.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivitySignInSignUpBinding
+import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -15,7 +18,6 @@ class SignInSignUpActivity : AppCompatActivity() {
 
     private lateinit var _navHost: NavHostFragment
     private val navHost get() = _navHost
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

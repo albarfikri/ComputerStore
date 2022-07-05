@@ -18,6 +18,9 @@
             android:id="@+id/action_signinFragment_to_administratorFragment"
             app:destination="@id/administratorFragment"
             app:enterAnim="@anim/top_animation" />
+        <action
+            android:id="@+id/action_signinFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -41,4 +44,9 @@
         android:id="@+id/administratorFragment"
         android:name="com.albar.computerstore.ui.fragments.admin.AdministratorFragment"
         android:label="AdministratorFragment" />
+    <fragment
+        android:id="@+id/memberFragment"
+        android:name="com.albar.computerstore.ui.fragments.member.MemberFragment"
+        android:label="fragment_member"
+        tools:layout="@layout/fragment_member" />
 </navigation>

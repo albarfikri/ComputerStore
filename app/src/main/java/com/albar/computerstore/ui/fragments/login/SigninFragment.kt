@@ -83,19 +83,6 @@ class SigninFragment : Fragment() {
         }
     }
 
-    private fun backToThePrevious() {
-        binding.back.setOnClickListener {
-            val moveToMainActivity = Intent(context, MainActivity::class.java)
-            startActivity(moveToMainActivity).apply {
-                requireActivity().overridePendingTransition(
-                    R.anim.enter_from_left,
-                    R.anim.exit_to_right
-                )
-            }
-            activity?.finish()
-        }
-    }
-
     private fun loginButtonClicked() {
         binding.btnSignIn.setOnClickListener {
             val username = binding.etUsername.text.toString().trim()
@@ -146,7 +133,9 @@ class SigninFragment : Fragment() {
     }
 
     private fun headingToAdmin() {
-        findNavController().navigate(R.id.action_signinFragment_to_administratorFragment)
+        findNavController().navigate(R.id.action_signinFragment_to_administratorFragment).apply {
+
+        }
     }
 
     private fun headingToMember() {
@@ -157,6 +146,32 @@ class SigninFragment : Fragment() {
                 com.airbnb.lottie.R.anim.abc_slide_in_bottom,
                 com.airbnb.lottie.R.anim.abc_slide_out_top
             )
+        }
+    }
+
+    private fun backToThePrevious() {
+        binding.back.setOnClickListener {
+            val moveToMainActivity = Intent(context, MainActivity::class.java)
+            startActivity(moveToMainActivity).apply {
+                requireActivity().overridePendingTransition(
+                    R.anim.enter_from_left,
+                    R.anim.exit_to_right
+                )
+            }
+            activity?.finish()
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.getSession { computerStore ->
+            if (computerStore != null) {
+                if (computerStore.isAdmin) {
+                    findNavController().navigate(R.id.action_signinFragment_to_administratorFragment)
+                } else {
+                    findNavController().navigate(R.id.action_signinFragment_to_memberFragment)
+                }
+            }
         }
     }
 }

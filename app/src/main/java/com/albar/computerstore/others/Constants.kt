@@ -46,4 +46,5 @@ object Constants {
 
     // Local Sharedpref
     const val LOCAL_SHARED_PREF = "local_shared_pref"
+    const val COMPUTER_STORE_SESSION = "computer_store_session"
 }

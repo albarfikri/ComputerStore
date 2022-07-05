@@ -1,6 +1,7 @@
 package com.albar.computerstore.di
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
 import com.albar.computerstore.others.Constants.LOCAL_SHARED_PREF
@@ -8,6 +9,7 @@ import com.albar.computerstore.others.DataStoreUtility
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,9 +38,17 @@ object AppModule {
     fun provideGlideContext(@ApplicationContext context: Context): RequestManager =
         Glide.with(context)
 
-
     @Provides
     @Singleton
     fun provideSharedPref(@ApplicationContext context: Context): SharedPreferences =
         context.getSharedPreferences(LOCAL_SHARED_PREF, Context.MODE_PRIVATE)
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = Gson()
+
+    @Provides
+    @Singleton
+    fun provideDialogBuilder(@ApplicationContext context: Context) =
+        AlertDialog.Builder(context)
 }

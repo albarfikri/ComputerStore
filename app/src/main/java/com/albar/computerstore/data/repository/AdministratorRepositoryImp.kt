@@ -1,16 +1,13 @@
 package com.albar.computerstore.data.repository
 
-import android.content.SharedPreferences
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.others.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AdministratorRepositoryImp(
-    private val database: FirebaseFirestore,
-    private val sharedPref: SharedPreferences
-) :
-    AdministratorRepository {
+    private val database: FirebaseFirestore
+) : AdministratorRepository {
     override fun getUnverifiedOrVerifiedList(
         isVerified: Boolean,
         result: (Result<List<ComputerStore>>) -> Unit
