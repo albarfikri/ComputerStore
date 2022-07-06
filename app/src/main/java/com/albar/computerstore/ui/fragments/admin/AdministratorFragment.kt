@@ -2,6 +2,8 @@ package com.albar.computerstore.ui.fragments.admin
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +11,26 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentAdministratorBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
+import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.AdministratorPagerAdapter
+import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
+@AndroidEntryPoint
 class AdministratorFragment : Fragment() {
     private var _binding: FragmentAdministratorBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: ComputerStoreViewModel by viewModels()
 
     private val tabTitles = mutableMapOf(
         "Unverified" to R.drawable.ic_unverified,
@@ -89,7 +100,6 @@ class AdministratorFragment : Fragment() {
             } finally {
                 popupMenu.show()
             }
-            true
         }
     }
 
@@ -104,8 +114,17 @@ class AdministratorFragment : Fragment() {
         dialog.show()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-        viewDialog.button.setOnClickListener {
+        viewDialog.btnYes.setOnClickListener {
             toastShort("Exit")
+            viewModel.logout {
+                viewDialog.btnYes.text = ""
+                viewDialog.btnProgressSignUp.show()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    findNavController().navigate(R.id.action_administratorFragment_to_signinFragment)
+                    dialog.dismiss()
+                    toastShort("Log out successfully.")
+                }, Constants.DELAY_TO_MOVE_ANOTHER_FRAGMENT)
+            }
         }
         viewDialog.imgCancelAction.setOnClickListener {
             dialog.dismiss()

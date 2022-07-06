@@ -43,10 +43,18 @@
     <fragment
         android:id="@+id/administratorFragment"
         android:name="com.albar.computerstore.ui.fragments.admin.AdministratorFragment"
-        android:label="AdministratorFragment" />
+        android:label="AdministratorFragment" >
+        <action
+            android:id="@+id/action_administratorFragment_to_signinFragment"
+            app:destination="@id/signinFragment" />
+    </fragment>
     <fragment
         android:id="@+id/memberFragment"
         android:name="com.albar.computerstore.ui.fragments.member.MemberFragment"
         android:label="fragment_member"
-        tools:layout="@layout/fragment_member" />
+        tools:layout="@layout/fragment_member" >
+        <action
+            android:id="@+id/action_memberFragment_to_signinFragment"
+            app:destination="@id/signinFragment" />
+    </fragment>
 </navigation>

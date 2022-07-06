@@ -43,6 +43,7 @@ object Constants {
 
     // Handler to head up to Admin and Member
     const val DELAY_TO_MOVE_ANOTHER_ACTIVITY = 500L
+    const val DELAY_TO_MOVE_ANOTHER_FRAGMENT = 2000L
 
     // Local Sharedpref
     const val LOCAL_SHARED_PREF = "local_shared_pref"
