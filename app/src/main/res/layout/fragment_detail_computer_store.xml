@@ -154,7 +154,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/call"
+        android:id="@+id/fab_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
@@ -164,7 +164,7 @@
         android:contentDescription="@string/loading"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:src="@drawable/ic_baseline_phone"
+        android:src="@drawable/ic_round_phone"
         app:fabSize="normal"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="end|bottom" />

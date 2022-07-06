@@ -17,7 +17,7 @@
         <action
             android:id="@+id/action_signinFragment_to_administratorFragment"
             app:destination="@id/administratorFragment"
-            app:enterAnim="@anim/top_animation" />
+            app:enterAnim="@anim/fade_transition_animation" />
         <action
             android:id="@+id/action_signinFragment_to_memberFragment"
             app:destination="@id/memberFragment" />
@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_administratorFragment_to_signinFragment"
             app:destination="@id/signinFragment" />
+        <action
+            android:id="@+id/action_administratorFragment_to_detailComputerStoreFragment"
+            app:destination="@id/detailComputerStoreFragment" />
     </fragment>
     <fragment
         android:id="@+id/memberFragment"
@@ -56,5 +59,13 @@
         <action
             android:id="@+id/action_memberFragment_to_signinFragment"
             app:destination="@id/signinFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailComputerStoreFragment"
+        android:name="com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment"
+        android:label="DetailComputerStoreFragment" >
+        <action
+            android:id="@+id/action_detailComputerStoreFragment_to_administratorFragment"
+            app:destination="@id/administratorFragment" />
     </fragment>
 </navigation>

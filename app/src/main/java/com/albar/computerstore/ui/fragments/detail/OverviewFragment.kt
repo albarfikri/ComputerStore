@@ -34,6 +34,7 @@ class OverviewFragment : Fragment() {
         binding.apply {
             tvAddress.text = objectComputerStore?.address
             tvPhone.text = objectComputerStore?.phone
+            tvEmail.text = objectComputerStore?.email
         }
     }
 

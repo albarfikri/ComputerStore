@@ -1,6 +1,7 @@
 package com.albar.computerstore.ui.fragments.admin
 
 import android.app.AlertDialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,15 +15,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
+import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentAdministratorBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_SESSION
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.AdministratorPagerAdapter
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
+import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -31,6 +39,15 @@ class AdministratorFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ComputerStoreViewModel by viewModels()
+
+    @Inject
+    lateinit var gson: Gson
+
+    @Inject
+    lateinit var sharedPref: SharedPreferences
+
+    @Inject
+    lateinit var glide: RequestManager
 
     private val tabTitles = mutableMapOf(
         "Unverified" to R.drawable.ic_unverified,
@@ -49,6 +66,7 @@ class AdministratorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setTabAndViewPager()
+        setAdminIdentityFromSharedPref()
     }
 
     private fun setTabAndViewPager() {
@@ -128,6 +146,20 @@ class AdministratorFragment : Fragment() {
         }
         viewDialog.imgCancelAction.setOnClickListener {
             dialog.dismiss()
+        }
+    }
+
+    private fun setAdminIdentityFromSharedPref() {
+        val json = sharedPref.getString(COMPUTER_STORE_SESSION, "")
+        val obj = gson.fromJson(json, ComputerStore::class.java)
+
+        binding.apply{
+            etUsername.text = obj.username
+            glide
+                .load(obj.image)
+                .placeholder(R.drawable.ic_broke_image)
+                .transform(CenterCrop(), RoundedCorners(10))
+                .into(image)
         }
     }
 

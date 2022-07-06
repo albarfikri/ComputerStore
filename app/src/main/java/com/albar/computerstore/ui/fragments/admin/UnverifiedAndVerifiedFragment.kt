@@ -59,7 +59,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                 startActivity(dialPhoneIntent)
             },
             onDetailClicked = { _, item ->
-                findNavController().navigate(R.id.action_list_to_detailList, Bundle().apply {
+                findNavController().navigate(R.id.action_administratorFragment_to_detailComputerStoreFragment, Bundle().apply {
                     putString(Constants.KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
                     putParcelable(Constants.PARCELABLE_KEY, item)
                 })

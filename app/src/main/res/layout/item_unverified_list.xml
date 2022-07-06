@@ -119,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:padding="6dp"
-            android:src="@drawable/ic_round_phone_24"
+            android:src="@drawable/ic_round_phone"
             app:layout_constraintBottom_toBottomOf="@+id/detail"
             app:layout_constraintEnd_toStartOf="@+id/detail"
             app:layout_constraintTop_toBottomOf="@+id/divider" />

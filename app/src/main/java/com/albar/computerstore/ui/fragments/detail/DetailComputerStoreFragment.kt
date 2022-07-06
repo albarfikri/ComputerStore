@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.albar.computerstore.R
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentDetailComputerStoreBinding
 import com.albar.computerstore.others.Constants.KEY
@@ -19,6 +20,7 @@ import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -50,17 +52,59 @@ class DetailComputerStoreFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        doCall()
+        doCallOrVerifiedUser()
         setUpAdapterAndViewPager()
         showDetail()
         buttonBack()
     }
 
     private fun doCall() {
-        binding.call.setOnClickListener {
-            val phoneNumber = objectComputerStore?.phone
-            val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
-            startActivity(dialPhoneIntent)
+        binding.apply {
+            fabAction.setImageResource(R.drawable.ic_round_phone)
+            fabAction.setOnClickListener {
+                val phoneNumber = objectComputerStore?.phone
+                val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+                startActivity(dialPhoneIntent)
+            }
+        }
+    }
+
+    private fun verifiedUser() {
+        var isVerifiedChecked: Boolean
+        binding.apply {
+            objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
+            isVerifiedChecked = if (!objectComputerStore?.isVerified!!) {
+                fabAction.setImageResource(R.drawable.ic_unverified_computer_store)
+                false
+            } else {
+                fabAction.setImageResource(R.drawable.ic_verified_computer_store)
+                true
+            }
+
+            fabAction.setOnClickListener {
+                isVerifiedChecked = !isVerifiedChecked
+
+                if (isVerifiedChecked) {
+                    fabAction.setImageResource(R.drawable.ic_verified_computer_store)
+                    val snackBar = Snackbar.make(requireView(), "Computer Store has been Verified", Snackbar.LENGTH_SHORT)
+                    snackBar.view.setBackgroundColor(resources.getColor(R.color.verified,
+                        context?.theme))
+                    snackBar.show()
+                }else{
+                    fabAction.setImageResource(R.drawable.ic_unverified_computer_store)
+                    Snackbar.make(requireView(), "Computer Store has been Unverified", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun doCallOrVerifiedUser() {
+        objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
+        if (!objectComputerStore?.isAdmin!!) {
+            verifiedUser()
+        } else {
+            doCall()
+
         }
     }
 
