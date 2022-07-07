@@ -114,16 +114,16 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     binding.shimmer.show()
                 }
                 is Result.Error -> {
-                    binding.shimmer.hide()
                     binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
                     binding.rvUnverifiedList.hide()
                     dataAvailableCheck(false)
                     toastShort(it.error)
                 }
                 is Result.Success -> {
                     dataAvailableCheck(true)
-                    binding.shimmer.hide()
                     binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
                     binding.rvUnverifiedList.show()
                     adapter.updateList(it.data.toMutableList())
                 }

@@ -43,6 +43,11 @@ class ComputerStoreViewModel @Inject constructor(
     val unverifiedOrVerifiedComputerStoreList: LiveData<Result<List<ComputerStore>>>
         get() = _unverifiedOrVerifiedComputerStoreList
 
+    private val _getSessionNumber =
+        MutableLiveData<Result<List<Int>>>()
+    val getSessionNumber: LiveData<Result<List<Int>>>
+        get() = _getSessionNumber
+
 
     fun getComputerStore() {
         _computerStore.value = Result.Loading
@@ -92,5 +97,11 @@ class ComputerStoreViewModel @Inject constructor(
 
     fun getSession(result: (ComputerStore?) -> Unit) {
         authRepository.getSession(result)
+    }
+
+    fun getUnverifiedAndVerifiedNumber() {
+        administratorRepository.getSessionNumber {
+            _getSessionNumber.value = it
+        }
     }
 }

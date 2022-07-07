@@ -1,7 +1,7 @@
 package com.albar.computerstore.ui.fragments.main
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.albar.computerstore.R
 import com.albar.computerstore.databinding.FragmentLocationBinding
-import com.albar.computerstore.others.Tools.decryptCBC
-import com.albar.computerstore.others.Tools.encryptCBC
+import com.albar.computerstore.others.Constants.VERIFIED_NUMBERS
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LocationFragment : Fragment(), OnMapReadyCallback {
@@ -30,6 +31,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     private val binding get() = _binding!!
 
     private var map: GoogleMap? = null
+
+    @Inject
+    lateinit var sharedPref: SharedPreferences
 
     private val networkStatusViewModel: NetworkViewModel by viewModels()
 

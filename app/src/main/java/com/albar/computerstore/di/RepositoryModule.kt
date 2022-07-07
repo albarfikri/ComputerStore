@@ -34,7 +34,8 @@ object RepositoryModule {
     @Provides
     fun provideAdministratorRepository(
         database: FirebaseFirestore,
+        sharedPref: SharedPreferences
     ): AdministratorRepository {
-        return AdministratorRepositoryImp(database)
+        return AdministratorRepositoryImp(database, sharedPref)
     }
 }

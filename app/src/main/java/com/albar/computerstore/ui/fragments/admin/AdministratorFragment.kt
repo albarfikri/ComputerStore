@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
+import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentAdministratorBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
@@ -65,6 +66,7 @@ class AdministratorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setNumberVerifiedAndUnverifiedList()
         setTabAndViewPager()
         setAdminIdentityFromSharedPref()
     }
@@ -152,13 +154,28 @@ class AdministratorFragment : Fragment() {
         val json = sharedPref.getString(COMPUTER_STORE_SESSION, "")
         val obj = gson.fromJson(json, ComputerStore::class.java)
 
-        binding.apply{
+        binding.apply {
             etUsername.text = obj.username
             glide
                 .load(obj.image)
                 .placeholder(R.drawable.ic_broke_image)
                 .transform(CenterCrop(), RoundedCorners(10))
                 .into(image)
+        }
+    }
+
+    private fun setNumberVerifiedAndUnverifiedList() {
+        viewModel.getUnverifiedAndVerifiedNumber()
+        viewModel.getSessionNumber.observe(viewLifecycleOwner) { value ->
+            when (value) {
+                is Result.Success -> {
+                    val verifiedNumbers = value.data[0]
+                    val unverifiedNumbers = value.data[1]
+                    binding.tvNumberVerified.text = "$verifiedNumbers verified"
+                    binding.tvNumberUnverified.text = "$unverifiedNumbers waiting"
+                }
+                else -> {}
+            }
         }
     }
 

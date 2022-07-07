@@ -7,4 +7,6 @@ interface AdministratorRepository {
     fun getUnverifiedOrVerifiedList(
         isVerified: Boolean, result: (Result<List<ComputerStore>>) -> Unit
     )
+
+    fun getSessionNumber(result: (Result<List<Int>>) -> Unit)
 }

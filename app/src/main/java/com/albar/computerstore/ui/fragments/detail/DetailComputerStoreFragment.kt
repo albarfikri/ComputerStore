@@ -151,7 +151,7 @@ class DetailComputerStoreFragment : Fragment() {
                 password = objectComputerStore!!.password,
             )
         )
-
+        viewModel.getUnverifiedAndVerifiedNumber()
     }
 
     private fun doCallOrVerifiedUser() {
