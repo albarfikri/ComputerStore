@@ -115,6 +115,7 @@ class SigninFragment : Fragment() {
 
             if (loginValidation()) {
                 viewModel.login(username, password)
+                viewModel.getUnverifiedAndVerifiedNumber()
             }
         }
     }

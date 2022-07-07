@@ -160,7 +160,6 @@ class DetailComputerStoreFragment : Fragment() {
             verifiedUser()
         } else {
             doCall()
-
         }
     }
 

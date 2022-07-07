@@ -54,12 +54,7 @@ class AdministratorRepositoryImp(
         document.whereEqualTo("isVerified", true)
             .get()
             .addOnSuccessListener {
-                val computerStoreList = arrayListOf<ComputerStore>()
-                it.forEach { data ->
-                    val computerStore = data.toObject(ComputerStore::class.java)
-                    computerStoreList.add(computerStore)
-                }
-                setSharedPref(VERIFIED_NUMBERS, computerStoreList.size)
+                setSharedPref(VERIFIED_NUMBERS, it.size())
             }
     }
 
@@ -68,12 +63,7 @@ class AdministratorRepositoryImp(
         document.whereEqualTo("isVerified", false)
             .get()
             .addOnSuccessListener {
-                val computerStoreList = arrayListOf<ComputerStore>()
-                it.forEach { data ->
-                    val computerStore = data.toObject(ComputerStore::class.java)
-                    computerStoreList.add(computerStore)
-                }
-                setSharedPref(UNVERIFIED_NUMBERS, computerStoreList.size)
+                setSharedPref(UNVERIFIED_NUMBERS, it.size())
             }
     }
 
