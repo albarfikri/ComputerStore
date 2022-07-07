@@ -7,20 +7,21 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentSigninBinding
+import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Constants.DELAY_TO_MOVE_ANOTHER_ACTIVITY
-import com.albar.computerstore.others.hide
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.activities.MainActivity
 import com.albar.computerstore.ui.activities.MemberActivity
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
+import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class SigninFragment : Fragment() {
@@ -29,6 +30,7 @@ class SigninFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ComputerStoreViewModel by viewModels()
+    private val networkStatusViewModel: NetworkViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +46,33 @@ class SigninFragment : Fragment() {
         binding.signUp.setOnClickListener {
             findNavController().navigate(R.id.action_signinFragment_to_signupFragment)
         }
-
         backToThePrevious()
-        loginButtonClicked()
-        observeStatusLogin()
+
+        networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
+            Timber.d("Ini Koneksi $isConnected")
+            if (!isConnected) {
+                Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
+                    .show()
+                noNetworkAvailableSign(isConnected)
+            } else {
+
+                loginButtonClicked()
+                observeStatusLogin()
+                Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
+                    .show()
+                noNetworkAvailableSign(isConnected)
+            }
+        }
+    }
+
+    private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
+        if (!isConnectionAvailable) {
+            binding.btnSignIn.isClickable = false
+            binding.btnSignIn.alpha = 0.6F
+        } else {
+            binding.btnSignIn.enable()
+            binding.btnSignIn.alpha = 1F
+        }
     }
 
     private fun observeStatusLogin() {
@@ -134,7 +159,6 @@ class SigninFragment : Fragment() {
 
     private fun headingToAdmin() {
         findNavController().navigate(R.id.action_signinFragment_to_administratorFragment).apply {
-
         }
     }
 

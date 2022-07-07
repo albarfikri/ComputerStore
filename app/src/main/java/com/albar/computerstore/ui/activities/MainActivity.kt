@@ -147,6 +147,4 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.menu.getItem(getItemNumber1).isChecked = statusId1
         binding.bottomNavigationView.menu.getItem(getItemNumber2).isChecked = statusId2
     }
-
-
 }

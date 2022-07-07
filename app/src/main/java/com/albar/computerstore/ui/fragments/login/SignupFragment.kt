@@ -15,13 +15,18 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentSignupBinding
-import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
 import com.albar.computerstore.others.Tools.encryptCBC
+import com.albar.computerstore.others.enable
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
+import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -33,8 +38,7 @@ class SignupFragment : Fragment() {
     private var lngValue: String? = null
 
     private val viewModel: ComputerStoreViewModel by viewModels()
-
-    private var isUsernameUsed = false
+    private val networkStatusViewModel: NetworkViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,10 +56,34 @@ class SignupFragment : Fragment() {
             findNavController().navigate(R.id.action_signupFragment_to_signinFragment)
         }
 
-        openDialogFragment()
-        checkIfFieldEmpty()
+        networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
+            Timber.d("Ini Koneksi $isConnected")
+            if (!isConnected) {
+                Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
+                    .show()
+                noNetworkAvailableSign(isConnected)
+            } else {
+                openDialogFragment()
+                checkIfFieldEmpty()
+                registerComputerStoreObserver()
+                Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
+                    .show()
+                noNetworkAvailableSign(isConnected)
+            }
+        }
+    }
 
+    private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
+        if (!isConnectionAvailable) {
+            binding.btnSignup.isClickable = false
+            binding.btnSignup.alpha = 0.6F
+        } else {
+            binding.btnSignup.enable()
+            binding.btnSignup.alpha = 1F
+        }
+    }
 
+    private fun registerComputerStoreObserver() {
         viewModel.registerComputerStore.observe(viewLifecycleOwner) { output ->
             when (output) {
                 is Result.Loading -> {
@@ -78,6 +106,7 @@ class SignupFragment : Fragment() {
         }
     }
 
+
     private fun openDialogFragment() {
         binding.btnGetLatLng.setOnClickListener {
             val dialog = CustomDialogSearchlatlngFragment()
@@ -89,34 +118,36 @@ class SignupFragment : Fragment() {
     }
 
     private fun setFragmentListener() {
-        setFragmentResultListener(REQUEST_KEY) { _, bundle ->
-            val result = bundle.getParcelable<Coordinate>(BUNDLE_KEY) as Coordinate
+        binding.apply {
+            setFragmentResultListener(REQUEST_KEY) { _, bundle ->
+                val result = bundle.getParcelable<Coordinate>(BUNDLE_KEY) as Coordinate
 
-            latValue = result.lat.toString()
-            lngValue = result.lng.toString()
+                latValue = result.lat.toString()
+                lngValue = result.lng.toString()
 
-            binding.etLat.setText(latValue)
+                etLat.setText(latValue)
 
-            binding.etLng.setText(lngValue)
-            binding.etLat.error = null
-            binding.etLng.error = null
+                etLng.setText(lngValue)
+                etLat.error = null
+                etLng.error = null
 
-            Toast.makeText(activity, "$latValue, $lngValue", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "$latValue, $lngValue", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun checkIfFieldEmpty() {
         binding.apply {
-            binding.etUsername.doOnTextChanged { _, _, _, _ ->
+            etUsername.doOnTextChanged { _, _, _, _ ->
                 viewModel.isUsernameUsed(binding.etUsername.text.toString().trim())
                 viewModel.isUsernameUsed.observe(viewLifecycleOwner) { isUsernameUsed ->
                     when (isUsernameUsed) {
                         is Result.Success -> {
                             if (isUsernameUsed.data) {
-                                binding.btnSignup.enable()
+                                btnSignup.enable()
                             } else {
                                 etUsername.error = "Username is Already used"
-                                binding.btnSignup.disable()
+                                btnSignup.alpha = 0.6F
                             }
                         }
                         is Result.Error -> {
@@ -205,7 +236,6 @@ class SignupFragment : Fragment() {
                         )
                     )
                     clearFields()
-
                 }
             }
         }

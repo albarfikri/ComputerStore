@@ -42,5 +42,4 @@
         app:layout_constraintEnd_toEndOf="@id/noDataLottie"
         app:layout_constraintStart_toStartOf="@id/noDataLottie"
         app:layout_constraintTop_toBottomOf="@id/noDataLottie" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

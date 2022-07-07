@@ -63,10 +63,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 noNetworkAvailableSign(isConnected)
             }
         }
-
-        val input = "Admin"
-        Log.d("Output", input.encryptCBC())
-        Log.d("Output", input.encryptCBC().decryptCBC())
     }
 
     override fun onDestroy() {

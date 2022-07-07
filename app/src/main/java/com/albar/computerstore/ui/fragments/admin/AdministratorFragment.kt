@@ -101,7 +101,6 @@ class AdministratorFragment : Fragment() {
                     true
                 }
                 else -> true
-
             }
         }
 
