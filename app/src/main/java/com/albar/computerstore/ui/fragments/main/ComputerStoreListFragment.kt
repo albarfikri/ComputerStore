@@ -81,6 +81,7 @@ class ComputerStoreListFragment : Fragment() {
                 Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
                     .show()
                 noNetworkAvailableSign(isConnected)
+                dataAvailableCheck(true)
             } else {
                 Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
                     .show()
@@ -97,11 +98,13 @@ class ComputerStoreListFragment : Fragment() {
                 is Result.Loading -> {
                     binding.rvComputerList.hide()
                     binding.shimmer.startShimmer()
+                    dataAvailableCheck(true)
                     binding.shimmer.show()
                 }
                 is Result.Error -> {
                     binding.shimmer.hide()
                     binding.shimmer.stopShimmer()
+                    dataAvailableCheck(false)
                     binding.rvComputerList.hide()
                     toastShort(it.error)
                 }
@@ -109,9 +112,24 @@ class ComputerStoreListFragment : Fragment() {
                     binding.shimmer.hide()
                     binding.shimmer.stopShimmer()
                     binding.rvComputerList.show()
+                    dataAvailableCheck(true)
                     adapter.updateList(it.data.toMutableList())
                     adapter.notifyDataSetChanged()
                 }
+            }
+        }
+    }
+
+    private fun dataAvailableCheck(isAvailable: Boolean) {
+        if (!isAvailable) {
+            binding.apply {
+                noDataLottie.show()
+                noDataDescription.show()
+            }
+        } else {
+            binding.apply {
+                noDataLottie.hide()
+                noDataDescription.hide()
             }
         }
     }
@@ -120,11 +138,11 @@ class ComputerStoreListFragment : Fragment() {
         if (!isConnectionAvailable) {
             binding.apply {
                 rvComputerList.hide()
-                noDataLottie.show()
+                noNetwork.show()
             }
         } else {
             binding.apply {
-                noDataLottie.hide()
+                noNetwork.hide()
             }
         }
     }

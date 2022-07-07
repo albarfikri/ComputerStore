@@ -16,6 +16,10 @@ class AdministratorRepositoryImp(
         document.whereEqualTo("isVerified", isVerified)
             .get()
             .addOnSuccessListener {
+                if (it.isEmpty) {
+                    result.invoke(Result.Error("No data Available"))
+                }
+
                 val computerStoreList = arrayListOf<ComputerStore>()
                 it.forEach { document ->
                     //convert document from firebase to our data class

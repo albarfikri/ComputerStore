@@ -59,10 +59,12 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                 startActivity(dialPhoneIntent)
             },
             onDetailClicked = { _, item ->
-                findNavController().navigate(R.id.action_administratorFragment_to_detailComputerStoreFragment, Bundle().apply {
-                    putString(Constants.KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
-                    putParcelable(Constants.PARCELABLE_KEY, item)
-                })
+                findNavController().navigate(
+                    R.id.action_administratorFragment_to_detailComputerStoreFragment,
+                    Bundle().apply {
+                        putString(Constants.KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
+                        putParcelable(Constants.PARCELABLE_KEY, item)
+                    })
             },
             glide,
             requireContext()
@@ -106,6 +108,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
         viewModel.unverifiedOrVerifiedComputerStoreList.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> {
+                    dataAvailableCheck(true)
                     binding.rvUnverifiedList.hide()
                     binding.shimmer.startShimmer()
                     binding.shimmer.show()
@@ -114,9 +117,11 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     binding.shimmer.hide()
                     binding.shimmer.stopShimmer()
                     binding.rvUnverifiedList.hide()
+                    dataAvailableCheck(false)
                     toastShort(it.error)
                 }
                 is Result.Success -> {
+                    dataAvailableCheck(true)
                     binding.shimmer.hide()
                     binding.shimmer.stopShimmer()
                     binding.rvUnverifiedList.show()
@@ -126,15 +131,30 @@ class UnverifiedAndVerifiedFragment : Fragment() {
         }
     }
 
-    private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
-        if (!isConnectionAvailable) {
+    private fun dataAvailableCheck(isAvailable: Boolean) {
+        if (!isAvailable) {
             binding.apply {
-                rvUnverifiedList.hide()
                 noDataLottie.show()
+                noDataDescription.show()
             }
         } else {
             binding.apply {
                 noDataLottie.hide()
+                noDataDescription.hide()
+            }
+        }
+    }
+
+    private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
+        if (!isConnectionAvailable) {
+            binding.apply {
+                dataAvailableCheck(true)
+                rvUnverifiedList.hide()
+                noNetwork.show()
+            }
+        } else {
+            binding.apply {
+                noNetwork.hide()
             }
         }
     }

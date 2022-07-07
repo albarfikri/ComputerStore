@@ -42,6 +42,7 @@
     <string name="waiting">12 Waiting</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="no_data_available">No data Available</string>
 
 
     <style name="adminMember">

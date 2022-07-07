@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
+import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentDetailComputerStoreBinding
 import com.albar.computerstore.others.Constants.KEY
@@ -16,13 +18,16 @@ import com.albar.computerstore.others.Constants.PARCELABLE_KEY
 import com.albar.computerstore.others.Constants.TAB_TITLES
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
+import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,6 +41,8 @@ class DetailComputerStoreFragment : Fragment() {
 
     @Inject
     lateinit var glide: RequestManager
+
+    private val viewModel: ComputerStoreViewModel by viewModels()
 
     private var _binding: FragmentDetailComputerStoreBinding? = null
     private val binding get() = _binding!!
@@ -85,17 +92,66 @@ class DetailComputerStoreFragment : Fragment() {
                 isVerifiedChecked = !isVerifiedChecked
 
                 if (isVerifiedChecked) {
-                    fabAction.setImageResource(R.drawable.ic_verified_computer_store)
-                    val snackBar = Snackbar.make(requireView(), "Computer Store has been Verified", Snackbar.LENGTH_SHORT)
-                    snackBar.view.setBackgroundColor(resources.getColor(R.color.verified,
-                        context?.theme))
-                    snackBar.show()
-                }else{
-                    fabAction.setImageResource(R.drawable.ic_unverified_computer_store)
-                    Snackbar.make(requireView(), "Computer Store has been Unverified", Snackbar.LENGTH_SHORT).show()
+                    updateVerifiedOrUnverifiedComputerStore(isVerifiedChecked)
+                    observerOutputVerifiedOrUnverified(isVerifiedChecked)
+                } else {
+                    updateVerifiedOrUnverifiedComputerStore(isVerifiedChecked)
+                    observerOutputVerifiedOrUnverified(isVerifiedChecked)
                 }
             }
         }
+    }
+
+    private fun observerOutputVerifiedOrUnverified(status: Boolean) {
+        viewModel.updateComputerStore.observe(viewLifecycleOwner) { output ->
+            when (output) {
+                is Result.Success -> {
+                    binding.fabAction.setImageResource(R.drawable.ic_verified_computer_store)
+                    if (status) {
+                        val snackBar = Snackbar.make(
+                            requireView(),
+                            "Computer Store has been Verified",
+                            Snackbar.LENGTH_SHORT
+                        )
+                        snackBar.view.setBackgroundColor(
+                            resources.getColor(
+                                R.color.verified,
+                                context?.theme
+                            )
+                        )
+                        snackBar.show()
+                    } else {
+                        binding.fabAction.setImageResource(R.drawable.ic_unverified_computer_store)
+                        Snackbar.make(
+                            requireView(),
+                            "Computer Store has been Unverified",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Result.Error -> toastShort(output.error)
+                is Result.Loading -> {}
+            }
+        }
+    }
+
+    private fun updateVerifiedOrUnverifiedComputerStore(isVerified: Boolean) {
+        objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
+        viewModel.updateComputerStore(
+            ComputerStore(
+                id = objectComputerStore!!.id,
+                isVerified = isVerified,
+                createAt = Date(),
+                name = objectComputerStore!!.name,
+                address = objectComputerStore!!.address,
+                lat = objectComputerStore!!.lat,
+                lng = objectComputerStore!!.lng,
+                image = objectComputerStore!!.image,
+                username = objectComputerStore!!.username,
+                password = objectComputerStore!!.password,
+            )
+        )
+
     }
 
     private fun doCallOrVerifiedUser() {

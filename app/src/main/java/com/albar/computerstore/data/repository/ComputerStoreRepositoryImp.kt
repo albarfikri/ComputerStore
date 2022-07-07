@@ -16,6 +16,9 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
         document.whereNotEqualTo("isAdmin", true).whereEqualTo("isVerified", true)
             .get()
             .addOnSuccessListener {
+                if (it.isEmpty) {
+                    result.invoke(Result.Error("Data is empty"))
+                }
                 val computerStoreList = arrayListOf<ComputerStore>()
                 it.forEach { document ->
                     //convert document from firebase to our data class
@@ -37,7 +40,6 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
         result: (Result<String>) -> Unit
     ) {
         val document = database.collection(FIRESTORE_TABLE).document(computerStore.id)
-
         document
             .set(computerStore)
             .addOnSuccessListener {

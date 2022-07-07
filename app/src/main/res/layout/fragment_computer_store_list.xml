@@ -51,7 +51,7 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/noDataLottie"
+        android:id="@+id/noNetwork"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:src="@color/white"
@@ -65,4 +65,33 @@
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/no_internet_connection"
         app:lottie_speed="1" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/noDataLottie"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@color/white"
+        android:tooltipText="@string/app_name"
+        android:translationZ="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_data"
+        app:lottie_speed="1" />
+
+    <TextView
+        android:id="@+id/noDataDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_bold"
+        android:text="@string/no_data_available"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/noDataLottie"
+        app:layout_constraintEnd_toEndOf="@id/noDataLottie"
+        app:layout_constraintStart_toStartOf="@id/noDataLottie" />
 </androidx.constraintlayout.widget.ConstraintLayout>
