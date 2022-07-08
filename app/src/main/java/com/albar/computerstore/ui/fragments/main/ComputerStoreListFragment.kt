@@ -19,6 +19,7 @@ import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreListAdapter
+import com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment.Companion.D0_CALL_OR_VERIFIED_USER
 import com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment.Companion.DETAIL_CLICKED
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
@@ -51,6 +52,7 @@ class ComputerStoreListFragment : Fragment() {
             },
             onDetailClicked = { _, item ->
                 findNavController().navigate(R.id.action_list_to_detailList, Bundle().apply {
+                    putBoolean(D0_CALL_OR_VERIFIED_USER, false)
                     putString(KEY, DETAIL_CLICKED)
                     putParcelable(PARCELABLE_KEY, item)
                 })

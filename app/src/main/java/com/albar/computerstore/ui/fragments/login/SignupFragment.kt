@@ -1,6 +1,7 @@
 package com.albar.computerstore.ui.fragments.login
 
 import android.os.Bundle
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -171,8 +172,12 @@ class SignupFragment : Fragment() {
                 val inputLat = etLat.text.toString().trim()
                 val inputLng = etLng.text.toString().trim()
 
+                val inputEmail = etEmail.text.toString().trim()
+                val inputPhone = etPhone.text.toString().trim()
+
                 val inputUsername = etUsername.text.toString().trim()
                 val inputPassword = etPassword.text.toString().trim()
+
 
 
                 if (inputStoreName.isEmpty()) {
@@ -191,6 +196,16 @@ class SignupFragment : Fragment() {
                     isEmptyFields = true
                     etLng.error = "Longitude Field cannot be empty"
                 }
+                if (inputEmail.isEmpty()) {
+                    isEmptyFields = true
+                    etUsername.error = "Email Field cannot be empty"
+                }
+
+                if (inputPhone.isEmpty()) {
+                    isEmptyFields = true
+                    etPassword.error = "Phone Field cannot be empty"
+                }
+
                 if (inputUsername.isEmpty()) {
                     isEmptyFields = true
                     etUsername.error = "Username Field cannot be empty"
@@ -199,6 +214,13 @@ class SignupFragment : Fragment() {
                 if (inputPassword.isEmpty()) {
                     isEmptyFields = true
                     etPassword.error = "Password Field cannot be empty"
+                }
+
+                if (inputEmail.isNotEmpty()) {
+                    if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()) {
+                        etEmail.error = "Email isn't valid"
+                        isEmptyFields = true
+                    }
                 }
 
                 if (inputPassword.isNotEmpty()) {
@@ -228,6 +250,8 @@ class SignupFragment : Fragment() {
                             address = inputAddress,
                             lat = inputLat.toDouble(),
                             lng = inputLng.toDouble(),
+                            email = inputEmail,
+                            phone = inputPhone,
                             image = "",
                             username = inputUsername,
                             password = inputPassword.encryptCBC(),
@@ -235,7 +259,6 @@ class SignupFragment : Fragment() {
                             isVerified = false
                         )
                     )
-                    clearFields()
                 }
             }
         }
@@ -248,12 +271,16 @@ class SignupFragment : Fragment() {
             etAddress.setText("")
             etLat.setText("")
             etLng.setText("")
+            etEmail.setText("")
+            etPhone.setText("")
             etUsername.setText("")
             etPassword.setText("")
             etStoreName.clearFocus()
             etAddress.clearFocus()
             etLat.clearFocus()
             etLng.clearFocus()
+            etEmail.clearFocus()
+            etPhone.clearFocus()
             etUsername.clearFocus()
             etPassword.clearFocus()
         }

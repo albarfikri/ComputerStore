@@ -61,6 +61,7 @@ class AdministratorFragment : Fragment() {
     ): View? {
         _binding = FragmentAdministratorBinding.inflate(inflater, container, false)
         popupMenu()
+
         return binding.root
     }
 
@@ -96,6 +97,7 @@ class AdministratorFragment : Fragment() {
             when (clicked.itemId) {
                 R.id.nav_edit -> {
                     toastShort("Head up to Edit")
+                    findNavController().navigate(R.id.action_administratorFragment_to_editUserFragment)
                     true
                 }
                 R.id.nav_logout -> {

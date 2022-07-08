@@ -43,6 +43,8 @@
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="no_data_available">No data Available</string>
+    <string name="emailHint">Enter your Email</string>
+    <string name="phoneHint">Enter your Phone Number</string>
 
 
     <style name="adminMember">

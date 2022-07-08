@@ -36,6 +36,7 @@ class DetailComputerStoreFragment : Fragment() {
     companion object {
         const val ITEM_CLICKED = "item"
         const val CALL_CLICKED = "call"
+        const val D0_CALL_OR_VERIFIED_USER = "do_call_or_verified_user"
         const val DETAIL_CLICKED = "detail"
     }
 
@@ -54,12 +55,12 @@ class DetailComputerStoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailComputerStoreBinding.inflate(inflater, container, false)
+        doCallOrVerifiedUser()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        doCallOrVerifiedUser()
         setUpAdapterAndViewPager()
         showDetail()
         buttonBack()
@@ -109,7 +110,7 @@ class DetailComputerStoreFragment : Fragment() {
                     binding.fabAction.setImageResource(R.drawable.ic_verified_computer_store)
                     if (status) {
                         val snackBar = Snackbar.make(
-                            requireView(),
+                            binding.root,
                             "Computer Store has been Verified",
                             Snackbar.LENGTH_SHORT
                         )
@@ -123,7 +124,7 @@ class DetailComputerStoreFragment : Fragment() {
                     } else {
                         binding.fabAction.setImageResource(R.drawable.ic_unverified_computer_store)
                         Snackbar.make(
-                            requireView(),
+                            binding.root,
                             "Computer Store has been Unverified",
                             Snackbar.LENGTH_SHORT
                         ).show()
@@ -155,8 +156,8 @@ class DetailComputerStoreFragment : Fragment() {
     }
 
     private fun doCallOrVerifiedUser() {
-        objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
-        if (!objectComputerStore?.isAdmin!!) {
+        val isAdmin = arguments?.getBoolean(D0_CALL_OR_VERIFIED_USER)
+        if (isAdmin == true) {
             verifiedUser()
         } else {
             doCall()

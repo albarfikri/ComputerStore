@@ -19,14 +19,11 @@ import androidx.fragment.app.setFragmentResult
 import com.albar.computerstore.R
 import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.databinding.FragmentCustomDialogSearchlatlngBinding
-import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
+import com.albar.computerstore.others.permissions.AppUtility
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -110,7 +107,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         locationRequest = LocationRequest.create()
 
         locationRequest.apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            priority = Priority.PRIORITY_HIGH_ACCURACY
             interval = 2000L
         }
 

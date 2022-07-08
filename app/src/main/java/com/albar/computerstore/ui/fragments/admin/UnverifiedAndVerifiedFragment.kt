@@ -62,6 +62,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                 findNavController().navigate(
                     R.id.action_administratorFragment_to_detailComputerStoreFragment,
                     Bundle().apply {
+                        putBoolean(DetailComputerStoreFragment.D0_CALL_OR_VERIFIED_USER, true)
                         putString(Constants.KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
                         putParcelable(Constants.PARCELABLE_KEY, item)
                     })
@@ -84,7 +85,6 @@ class UnverifiedAndVerifiedFragment : Fragment() {
         binding.rvUnverifiedList.adapter = adapter
         networkStatus()
     }
-
 
     private fun networkStatus() {
         networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
