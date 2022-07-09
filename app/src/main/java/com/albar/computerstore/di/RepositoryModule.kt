@@ -3,6 +3,7 @@ package com.albar.computerstore.di
 import android.content.SharedPreferences
 import com.albar.computerstore.data.repository.*
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.StorageReference
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -17,25 +18,25 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideComputerStoreRepository(
-        database: FirebaseFirestore
-    ): ComputerStoreRepository {
-        return ComputerStoreRepositoryImp(database)
-    }
+        database: FirebaseFirestore,
+        storageReference: StorageReference
+    ): ComputerStoreRepository =
+        ComputerStoreRepositoryImp(database, storageReference)
+
 
     @Provides
     fun provideAuthRepository(
         database: FirebaseFirestore,
         sharedPref: SharedPreferences,
         gson: Gson
-    ): AuthRepository {
-        return AuthRepositoryImp(database, sharedPref, gson)
-    }
+    ): AuthRepository =
+        AuthRepositoryImp(database, sharedPref, gson)
+
 
     @Provides
     fun provideAdministratorRepository(
         database: FirebaseFirestore,
         sharedPref: SharedPreferences
-    ): AdministratorRepository {
-        return AdministratorRepositoryImp(database, sharedPref)
-    }
+    ): AdministratorRepository =
+        AdministratorRepositoryImp(database, sharedPref)
 }

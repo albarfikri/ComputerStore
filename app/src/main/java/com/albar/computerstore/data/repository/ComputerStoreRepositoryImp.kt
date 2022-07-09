@@ -1,12 +1,20 @@
 package com.albar.computerstore.data.repository
 
+import android.net.Uri
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.others.Constants.FIRESTORE_TABLE
+import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
-class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
-    ComputerStoreRepository {
+class ComputerStoreRepositoryImp(
+    private val database: FirebaseFirestore,
+    private val storageRef: StorageReference
+) : ComputerStoreRepository {
 
     // get data from firebase
     override fun getComputerStore(
@@ -63,5 +71,23 @@ class ComputerStoreRepositoryImp(private val database: FirebaseFirestore) :
             .addOnFailureListener {
                 result.invoke(Result.Error(it.localizedMessage!!))
             }
+    }
+
+    override suspend fun uploadImage(fileUri: Uri, onResult: (Result<Uri>) -> Unit) {
+        try {
+            val uri: Uri = withContext(Dispatchers.IO) {
+                storageRef
+                    .putFile(fileUri)
+                    .await()
+                    .storage
+                    .downloadUrl
+                    .await()
+            }
+            onResult.invoke(Result.Success(uri))
+        } catch (e: FirebaseException) {
+            onResult.invoke(Result.Error(e.message.toString()))
+        } catch (e: Exception) {
+            onResult.invoke(Result.Error(e.message.toString()))
+        }
     }
 }

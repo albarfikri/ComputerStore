@@ -144,6 +144,7 @@
                 android:layout_marginEnd="32dp"
                 android:hint="@string/passwordHint"
                 app:boxCornerRadiusBottomEnd="10dp"
+                app:passwordToggleEnabled="true"
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopEnd="10dp"
                 app:boxCornerRadiusTopStart="10dp"

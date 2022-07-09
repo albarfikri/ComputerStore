@@ -23,5 +23,4 @@ object ViewModelModule {
     @Provides
     fun connectivityManager(@ApplicationContext app: Context): ConnectivityManager =
         app.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-
 }

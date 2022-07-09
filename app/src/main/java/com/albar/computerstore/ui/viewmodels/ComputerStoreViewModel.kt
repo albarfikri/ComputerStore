@@ -1,14 +1,17 @@
 package com.albar.computerstore.ui.viewmodels
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.data.repository.AdministratorRepository
 import com.albar.computerstore.data.repository.AuthRepository
 import com.albar.computerstore.data.repository.ComputerStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -102,6 +105,13 @@ class ComputerStoreViewModel @Inject constructor(
     fun getUnverifiedAndVerifiedNumber() {
         administratorRepository.getSessionNumber {
             _getSessionNumber.value = it
+        }
+    }
+
+    fun uploadImage(fileUri: Uri, onResult: (Result<Uri>) -> Unit) {
+        onResult.invoke(Result.Loading)
+        viewModelScope.launch {
+            repository.uploadImage(fileUri, onResult)
         }
     }
 }

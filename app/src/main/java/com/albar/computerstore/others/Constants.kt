@@ -36,10 +36,13 @@ object Constants {
     const val REQUEST_KEY = "request_key"
     const val BUNDLE_KEY = "bundle_key"
 
-    // Firebase
+    // Firebase Firestore
     const val FIRESTORE_TABLE = "computerstore" // firestore table name
     const val USERNAME_FIELD = "username"
     const val PASSWORD_FIELD = "password"
+
+    // Firebase Stroage
+    const val STORAGE_ROOT_DIRECTORY = "app"
 
     // Handler to head up to Admin and Member
     const val DELAY_TO_MOVE_ANOTHER_ACTIVITY = 500L

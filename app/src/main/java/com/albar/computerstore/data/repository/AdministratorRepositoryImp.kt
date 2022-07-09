@@ -17,7 +17,7 @@ class AdministratorRepositoryImp(
         result: (Result<List<ComputerStore>>) -> Unit
     ) {
         val document = database.collection(FIRESTORE_TABLE)
-        document.whereEqualTo("isVerified", isVerified)
+        document.whereEqualTo("isVerified", isVerified).whereNotEqualTo("isAdmin", true)
             .get()
             .addOnSuccessListener {
                 if (it.isEmpty) {
@@ -51,7 +51,7 @@ class AdministratorRepositoryImp(
 
     private fun verified() {
         val document = database.collection(FIRESTORE_TABLE)
-        document.whereEqualTo("isVerified", true)
+        document.whereEqualTo("isVerified", true).whereNotEqualTo("isAdmin", true)
             .get()
             .addOnSuccessListener {
                 setSharedPref(VERIFIED_NUMBERS, it.size())
@@ -60,7 +60,7 @@ class AdministratorRepositoryImp(
 
     private fun unverified() {
         val document = database.collection(FIRESTORE_TABLE)
-        document.whereEqualTo("isVerified", false)
+        document.whereEqualTo("isVerified", false).whereNotEqualTo("isAdmin", true)
             .get()
             .addOnSuccessListener {
                 setSharedPref(UNVERIFIED_NUMBERS, it.size())

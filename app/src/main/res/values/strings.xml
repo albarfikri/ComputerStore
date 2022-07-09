@@ -45,6 +45,9 @@
     <string name="no_data_available">No data Available</string>
     <string name="emailHint">Enter your Email</string>
     <string name="phoneHint">Enter your Phone Number</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone Number</string>
+    <string name="update">Update</string>
 
 
     <style name="adminMember">

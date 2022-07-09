@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.4.2"
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.41"
-        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.google.gms:google-services:4.3.13'
     }
 }
 
@@ -25,6 +25,7 @@ allprojects {
         def githubProperties = new Properties()
         githubProperties.load(new FileInputStream(rootProject.file("github.properties")))
         repositories {
+            maven { url "https://jitpack.io" }
             maven {
                 name = "GitHubPackages"
 
