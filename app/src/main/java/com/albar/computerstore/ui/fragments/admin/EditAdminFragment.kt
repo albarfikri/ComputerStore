@@ -8,6 +8,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -29,6 +30,7 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,9 +51,10 @@ class EditAdminFragment : Fragment() {
     @Inject
     lateinit var glide: RequestManager
 
-    private var imageUri: Uri? = null
-
     private val viewModel: ComputerStoreViewModel by viewModels()
+
+    private var imageUri: Uri? = null
+    private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +69,7 @@ class EditAdminFragment : Fragment() {
 
         setTextToEditText()
         backToThePrevious()
+        bottomSheetSetUp()
         uploadPhotoButtonClick()
         editData()
 
@@ -95,11 +99,6 @@ class EditAdminFragment : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     private fun setTextToEditText() {
@@ -194,14 +193,7 @@ class EditAdminFragment : Fragment() {
     }
 
     private fun uploadPhotoButtonClick() {
-        binding.addImage.setOnClickListener {
-            ImagePicker.with(this)
-                .compress(512)
-                .galleryOnly()
-                .createIntent { intent ->
-                    startForImageResult.launch(intent)
-                }
-        }
+        bottomSheetSetUp()
     }
 
     private val startForImageResult =
@@ -278,9 +270,50 @@ class EditAdminFragment : Fragment() {
         }
     }
 
+    private fun bottomSheetSetUp() {
+        bottomSheetBehavior = BottomSheetBehavior.from(binding.btmSheet.bottomSheet)
+        binding.addImage.setOnClickListener {
+            if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
+
+        binding.btmSheet.imgGallery.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            ImagePicker.with(this)
+                .compress(512)
+                .galleryOnly()
+                .createIntent { intent ->
+                    startForImageResult.launch(intent)
+                }
+        }
+
+        binding.btmSheet.imgCamera.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            ImagePicker.with(this)
+                .compress(512)
+                .cameraOnly()
+                .createIntent { intent ->
+                    startForImageResult.launch(intent)
+                }
+        }
+
+        binding.btmSheet.cancelBtn.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+    }
+
     private fun backToThePrevious() {
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }

@@ -128,7 +128,7 @@
                     android:id="@+id/tv_numberUnverified"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:fontFamily="@font/avenir_medium"
+                    android:fontFamily="@font/avenir_demi"
                     android:text="@string/waiting"
                     android:textColor="@color/unverified"
                     android:textSize="12sp"
@@ -152,7 +152,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="12dp"
-                    android:src="@drawable/verified"
+                    android:src="@drawable/verified_sign"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toEndOf="@id/middleLine"
@@ -169,19 +169,19 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/img_verified"
-                    app:layout_constraintTop_toTopOf="@+id/img_unverified" />
+                    app:layout_constraintTop_toTopOf="@+id/img_verified" />
 
                 <TextView
                     android:id="@+id/tv_numberVerified"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:fontFamily="@font/avenir_medium"
+                    android:fontFamily="@font/avenir_demi"
                     android:text="12 verified"
                     android:textColor="@color/verified"
                     android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/img_unverified"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_verified"
                     app:layout_constraintStart_toStartOf="@+id/tv_verified"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_unverified" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_verified" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/middleLine"

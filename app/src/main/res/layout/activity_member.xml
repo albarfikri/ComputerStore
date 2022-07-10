@@ -152,7 +152,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="12dp"
-                    android:src="@drawable/verified"
+                    android:src="@drawable/verified_sign"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintDimensionRatio="1:1"
                     app:layout_constraintStart_toEndOf="@id/middleLine"

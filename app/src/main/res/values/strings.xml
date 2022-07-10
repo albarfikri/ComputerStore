@@ -48,6 +48,8 @@
     <string name="email">Email</string>
     <string name="phone">Phone Number</string>
     <string name="update">Update</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
 
 
     <style name="adminMember">
