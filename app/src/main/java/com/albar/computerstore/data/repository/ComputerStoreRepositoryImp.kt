@@ -1,19 +1,24 @@
 package com.albar.computerstore.data.repository
 
+import android.content.SharedPreferences
 import android.net.Uri
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
+import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.FIRESTORE_TABLE
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
 class ComputerStoreRepositoryImp(
     private val database: FirebaseFirestore,
-    private val storageRef: StorageReference
+    private val storageRef: StorageReference,
+    private val sharedPref: SharedPreferences,
+    private val gson: Gson
 ) : ComputerStoreRepository {
 
     // get data from firebase
@@ -51,7 +56,13 @@ class ComputerStoreRepositoryImp(
         document
             .set(computerStore)
             .addOnSuccessListener {
-                result.invoke(Result.Success("Data has been updated successfully"))
+                storeSession(computerStore.id) { objComputerStore ->
+                    if (objComputerStore == null) {
+                        result.invoke(Result.Error("Failed to restore local data"))
+                    } else {
+                        result.invoke(Result.Success("Data has been updated successfully"))
+                    }
+                }
             }
             .addOnFailureListener {
                 result.invoke(Result.Error(it.localizedMessage!!))
@@ -89,5 +100,24 @@ class ComputerStoreRepositoryImp(
         } catch (e: Exception) {
             onResult.invoke(Result.Error(e.message.toString()))
         }
+    }
+
+    private fun storeSession(id: String, result: (ComputerStore?) -> Unit) {
+        val document = database.collection(Constants.FIRESTORE_TABLE).document(id)
+        document.get()
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val computerStore = it.result.toObject(ComputerStore::class.java)
+                    sharedPref.edit()
+                        .putString(Constants.COMPUTER_STORE_SESSION, gson.toJson(computerStore))
+                        .apply()
+                    result.invoke(computerStore)
+                } else {
+                    result.invoke(null)
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(null)
+            }
     }
 }

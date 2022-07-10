@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -109,6 +110,7 @@ class EditAdminFragment : Fragment() {
 
         // set to edit text
         binding.apply {
+            imageUri = objectComputerStore.image.toUri()
             glide
                 .load(objectComputerStore.image)
                 .placeholder(R.drawable.ic_broke_image)
@@ -251,8 +253,7 @@ class EditAdminFragment : Fragment() {
                     password = etPassword.text.toString().encryptCBC(),
                 )
             )
-
-            viewModel.getSession {  }
+            viewModel.getSession { }
         }
     }
 

@@ -19,9 +19,11 @@ object RepositoryModule {
     @Singleton
     fun provideComputerStoreRepository(
         database: FirebaseFirestore,
-        storageReference: StorageReference
+        storageReference: StorageReference,
+        sharedPref: SharedPreferences,
+        gson: Gson
     ): ComputerStoreRepository =
-        ComputerStoreRepositoryImp(database, storageReference)
+        ComputerStoreRepositoryImp(database, storageReference, sharedPref, gson)
 
 
     @Provides
