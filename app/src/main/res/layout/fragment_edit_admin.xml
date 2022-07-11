@@ -4,17 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".ui.fragments.login.SignupFragment">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/img_user"
@@ -23,7 +24,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/loginsignupbackground"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".18"
+                app:layout_constraintHeight_percent=".25"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,7 +66,7 @@
                 android:elevation="10dp"
                 android:indeterminateTint="@color/colorPrimary"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/img_user"
+                app:layout_constraintBottom_toBottomOf="@id/image"
                 app:layout_constraintEnd_toEndOf="@id/image"
                 app:layout_constraintStart_toStartOf="@id/image"
                 app:layout_constraintTop_toTopOf="@id/image" />
@@ -83,21 +84,19 @@
                 app:layout_constraintStart_toEndOf="@id/image"
                 app:layout_constraintTop_toTopOf="@id/image"
                 app:layout_constraintVertical_bias="1"
-
                 app:tint="@color/white"
                 tools:layout_editor_absoluteX="304dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="120dp"
                 android:background="@drawable/loginsignup_bg"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHeight_percent=".88"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/textInputLayoutUsername"
@@ -235,11 +234,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="36dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/textInputLayoutAddress"
                     app:layout_constraintStart_toStartOf="@+id/textInputLayoutAddress"
-                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAddress"
-                    app:layout_constraintVertical_bias="0">
+                    app:layout_constraintTop_toBottomOf="@+id/textInputLayoutAddress">
 
                     <Button
                         android:id="@+id/btnUpdate"
@@ -262,8 +259,6 @@
                         android:visibility="invisible" />
                 </RelativeLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

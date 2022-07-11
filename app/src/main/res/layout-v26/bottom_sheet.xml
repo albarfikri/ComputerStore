@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:padding="12dp">
+        android:padding="14dp">
 
         <ImageView
             android:id="@+id/img_camera"
@@ -76,7 +76,7 @@
             android:id="@+id/img_gallery"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="18dp"
             android:background="@drawable/bg_img"
             android:contentDescription="@string/gallery"
             android:padding="18dp"

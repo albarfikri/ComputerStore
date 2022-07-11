@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_memberFragment_to_signinFragment"
             app:destination="@id/signinFragment" />
+        <action
+            android:id="@+id/action_memberFragment_to_editMemberFragment"
+            app:destination="@id/editMemberFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailComputerStoreFragment"
@@ -83,5 +86,13 @@
         <action
             android:id="@+id/action_editUserFragment_to_administratorFragment"
             app:destination="@id/administratorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editMemberFragment"
+        android:name="com.albar.computerstore.ui.fragments.member.EditMemberFragment"
+        android:label="EditMemberFragment" >
+        <action
+            android:id="@+id/action_editMemberFragment_to_memberFragment"
+            app:destination="@id/memberFragment" />
     </fragment>
 </navigation>

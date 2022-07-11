@@ -14,10 +14,12 @@ import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentSigninBinding
-import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Constants.DELAY_TO_MOVE_ANOTHER_ACTIVITY
+import com.albar.computerstore.others.enable
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.activities.MainActivity
-import com.albar.computerstore.ui.activities.MemberActivity
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -164,14 +166,7 @@ class SigninFragment : Fragment() {
     }
 
     private fun headingToMember() {
-        val moveToMainActivity =
-            Intent(requireActivity(), MemberActivity::class.java)
-        startActivity(moveToMainActivity).apply {
-            requireActivity().overridePendingTransition(
-                com.airbnb.lottie.R.anim.abc_slide_in_bottom,
-                com.airbnb.lottie.R.anim.abc_slide_out_top
-            )
-        }
+        findNavController().navigate(R.id.action_signinFragment_to_memberFragment)
     }
 
     private fun backToThePrevious() {

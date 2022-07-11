@@ -40,7 +40,13 @@ class AuthRepositoryImp(
                         computerStore.password.decryptCBC() == password && !computerStore.isAdmin
                         && computerStore.isVerified
                     ) {
-                        result.invoke(Result.Success(true))
+                        storeSession(computerStore.id) {
+                            if (it == null) {
+                                result.invoke(Result.Error("Failed to restore local data"))
+                            } else {
+                                result.invoke(Result.Success(true))
+                            }
+                        }
                     } else if (computerStore.username == username &&
                         computerStore.password.decryptCBC() == password && computerStore.isAdmin
                     ) {
