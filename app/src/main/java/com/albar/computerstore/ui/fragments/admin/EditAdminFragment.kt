@@ -69,7 +69,6 @@ class EditAdminFragment : Fragment() {
 
         setTextToEditText()
         backToThePrevious()
-        bottomSheetSetUp()
         uploadPhotoButtonClick()
         editData()
 
@@ -109,9 +108,10 @@ class EditAdminFragment : Fragment() {
 
         // set to edit text
         binding.apply {
+            toastShort(objectComputerStore.image.toUri().toString())
             imageUri = objectComputerStore.image.toUri()
             glide
-                .load(objectComputerStore.image)
+                .load(imageUri)
                 .placeholder(R.drawable.ic_broke_image)
                 .transform(CenterCrop(), RoundedCorners(10))
                 .into(image)
@@ -206,7 +206,6 @@ class EditAdminFragment : Fragment() {
                     imageUri = fileUri
                     binding.progressBar.hide()
                     toastShort(imageUri.toString())
-                    // Upload image to firestorage
                     glide
                         .load(imageUri)
                         .placeholder(R.drawable.ic_broke_image)
@@ -245,15 +244,14 @@ class EditAdminFragment : Fragment() {
                     password = etPassword.text.toString().encryptCBC(),
                 )
             )
-            viewModel.getSession { }
         }
     }
 
     private fun imageUpload() {
         imageUri.let {
             if (it != null) {
-                viewModel.uploadImage(it) { state ->
-                    when (state) {
+                viewModel.uploadImage(it) { uploadedUri ->
+                    when (uploadedUri) {
                         is Result.Loading -> {
                             binding.progressBar.show()
                         }
@@ -261,7 +259,7 @@ class EditAdminFragment : Fragment() {
                             binding.progressBar.hide()
                         }
                         is Result.Success -> {
-                            imageUri = it
+                            imageUri = uploadedUri.data
                             binding.progressBar.hide()
                         }
                     }
