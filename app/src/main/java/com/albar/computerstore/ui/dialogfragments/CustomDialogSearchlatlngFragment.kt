@@ -23,6 +23,7 @@ import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
 import com.albar.computerstore.others.permissions.AppUtility
+import com.albar.computerstore.others.toastShort
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -34,13 +35,15 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     EasyPermissions.PermissionCallbacks {
+
+    @Inject
+    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private var _binding: FragmentCustomDialogSearchlatlngBinding? = null
     private val binding get() = _binding!!
@@ -52,9 +55,8 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
     private var isRequestingLocationUpdates = false
 
     private lateinit var setLocation: LatLng
+    private var addressBasedOnLatLng: String = ""
 
-    @Inject
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private lateinit var locationRequest: LocationRequest
     private var locationCallback: LocationCallback? = null
@@ -73,11 +75,6 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         super.onViewCreated(view, savedInstanceState)
         requestPermission()
         actionButton()
-        Toast.makeText(
-            requireContext(),
-            "Location ${currentLocation?.latitude} and ${currentLocation?.longitude}",
-            Toast.LENGTH_SHORT
-        ).show()
     }
 
     private fun actionButton() {
@@ -86,11 +83,10 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         }
 
         binding.setCoordinate.setOnClickListener {
-            Timber.d("Coordinate $setLocation")
-
             val coordinate = Coordinate(
                 setLocation.latitude,
-                setLocation.longitude
+                setLocation.longitude,
+                addressBasedOnLatLng
             )
 
             parentFragment?.setFragmentResult(
@@ -108,7 +104,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
 
         locationRequest.apply {
             priority = Priority.PRIORITY_HIGH_ACCURACY
-            interval = 2000L
+            interval = 1000L
         }
 
         locationCallback = object : LocationCallback() {
@@ -243,6 +239,7 @@ class CustomDialogSearchlatlngFragment : DialogFragment(), OnMapReadyCallback,
         val geoCoder = Geocoder(requireContext(), Locale.getDefault())
         val address = geoCoder.getFromLocation(lat, lng, 1)
         if (address.size > 0) {
+            addressBasedOnLatLng = address[0].getAddressLine(0).toString()
             return address[0].getAddressLine(0).toString()
         }
         return ""

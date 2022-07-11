@@ -37,6 +37,7 @@ class SignupFragment : Fragment() {
 
     private var latValue: String? = null
     private var lngValue: String? = null
+    private var addressValue: String? = null
 
     private val viewModel: ComputerStoreViewModel by viewModels()
     private val networkStatusViewModel: NetworkViewModel by viewModels()
@@ -125,10 +126,11 @@ class SignupFragment : Fragment() {
 
                 latValue = result.lat.toString()
                 lngValue = result.lng.toString()
+                addressValue = result.address
 
                 etLat.setText(latValue)
-
                 etLng.setText(lngValue)
+                etAddress.setText(addressValue)
                 etLat.error = null
                 etLng.error = null
 
