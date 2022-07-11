@@ -56,7 +56,7 @@
             android:contentDescription="@string/camera"
             android:padding="18dp"
             android:src="@drawable/ic_photo_camera_black_48dp"
-            android:translationZ="8dp"
+            android:translationZ="4dp"
             app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@id/guideline"
             app:tint="@color/white" />
@@ -81,7 +81,7 @@
             android:contentDescription="@string/gallery"
             android:padding="18dp"
             android:src="@drawable/ic_default_image"
-            android:translationZ="8dp"
+            android:translationZ="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/img_camera"
             app:layout_constraintStart_toEndOf="@id/img_camera"
             app:layout_constraintTop_toTopOf="@+id/img_camera"

@@ -205,7 +205,6 @@ class EditAdminFragment : Fragment() {
                     val fileUri = data?.data!!
                     imageUri = fileUri
                     binding.progressBar.hide()
-                    toastShort(imageUri.toString())
                     glide
                         .load(imageUri)
                         .placeholder(R.drawable.ic_broke_image)
