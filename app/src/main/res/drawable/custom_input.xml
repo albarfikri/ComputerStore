@@ -8,9 +8,9 @@
         </shape>
     </item>
 
-    <item android:state_enabled="true">
+    <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <solid android:color="@color/customInput" />
+            <solid android:color="@color/defaultColor" />
             <corners android:radius="10dp" />
             <stroke android:width="2dp" android:color="@color/white" />
         </shape>

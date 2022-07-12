@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.albar.computerstore.R
 import com.albar.computerstore.data.remote.entity.ComputerStore
@@ -13,15 +14,15 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 class UnverifiedListAdapter(
-    val onItemClicked: (Int, ComputerStore) -> Unit,
+    val onItemSweep: (Int, ComputerStore) -> Unit,
     val onCallClicked: (Int, String) -> Unit,
     val onDetailClicked: (Int, ComputerStore) -> Unit,
     val glide: RequestManager,
-    val context: Context
+    val context: Context,
+    val statusFragment: Boolean
 ) : RecyclerView.Adapter<UnverifiedListAdapter.MyViewHolder>() {
 
     private var list: MutableList<ComputerStore> = arrayListOf()
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -44,7 +45,7 @@ class UnverifiedListAdapter(
 
     fun removeList(position: Int) {
         list.removeAt(position)
-        notifyDataSetChanged()
+        notifyItemChanged(position)
     }
 
     override fun getItemCount(): Int {
@@ -64,7 +65,12 @@ class UnverifiedListAdapter(
                     .transform(CenterCrop(), RoundedCorners(10))
                     .into(imgComputerStore)
                 if (!item.isVerified) {
-                    tvVerifiedStatus.setTextColor(ContextCompat.getColor(context, R.color.unverified))
+                    tvVerifiedStatus.setTextColor(
+                        ContextCompat.getColor(
+                            context,
+                            R.color.unverified
+                        )
+                    )
                     tvVerifiedStatus.text = "Not verified yet"
                 } else {
                     tvVerifiedStatus.setTextColor(ContextCompat.getColor(context, R.color.verified))
@@ -78,12 +84,35 @@ class UnverifiedListAdapter(
                     )
                 }
                 itemComputerStoreListLayout.setOnClickListener {
-                    onItemClicked.invoke(
+                    onItemSweep.invoke(
                         adapterPosition,
                         item
                     )
                 }
             }
+        }
+    }
+
+    inner class SimpleCallback : ItemTouchHelper.SimpleCallback(
+        0,
+        if (statusFragment) {
+            ItemTouchHelper.LEFT
+        } else {
+            ItemTouchHelper.RIGHT
+        }
+    ) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean = false
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            onItemSweep.invoke(
+                position,
+                list[position]
+            )
         }
     }
 }

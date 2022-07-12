@@ -3,7 +3,9 @@ package com.albar.computerstore.others
 import android.app.Activity
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.albar.computerstore.R
 import com.google.android.material.snackbar.Snackbar
 
 fun View.hide() {
@@ -16,6 +18,7 @@ fun View.show() {
 
 fun View.enable() {
     isEnabled = true
+
 }
 
 fun View.disable() {

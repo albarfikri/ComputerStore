@@ -10,13 +10,12 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
+import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentUnverifiedAndVerifiedBinding
-import com.albar.computerstore.others.Constants
-import com.albar.computerstore.others.hide
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
+import com.albar.computerstore.others.*
 import com.albar.computerstore.ui.adapter.UnverifiedListAdapter
 import com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
@@ -38,6 +37,9 @@ class UnverifiedAndVerifiedFragment : Fragment() {
     @Inject
     lateinit var glide: RequestManager
 
+    private var deletePosition: Int = -1
+    private var list: MutableList<ComputerStore> = arrayListOf()
+
     companion object {
         private const val IS_VERIFIED = "isVerified"
 
@@ -50,9 +52,11 @@ class UnverifiedAndVerifiedFragment : Fragment() {
     }
 
     private val adapter by lazy {
+        val isVerifiedStatus = arguments?.getBoolean(IS_VERIFIED)
         UnverifiedListAdapter(
-            onItemClicked = { position, item ->
-
+            onItemSweep = { pos, item ->
+                deletePosition = pos
+                deleteItem(item)
             },
             onCallClicked = { _, item ->
                 val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$item"))
@@ -68,8 +72,13 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     })
             },
             glide,
-            requireContext()
+            requireContext(),
+            isVerifiedStatus!!
         )
+    }
+
+    private fun deleteItem(item: ComputerStore) {
+        viewModel.deleteComputerStore(item)
     }
 
     override fun onCreateView(
@@ -83,7 +92,41 @@ class UnverifiedAndVerifiedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvUnverifiedList.adapter = adapter
+        setUpItemTouchListener()
         networkStatus()
+        observeDeletedItem()
+    }
+
+    private fun setUpItemTouchListener() {
+        val itemTouchHelper = ItemTouchHelper(adapter.SimpleCallback())
+        itemTouchHelper.attachToRecyclerView(binding.rvUnverifiedList)
+    }
+
+    private fun observeDeletedItem() {
+        viewModel.deleteComputerStore.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {
+                    binding.rvUnverifiedList.hide()
+                    binding.shimmer.startShimmer()
+                    binding.shimmer.show()
+                }
+                is Result.Error -> {
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
+                    binding.rvUnverifiedList.hide()
+                }
+                is Result.Success -> {
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
+                    binding.rvUnverifiedList.show()
+                    if (deletePosition != -1) {
+                        list.removeAt(deletePosition)
+                        adapter.updateList(list)
+                    }
+                    binding.root.snackBarShort(it.data)
+                }
+            }
+        }
     }
 
     private fun networkStatus() {
@@ -125,7 +168,8 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     binding.shimmer.stopShimmer()
                     binding.shimmer.hide()
                     binding.rvUnverifiedList.show()
-                    adapter.updateList(it.data.toMutableList())
+                    list = it.data.toMutableList()
+                    adapter.updateList(list)
                 }
             }
         }

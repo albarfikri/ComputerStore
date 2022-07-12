@@ -16,13 +16,10 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentSignupBinding
+import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
 import com.albar.computerstore.others.Tools.encryptCBC
-import com.albar.computerstore.others.enable
-import com.albar.computerstore.others.hide
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
@@ -149,8 +146,8 @@ class SignupFragment : Fragment() {
                             if (isUsernameUsed.data) {
                                 btnSignup.enable()
                             } else {
+                                btnSignup.disable()
                                 etUsername.error = "Username is Already used"
-                                btnSignup.alpha = 0.6F
                             }
                         }
                         is Result.Error -> {
@@ -200,12 +197,12 @@ class SignupFragment : Fragment() {
                 }
                 if (inputEmail.isEmpty()) {
                     isEmptyFields = true
-                    etUsername.error = "Email Field cannot be empty"
+                    etEmail.error = "Email Field cannot be empty"
                 }
 
                 if (inputPhone.isEmpty()) {
                     isEmptyFields = true
-                    etPassword.error = "Phone Field cannot be empty"
+                    etPhone.error = "Phone Field cannot be empty"
                 }
 
                 if (inputUsername.isEmpty()) {

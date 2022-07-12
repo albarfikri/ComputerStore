@@ -48,7 +48,7 @@
             android:src="@drawable/loginsignupbackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".35"
+            app:layout_constraintHeight_percent=".40"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -145,13 +145,13 @@
                 android:layout_marginEnd="32dp"
                 android:hint="@string/passwordHint"
                 app:boxCornerRadiusBottomEnd="10dp"
-                app:passwordToggleEnabled="true"
                 app:boxCornerRadiusBottomStart="10dp"
                 app:boxCornerRadiusTopEnd="10dp"
                 app:boxCornerRadiusTopStart="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPassword"
+                app:passwordToggleEnabled="true"
                 app:startIconDrawable="@drawable/ic_lock">
 
                 <com.google.android.material.textfield.TextInputEditText

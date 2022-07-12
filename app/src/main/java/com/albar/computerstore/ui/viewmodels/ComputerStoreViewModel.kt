@@ -29,6 +29,10 @@ class ComputerStoreViewModel @Inject constructor(
     val updateComputerStore: LiveData<Result<String>>
         get() = _updateComputerStore
 
+    private val _deleteComputerStore = MutableLiveData<Result<String>>()
+    val deleteComputerStore: LiveData<Result<String>>
+        get() = _deleteComputerStore
+
     private val _isUsernameUsed = MutableLiveData<Result<Boolean>>()
     val isUsernameUsed: LiveData<Result<Boolean>>
         get() = _isUsernameUsed
@@ -76,6 +80,13 @@ class ComputerStoreViewModel @Inject constructor(
         _registerComputerStore.value = Result.Loading
         authRepository.registerComputerStore(computerStore) {
             _registerComputerStore.value = it
+        }
+    }
+
+    fun deleteComputerStore(computerStore: ComputerStore) {
+        _deleteComputerStore.value = Result.Loading
+        repository.deleteComputerStore(computerStore) {
+            _deleteComputerStore.value = it
         }
     }
 

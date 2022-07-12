@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/imgComputerStore"
             android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/image"
             android:elevation="10dp"
             android:scaleType="centerCrop"
@@ -70,11 +70,11 @@
             android:text="Not verified yet"
             android:textColor="@color/colorPrimary"
             android:textSize="12sp"
-            app:layout_constraintVertical_bias="0.3"
             app:layout_constraintBottom_toTopOf="@id/divider"
             app:layout_constraintEnd_toEndOf="@+id/tvName"
             app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
-            app:layout_constraintTop_toBottomOf="@id/tvAddress" />
+            app:layout_constraintTop_toBottomOf="@id/tvAddress"
+            app:layout_constraintVertical_bias="0.3" />
 
         <TextView
             android:id="@+id/tv_registeredTime"
@@ -92,17 +92,6 @@
             app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
             app:layout_constraintTop_toTopOf="@+id/call" />
 
-        <TextView
-            android:id="@+id/msg"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/avenir_medium"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="@+id/tvAddress"
-            app:layout_constraintStart_toEndOf="@id/imgComputerStore"
-            app:layout_constraintTop_toBottomOf="@id/tvAddress" />
-
         <View
             android:id="@+id/divider"
             android:layout_width="0dp"
@@ -111,7 +100,7 @@
             android:background="#26000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
-            app:layout_constraintTop_toBottomOf="@+id/msg" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_verifiedStatus" />
 
         <ImageView
             android:id="@+id/call"

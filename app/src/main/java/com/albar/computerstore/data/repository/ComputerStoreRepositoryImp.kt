@@ -84,6 +84,23 @@ class ComputerStoreRepositoryImp(
             }
     }
 
+    override fun deleteComputerStore(
+        computerStore: ComputerStore,
+        result: (Result<String>) -> Unit
+    ) {
+        val document = database.collection(FIRESTORE_TABLE).document(computerStore.id)
+        document
+            .delete()
+            .addOnSuccessListener {
+                result.invoke(
+                    Result.Success("Computer Store has been deleted successfully")
+                )
+            }
+            .addOnFailureListener {
+                result.invoke(Result.Error(it.localizedMessage!!))
+            }
+    }
+
     override suspend fun uploadImage(fileUri: Uri, onResult: (Result<Uri>) -> Unit) {
         try {
             val uri: Uri = withContext(Dispatchers.IO) {
