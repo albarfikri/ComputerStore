@@ -45,7 +45,12 @@ class UnverifiedListAdapter(
 
     fun removeList(position: Int) {
         list.removeAt(position)
-        notifyItemChanged(position)
+        notifyDataSetChanged()
+    }
+
+    fun addItem(position: Int, computerStore: ComputerStore) {
+        list.add(position, computerStore)
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

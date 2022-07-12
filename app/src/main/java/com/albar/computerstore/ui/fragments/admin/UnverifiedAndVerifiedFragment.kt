@@ -1,5 +1,6 @@
 package com.albar.computerstore.ui.fragments.admin
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentUnverifiedAndVerifiedBinding
+import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
@@ -59,7 +61,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
         UnverifiedListAdapter(
             onItemSweep = { pos, item ->
                 deletePosition = pos
-                deleteItem(item)
+                dialogBuilder(pos, item)
             },
             onCallClicked = { _, item ->
                 val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$item"))
@@ -82,6 +84,36 @@ class UnverifiedAndVerifiedFragment : Fragment() {
 
     private fun deleteItem(item: ComputerStore) {
         viewModel.deleteComputerStore(item)
+    }
+
+    private fun dialogBuilder(position: Int, item: ComputerStore) {
+        val recentlyDeletedItem: ComputerStore = item
+        val recentlyDeletedPosition = position
+
+        adapter.removeList(position)
+
+        val viewDialog = ViewConfirmationDialogBinding.inflate(layoutInflater, null, false)
+
+        val builder = AlertDialog.Builder(requireContext())
+            .setView(viewDialog.root)
+
+        val dialog = builder.create()
+        dialog.setCancelable(false)
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        viewDialog.tvInfo.show()
+        viewDialog.tvTextInformation.text = "Deleting this Item ?"
+        viewDialog.tvInfo.text = item.name
+        viewDialog.imgActionIcon.setImageResource(R.drawable.ic_baseline_delete_24)
+
+        viewDialog.btnYes.setOnClickListener {
+            deleteItem(item)
+            dialog.dismiss()
+        }
+        viewDialog.imgCancelAction.setOnClickListener {
+            adapter.addItem(recentlyDeletedPosition, recentlyDeletedItem)
+            dialog.dismiss()
+        }
     }
 
     override fun onCreateView(
@@ -125,7 +157,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     binding.rvUnverifiedList.show()
                     retrieveData()
                     val snackBar = Snackbar.make(
-                        binding.root,
+                        binding.rvUnverifiedList,
                         it.data,
                         Snackbar.LENGTH_SHORT
                     )
