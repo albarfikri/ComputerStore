@@ -18,6 +18,7 @@ import com.albar.computerstore.others.Constants.PARCELABLE_KEY
 import com.albar.computerstore.others.Constants.TAB_TITLES
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
+import com.albar.computerstore.others.snackBarShort
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
@@ -104,7 +105,7 @@ class DetailComputerStoreFragment : Fragment() {
     }
 
     private fun observerOutputVerifiedOrUnverified(status: Boolean) {
-        viewModel.updateComputerStore.observe(viewLifecycleOwner) { output ->
+        viewModel.updateVerifiedOrUnVerifiedStore.observe(viewLifecycleOwner) { output ->
             when (output) {
                 is Result.Success -> {
                     binding.fabAction.setImageResource(R.drawable.ic_verified_computer_store)
@@ -123,11 +124,7 @@ class DetailComputerStoreFragment : Fragment() {
                         snackBar.show()
                     } else {
                         binding.fabAction.setImageResource(R.drawable.ic_unverified_computer_store)
-                        Snackbar.make(
-                            binding.root,
-                            "Computer Store has been Unverified",
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                        binding.root.snackBarShort("Computer Store has been Unverified")
                     }
                 }
                 is Result.Error -> toastShort(output.error)
@@ -138,7 +135,7 @@ class DetailComputerStoreFragment : Fragment() {
 
     private fun updateVerifiedOrUnverifiedComputerStore(isVerified: Boolean) {
         objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
-        viewModel.updateComputerStore(
+        viewModel.updateVerifiedOrUnVerifiedStore(
             ComputerStore(
                 id = objectComputerStore!!.id,
                 isVerified = isVerified,

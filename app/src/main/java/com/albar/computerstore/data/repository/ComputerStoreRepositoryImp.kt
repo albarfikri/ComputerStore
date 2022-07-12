@@ -69,6 +69,21 @@ class ComputerStoreRepositoryImp(
             }
     }
 
+    override fun updateVerifiedOrUnVerifiedStore(
+        computerStore: ComputerStore,
+        result: (Result<String>) -> Unit
+    ) {
+        val document = database.collection(FIRESTORE_TABLE).document(computerStore.id)
+        document
+            .set(computerStore)
+            .addOnSuccessListener {
+                result.invoke(Result.Success("Data has been updated successfully"))
+            }
+            .addOnFailureListener {
+                result.invoke(Result.Error(it.localizedMessage!!))
+            }
+    }
+
     override fun isUsernameUsed(username: String, result: (Result<Boolean>) -> Unit) {
         val databaseRef = database.collection(FIRESTORE_TABLE)
         databaseRef.whereEqualTo("username", username).get()
@@ -120,7 +135,7 @@ class ComputerStoreRepositoryImp(
     }
 
     private fun storeSession(id: String, result: (ComputerStore?) -> Unit) {
-        val document = database.collection(Constants.FIRESTORE_TABLE).document(id)
+        val document = database.collection(FIRESTORE_TABLE).document(id)
         document.get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {

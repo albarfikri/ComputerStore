@@ -15,12 +15,16 @@ import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentUnverifiedAndVerifiedBinding
-import com.albar.computerstore.others.*
+import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.UnverifiedListAdapter
 import com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -38,7 +42,6 @@ class UnverifiedAndVerifiedFragment : Fragment() {
     lateinit var glide: RequestManager
 
     private var deletePosition: Int = -1
-    private var list: MutableList<ComputerStore> = arrayListOf()
 
     companion object {
         private const val IS_VERIFIED = "isVerified"
@@ -116,14 +119,23 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     binding.rvUnverifiedList.hide()
                 }
                 is Result.Success -> {
+                    viewModel.getUnverifiedAndVerifiedNumber()
                     binding.shimmer.stopShimmer()
                     binding.shimmer.hide()
                     binding.rvUnverifiedList.show()
-                    if (deletePosition != -1) {
-                        list.removeAt(deletePosition)
-                        adapter.updateList(list)
-                    }
-                    binding.root.snackBarShort(it.data)
+                    retrieveData()
+                    val snackBar = Snackbar.make(
+                        binding.root,
+                        it.data,
+                        Snackbar.LENGTH_SHORT
+                    )
+                    snackBar.view.setBackgroundColor(
+                        resources.getColor(
+                            R.color.verified,
+                            context?.theme
+                        )
+                    )
+                    snackBar.show()
                 }
             }
         }
@@ -168,8 +180,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     binding.shimmer.stopShimmer()
                     binding.shimmer.hide()
                     binding.rvUnverifiedList.show()
-                    list = it.data.toMutableList()
-                    adapter.updateList(list)
+                    adapter.updateList(it.data.toMutableList())
                 }
             }
         }

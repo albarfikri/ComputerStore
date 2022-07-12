@@ -29,6 +29,10 @@ class ComputerStoreViewModel @Inject constructor(
     val updateComputerStore: LiveData<Result<String>>
         get() = _updateComputerStore
 
+    private val _updateVerifiedOrUnVerifiedStore = MutableLiveData<Result<String>>()
+    val updateVerifiedOrUnVerifiedStore: LiveData<Result<String>>
+        get() = _updateVerifiedOrUnVerifiedStore
+
     private val _deleteComputerStore = MutableLiveData<Result<String>>()
     val deleteComputerStore: LiveData<Result<String>>
         get() = _deleteComputerStore
@@ -65,6 +69,13 @@ class ComputerStoreViewModel @Inject constructor(
         _updateComputerStore.value = Result.Loading
         repository.updateComputerStore(computerStore) {
             _updateComputerStore.value = it
+        }
+    }
+
+    fun updateVerifiedOrUnVerifiedStore(computerStore: ComputerStore) {
+        _updateVerifiedOrUnVerifiedStore.value = Result.Loading
+        repository.updateVerifiedOrUnVerifiedStore(computerStore) {
+            _updateVerifiedOrUnVerifiedStore.value = it
         }
     }
 
