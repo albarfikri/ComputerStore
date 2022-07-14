@@ -74,7 +74,7 @@ class AddOrUpdateFragment : Fragment() {
         val arrayAdapter =
             ArrayAdapter(requireContext(), R.layout.dropdown_item_product_type, productType)
         binding.etType.setAdapter(arrayAdapter)
-        binding.etType.setOnItemClickListener { parent, v, position, id ->
+        binding.etType.setOnItemClickListener { _, _, position, _ ->
             output = arrayAdapter.getItem(position).toString()
             toastShort(output)
         }

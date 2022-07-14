@@ -6,12 +6,14 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.albar.computerstore.R
 import com.albar.computerstore.databinding.ActivitySplashScreenBinding
-import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.ui.viewmodels.DataStoreViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -27,7 +29,7 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        tvAnimation()
         requestPermission()
     }
 
@@ -89,6 +91,13 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         Handler(Looper.myLooper()!!).postDelayed({
             requestPermission()
         }, 1500L)
+    }
+
+    private fun tvAnimation() {
+        val animationText = AnimationUtils.loadAnimation(this, R.anim.enter_from_left)
+        val animationTextDesc = AnimationUtils.loadAnimation(this, R.anim.enter_from_right)
+        binding.text.startAnimation(animationText)
+        binding.textDesc.startAnimation(animationTextDesc)
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {

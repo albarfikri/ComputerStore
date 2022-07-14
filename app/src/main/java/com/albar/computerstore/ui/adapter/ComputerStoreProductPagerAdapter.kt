@@ -5,7 +5,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.albar.computerstore.ui.fragments.member.ProductComputerStoreFragment
 
 class ComputerStoreProductPagerAdapter(fm: Fragment) : FragmentStateAdapter(fm) {
-    private val type = arrayListOf("Computers", "Accessories")
+    private val type = arrayListOf("Computer", "Accessory")
 
     override fun getItemCount(): Int = type.size
 

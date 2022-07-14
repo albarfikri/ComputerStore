@@ -3,6 +3,7 @@ package com.albar.computerstore.data.repository
 import android.content.SharedPreferences
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
+import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_PRODUCT_TABLE
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
@@ -14,6 +15,57 @@ class ComputerStoreProductRepositoryImp(
     private val sharedPref: SharedPreferences,
     private val gson: Gson
 ) : ComputerStoreProductRepository {
+    override fun getComputerStoreProduct(result: (Result<List<ComputerStoreProduct>>) -> Unit) {
+        val document = database.collection(Constants.COMPUTER_STORE_PRODUCT_TABLE)
+        document
+            .get()
+            .addOnSuccessListener {
+                if (it.isEmpty) {
+                    result.invoke(Result.Error("Data is empty"))
+                }
+                val computerStoreList = arrayListOf<ComputerStoreProduct>()
+                it.forEach { document ->
+                    //convert document from firebase to our data class
+                    val computerStore = document.toObject(ComputerStoreProduct::class.java)
+                    // then adding to our array list
+                    computerStoreList.add(computerStore)
+                    result.invoke(Result.Success(computerStoreList))
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    Result.Error(it.localizedMessage!!)
+                )
+            }
+    }
+
+    override fun getProductByType(
+        type: String,
+        result: (Result<List<ComputerStoreProduct>>) -> Unit
+    ) {
+        val document = database.collection(COMPUTER_STORE_PRODUCT_TABLE)
+        document.whereEqualTo("productType", type)
+            .get()
+            .addOnSuccessListener {
+                if (it.isEmpty) {
+                    result.invoke(Result.Error("No data Available"))
+                }
+                val computerStoreProductList = arrayListOf<ComputerStoreProduct>()
+
+                it.forEach { document ->
+                    //convert document from firebase to our data class
+                    val computerStoreProduct = document.toObject(ComputerStoreProduct::class.java)
+                    // then adding to our array list
+                    computerStoreProductList.add(computerStoreProduct)
+                    result.invoke(Result.Success(computerStoreProductList))
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    Result.Error(it.localizedMessage!!)
+                )
+            }
+    }
 
     override fun addComputerStoreProduct(
         computerStoreProduct: ComputerStoreProduct,

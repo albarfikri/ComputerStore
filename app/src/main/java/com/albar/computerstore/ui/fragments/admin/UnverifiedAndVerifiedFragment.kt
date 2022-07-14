@@ -82,6 +82,22 @@ class UnverifiedAndVerifiedFragment : Fragment() {
         )
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentUnverifiedAndVerifiedBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.rvUnverifiedList.adapter = adapter
+        setUpItemTouchListener()
+        networkStatus()
+        observeDeletedItem()
+    }
+
     private fun deleteItem(item: ComputerStore) {
         viewModel.deleteComputerStore(item)
     }
@@ -113,22 +129,6 @@ class UnverifiedAndVerifiedFragment : Fragment() {
             adapter.addItem(position, recentlyDeletedItem)
             dialog.dismiss()
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentUnverifiedAndVerifiedBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.rvUnverifiedList.adapter = adapter
-        setUpItemTouchListener()
-        networkStatus()
-        observeDeletedItem()
     }
 
     private fun setUpItemTouchListener() {

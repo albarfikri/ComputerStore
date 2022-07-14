@@ -23,6 +23,18 @@ class ComputerStoreProductViewModel @Inject constructor(
     val addData: LiveData<Result<String>>
         get() = _addData
 
+    private val _computerStoreProduct = MutableLiveData<Result<List<ComputerStoreProduct>>>()
+    val computerStoreProduct: LiveData<Result<List<ComputerStoreProduct>>>
+        get() = _computerStoreProduct
+
+    private val _getProductByType = MutableLiveData<Result<List<ComputerStoreProduct>>>()
+    val getProductByType: LiveData<Result<List<ComputerStoreProduct>>>
+        get() = _getProductByType
+
+    fun getComputerStoreProduct() {
+        _computerStoreProduct.value = Result.Loading
+
+    }
 
     // Auth Repository
     fun addData(computerStoreProduct: ComputerStoreProduct) {
@@ -37,5 +49,13 @@ class ComputerStoreProductViewModel @Inject constructor(
         viewModelScope.launch {
             computerStoreRepository.uploadImage(fileUri, onResult)
         }
+    }
+
+    fun getProductByType(type: String) {
+        _getProductByType.value = Result.Loading
+        computerStoreProductRepository.getProductByType(type) {
+            _getProductByType.value = it
+        }
+
     }
 }

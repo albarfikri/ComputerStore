@@ -74,16 +74,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.apply {
             bottomNavigationView.setOnItemSelectedListener {
-                binding.textView.text = COMPUTER_STORE_MAPS
+                textView.text = COMPUTER_STORE_MAPS
                 removeEffectsWhileClickingFab(true)
                 when (it.itemId) {
                     R.id.list -> {
-                        binding.textView.text = COMPUTER_STORE_LIST
+                        textView.text = COMPUTER_STORE_LIST
                         navHost.findNavController().navigate(R.id.list)
                         showClickedItemBottomNav(2, true, 0, false)
                     }
                     R.id.nearest -> {
-                        binding.textView.text = COMPUTER_STORE_NEAREST
+                        textView.text = COMPUTER_STORE_NEAREST
                         navHost.findNavController().navigate(R.id.nearest)
                         showClickedItemBottomNav(0, false, 2, true)
                     }
