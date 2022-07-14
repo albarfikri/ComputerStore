@@ -88,12 +88,12 @@ class UnverifiedListAdapter(
                         item.phone
                     )
                 }
-                itemComputerStoreListLayout.setOnClickListener {
-                    onItemSweep.invoke(
-                        adapterPosition,
-                        item
-                    )
-                }
+//                itemComputerStoreListLayout.setOnClickListener {
+//                    onItemSweep.invoke(
+//                        adapterPosition,
+//                        item
+//                    )
+//                }
             }
         }
     }

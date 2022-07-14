@@ -177,8 +177,6 @@ class SignupFragment : Fragment() {
                 val inputUsername = etUsername.text.toString().trim()
                 val inputPassword = etPassword.text.toString().trim()
 
-
-
                 if (inputStoreName.isEmpty()) {
                     isEmptyFields = true
                     etStoreName.error = "Store Name Field cannot be empty"

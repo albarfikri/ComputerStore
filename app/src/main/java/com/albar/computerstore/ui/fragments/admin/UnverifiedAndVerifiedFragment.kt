@@ -88,7 +88,6 @@ class UnverifiedAndVerifiedFragment : Fragment() {
 
     private fun dialogBuilder(position: Int, item: ComputerStore) {
         val recentlyDeletedItem: ComputerStore = item
-        val recentlyDeletedPosition = position
 
         adapter.removeList(position)
 
@@ -111,7 +110,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
             dialog.dismiss()
         }
         viewDialog.imgCancelAction.setOnClickListener {
-            adapter.addItem(recentlyDeletedPosition, recentlyDeletedItem)
+            adapter.addItem(position, recentlyDeletedItem)
             dialog.dismiss()
         }
     }

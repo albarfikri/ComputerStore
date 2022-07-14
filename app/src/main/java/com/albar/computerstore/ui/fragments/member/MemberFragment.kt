@@ -22,6 +22,7 @@ import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreProductPagerAdapter
+import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment.Companion.EXTRA_ID_COMPUTER_STORE
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -53,6 +54,8 @@ class MemberFragment : Fragment() {
         "Accessories" to R.drawable.ic_accessories
     )
 
+    private var id: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -67,6 +70,8 @@ class MemberFragment : Fragment() {
 
         setTabAndViewPager()
         setMemberIdentityFromSharedPref()
+
+        addNewData()
     }
 
     private fun setTabAndViewPager() {
@@ -153,6 +158,9 @@ class MemberFragment : Fragment() {
         val json = sharedPref.getString(Constants.COMPUTER_STORE_SESSION, "")
         val obj = gson.fromJson(json, ComputerStore::class.java)
 
+        // save data id
+        id = obj.id
+
         binding.apply {
             etUsername.text = obj.username
             glide
@@ -160,6 +168,14 @@ class MemberFragment : Fragment() {
                 .placeholder(R.drawable.ic_broke_image)
                 .transform(CenterCrop(), RoundedCorners(10))
                 .into(image)
+        }
+    }
+
+    private fun addNewData() {
+        val mBundle = Bundle()
+        mBundle.putString(EXTRA_ID_COMPUTER_STORE, id)
+        binding.btnAddNewData.setOnClickListener {
+            findNavController().navigate(R.id.action_memberFragment_to_addOrUpdateFragment, mBundle)
         }
     }
 

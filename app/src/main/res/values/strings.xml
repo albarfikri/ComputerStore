@@ -50,6 +50,12 @@
     <string name="update">Update</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price">Price</string>
+    <string name="product_type">Type</string>
+    <string name="product_unit">Unit</string>
+    <string name="specification">Specification</string>
+    <string name="add_data">Add Data</string>
 
 
     <style name="adminMember">
@@ -65,4 +71,9 @@
         <item name="android:layout_marginStart">32dp</item>
         <item name="android:layout_marginEnd">32dp</item>
     </style>
+    
+    <string-array name="productType">
+        <item>Computer</item>
+        <item>Accessory</item>
+    </string-array>
 </resources>

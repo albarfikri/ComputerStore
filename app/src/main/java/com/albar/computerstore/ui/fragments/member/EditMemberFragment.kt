@@ -327,6 +327,16 @@ class EditMemberFragment : Fragment() {
                 }
         }
 
+        binding.btmSheet.imgCamera.setOnClickListener {
+            bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            ImagePicker.with(this)
+                .compress(512)
+                .cameraOnly()
+                .createIntent { intent ->
+                    startForImageResult.launch(intent)
+                }
+        }
+
         binding.btmSheet.cancelBtn.setOnClickListener {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }

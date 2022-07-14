@@ -12,8 +12,10 @@ class ComputerStoreProduct(
     val productName: String = "Not set",
     val productType: String = "Not set",
     val productPrice: String = "Not set",
+    val productImage: String = "Not set",
     val productSpecification: String = "Not set",
     val unit: Int = 0,
+    val isStockAvailable: Boolean = false,
     @ServerTimestamp
     val createAt: Date = Date(),
 ) : Parcelable

@@ -37,7 +37,8 @@ object Constants {
     const val BUNDLE_KEY = "bundle_key"
 
     // Firebase Firestore
-    const val FIRESTORE_TABLE = "computerstore" // firestore table name
+    const val COMPUTER_STORE_TABLE = "computerstore" // firestore table name
+    const val COMPUTER_STORE_PRODUCT_TABLE = "computerstoreproduct" // firestore table name
     const val USERNAME_FIELD = "username"
     const val PASSWORD_FIELD = "password"
 

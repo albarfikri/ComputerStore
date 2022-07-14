@@ -3,7 +3,7 @@ package com.albar.computerstore.data.repository
 import android.content.SharedPreferences
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
-import com.albar.computerstore.others.Constants.FIRESTORE_TABLE
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_TABLE
 import com.albar.computerstore.others.Constants.UNVERIFIED_NUMBERS
 import com.albar.computerstore.others.Constants.VERIFIED_NUMBERS
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,7 +16,7 @@ class AdministratorRepositoryImp(
         isVerified: Boolean,
         result: (Result<List<ComputerStore>>) -> Unit
     ) {
-        val document = database.collection(FIRESTORE_TABLE)
+        val document = database.collection(COMPUTER_STORE_TABLE)
         document.whereEqualTo("isVerified", isVerified).whereNotEqualTo("isAdmin", true)
             .get()
             .addOnSuccessListener {
@@ -50,7 +50,7 @@ class AdministratorRepositoryImp(
     }
 
     private fun verified() {
-        val document = database.collection(FIRESTORE_TABLE)
+        val document = database.collection(COMPUTER_STORE_TABLE)
         document.whereEqualTo("isVerified", true).whereNotEqualTo("isAdmin", true)
             .get()
             .addOnSuccessListener {
@@ -59,7 +59,7 @@ class AdministratorRepositoryImp(
     }
 
     private fun unverified() {
-        val document = database.collection(FIRESTORE_TABLE)
+        val document = database.collection(COMPUTER_STORE_TABLE)
         document.whereEqualTo("isVerified", false).whereNotEqualTo("isAdmin", true)
             .get()
             .addOnSuccessListener {

@@ -20,7 +20,7 @@ class AuthRepositoryImp(
         password: String,
         result: (Result<Boolean>) -> Unit
     ) {
-        val document = database.collection(Constants.FIRESTORE_TABLE)
+        val document = database.collection(Constants.COMPUTER_STORE_TABLE)
         document.whereEqualTo(USERNAME_FIELD, username)
             .get()
             .addOnSuccessListener { snapshot ->
@@ -71,7 +71,7 @@ class AuthRepositoryImp(
         computerStore: ComputerStore,
         result: (Result<String>) -> Unit
     ) {
-        val document = database.collection(Constants.FIRESTORE_TABLE).document()
+        val document = database.collection(Constants.COMPUTER_STORE_TABLE).document()
         computerStore.id = document.id
         document.set(computerStore)
             .addOnSuccessListener {
@@ -87,7 +87,7 @@ class AuthRepositoryImp(
     }
 
     private fun storeSession(id: String, result: (ComputerStore?) -> Unit) {
-        val document = database.collection(Constants.FIRESTORE_TABLE).document(id)
+        val document = database.collection(Constants.COMPUTER_STORE_TABLE).document(id)
         document.get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {

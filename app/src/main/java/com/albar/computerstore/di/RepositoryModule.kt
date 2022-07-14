@@ -41,4 +41,13 @@ object RepositoryModule {
         sharedPref: SharedPreferences
     ): AdministratorRepository =
         AdministratorRepositoryImp(database, sharedPref)
+
+    @Provides
+    fun provideComputerStoreProductRepository(
+        database: FirebaseFirestore,
+        storageReference: StorageReference,
+        sharedPref: SharedPreferences,
+        gson: Gson
+    ): ComputerStoreProductRepository =
+        ComputerStoreProductRepositoryImp(database, storageReference, sharedPref, gson)
 }

@@ -5,7 +5,7 @@ import android.net.Uri
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.others.Constants
-import com.albar.computerstore.others.Constants.FIRESTORE_TABLE
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_TABLE
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
@@ -25,7 +25,7 @@ class ComputerStoreRepositoryImp(
     override fun getComputerStore(
         result: (Result<List<ComputerStore>>) -> Unit
     ) {
-        val document = database.collection(FIRESTORE_TABLE)
+        val document = database.collection(COMPUTER_STORE_TABLE)
         document.whereNotEqualTo("isAdmin", true).whereEqualTo("isVerified", true)
             .get()
             .addOnSuccessListener {
@@ -52,7 +52,7 @@ class ComputerStoreRepositoryImp(
         computerStore: ComputerStore,
         result: (Result<String>) -> Unit
     ) {
-        val document = database.collection(FIRESTORE_TABLE).document(computerStore.id)
+        val document = database.collection(COMPUTER_STORE_TABLE).document(computerStore.id)
         document
             .set(computerStore)
             .addOnSuccessListener {
@@ -73,7 +73,7 @@ class ComputerStoreRepositoryImp(
         computerStore: ComputerStore,
         result: (Result<String>) -> Unit
     ) {
-        val document = database.collection(FIRESTORE_TABLE).document(computerStore.id)
+        val document = database.collection(COMPUTER_STORE_TABLE).document(computerStore.id)
         document
             .set(computerStore)
             .addOnSuccessListener {
@@ -85,7 +85,7 @@ class ComputerStoreRepositoryImp(
     }
 
     override fun isUsernameUsed(username: String, result: (Result<Boolean>) -> Unit) {
-        val databaseRef = database.collection(FIRESTORE_TABLE)
+        val databaseRef = database.collection(COMPUTER_STORE_TABLE)
         databaseRef.whereEqualTo("username", username).get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.isEmpty) {
@@ -103,7 +103,7 @@ class ComputerStoreRepositoryImp(
         computerStore: ComputerStore,
         result: (Result<String>) -> Unit
     ) {
-        val document = database.collection(FIRESTORE_TABLE).document(computerStore.id)
+        val document = database.collection(COMPUTER_STORE_TABLE).document(computerStore.id)
         document
             .delete()
             .addOnSuccessListener {
@@ -135,7 +135,7 @@ class ComputerStoreRepositoryImp(
     }
 
     private fun storeSession(id: String, result: (ComputerStore?) -> Unit) {
-        val document = database.collection(FIRESTORE_TABLE).document(id)
+        val document = database.collection(COMPUTER_STORE_TABLE).document(id)
         document.get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
