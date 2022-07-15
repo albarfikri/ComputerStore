@@ -70,7 +70,6 @@ class MemberFragment : Fragment() {
 
         setTabAndViewPager()
         setMemberIdentityFromSharedPref()
-
         addNewData()
     }
 

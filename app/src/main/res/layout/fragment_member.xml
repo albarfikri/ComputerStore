@@ -107,7 +107,7 @@
                 app:layout_constraintStart_toStartOf="@id/viewPager2"
                 app:layout_constraintTop_toTopOf="parent"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:tabGravity="start"
+                app:tabGravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:tabIconTintMode="src_over"
                 app:tabIndicatorAnimationDuration="@android:integer/config_mediumAnimTime"
