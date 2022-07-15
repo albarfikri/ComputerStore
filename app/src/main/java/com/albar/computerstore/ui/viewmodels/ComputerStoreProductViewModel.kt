@@ -51,9 +51,9 @@ class ComputerStoreProductViewModel @Inject constructor(
         }
     }
 
-    fun getProductByType(type: String) {
+    fun getProductByType(idComputerStore: String, type: String) {
         _getProductByType.value = Result.Loading
-        computerStoreProductRepository.getProductByType(type) {
+        computerStoreProductRepository.getProductByType(idComputerStore, type) {
             _getProductByType.value = it
         }
 

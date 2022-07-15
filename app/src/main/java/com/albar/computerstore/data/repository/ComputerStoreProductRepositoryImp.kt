@@ -40,11 +40,12 @@ class ComputerStoreProductRepositoryImp(
     }
 
     override fun getProductByType(
+        idComputerStore: String,
         type: String,
         result: (Result<List<ComputerStoreProduct>>) -> Unit
     ) {
         val document = database.collection(COMPUTER_STORE_PRODUCT_TABLE)
-        document.whereEqualTo("productType", type)
+        document.whereEqualTo("idComputerStore", idComputerStore).whereEqualTo("productType", type)
             .get()
             .addOnSuccessListener {
                 if (it.isEmpty) {

@@ -1,5 +1,6 @@
 package com.albar.computerstore.ui.fragments.member
 
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +9,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.albar.computerstore.data.Result
+import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentProductComputerStoreBinding
+import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
@@ -18,6 +21,7 @@ import com.albar.computerstore.ui.adapter.ComputerStoreProductAdapter
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,6 +36,12 @@ class ProductComputerStoreFragment : Fragment() {
 
     @Inject
     lateinit var glide: RequestManager
+
+    @Inject
+    lateinit var gson: Gson
+
+    @Inject
+    lateinit var sharedPref: SharedPreferences
 
     companion object {
         private const val TYPE = "type"
@@ -70,15 +80,15 @@ class ProductComputerStoreFragment : Fragment() {
     private fun setUpRecyclerView() {
 
         val orientation = resources.configuration.orientation
-
+        binding.rvProductList.setHasFixedSize(true)
         if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             binding.rvProductList.layoutManager =
-                GridLayoutManager(requireContext(), 2)
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         } else {
             binding.rvProductList.layoutManager =
-                GridLayoutManager(requireContext(), 3)
+                StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         }
-        binding.rvProductList.setHasFixedSize(true)
+
         binding.rvProductList.adapter = adapter
     }
 
@@ -104,9 +114,14 @@ class ProductComputerStoreFragment : Fragment() {
     }
 
     private fun retrieveData() {
+        val json = sharedPref.getString(Constants.COMPUTER_STORE_SESSION, "")
+        val obj = gson.fromJson(json, ComputerStore::class.java)
+
         val type = arguments?.getString(TYPE)
+        val idComputerStore = obj.id
+
         if (type != null) {
-            viewModel.getProductByType(type)
+            viewModel.getProductByType(idComputerStore, type)
             viewModel.getProductByType.observe(viewLifecycleOwner) {
                 when (it) {
                     is Result.Loading -> {
