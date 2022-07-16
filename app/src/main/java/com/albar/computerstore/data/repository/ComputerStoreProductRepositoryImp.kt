@@ -105,6 +105,21 @@ class ComputerStoreProductRepositoryImp(
             }
     }
 
+    override fun deleteComputerStoreProduct(
+        computerStoreProduct: ComputerStoreProduct,
+        result: (Result<String>) -> Unit
+    ) {
+        val document =
+            database.collection(COMPUTER_STORE_PRODUCT_TABLE).document(computerStoreProduct.id)
+        document.delete()
+            .addOnSuccessListener {
+                result.invoke(Result.Success("Data has been deleted successfully"))
+            }
+            .addOnFailureListener {
+                result.invoke(Result.Error("Failed to deleted data"))
+            }
+    }
+
     override fun updateComputerStoreProduct(
         computerStoreProduct: ComputerStoreProduct,
         result: (Result<String>) -> Unit

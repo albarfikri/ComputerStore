@@ -84,7 +84,7 @@
             android:background="@drawable/loginsignup_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent=".78"
+            app:layout_constraintHeight_percent=".85"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
@@ -212,6 +212,7 @@
             android:background="@drawable/bg_img"
             android:backgroundTint="@color/search"
             android:visibility="invisible"
+            android:translationZ="24dp"
             app:layout_constraintBottom_toBottomOf="@id/btn_search"
             app:layout_constraintEnd_toEndOf="@id/btn_search"
             app:layout_constraintStart_toStartOf="@id/btn_search"

@@ -45,6 +45,23 @@
                 app:tint="@color/white" />
 
             <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="28dp"
+                android:background="@drawable/custom_delete_button"
+                android:elevation="12dp"
+                android:padding="6dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:translationZ="12dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/back"
+                app:tint="@color/white" />
+
+            <ImageView
                 android:id="@+id/image"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
@@ -110,8 +127,8 @@
                     app:boxCornerRadiusBottomEnd="10dp"
                     app:boxCornerRadiusBottomStart="10dp"
                     app:boxCornerRadiusTopEnd="10dp"
-                    app:counterEnabled="true"
                     app:boxCornerRadiusTopStart="10dp"
+                    app:counterEnabled="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

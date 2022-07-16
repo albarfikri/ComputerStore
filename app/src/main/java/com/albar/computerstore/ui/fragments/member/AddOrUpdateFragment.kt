@@ -1,8 +1,11 @@
 package com.albar.computerstore.ui.fragments.member
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +20,8 @@ import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 import com.albar.computerstore.databinding.FragmentAddOrUpdateBinding
-import com.albar.computerstore.others.hide
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.snackBarShort
-import com.albar.computerstore.others.toastShort
+import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
+import com.albar.computerstore.others.*
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -70,6 +71,7 @@ class AddOrUpdateFragment : Fragment() {
         backToThePrevious()
         btnUploadImageClicked()
         addOrUpdateData()
+        observeDeleteData()
     }
 
     private fun setUpDropDown() {
@@ -91,13 +93,64 @@ class AddOrUpdateFragment : Fragment() {
             when (output) {
                 is Result.Success -> {
                     toastShort("Set Successfully")
+                    deleteProduct(output.data)
                     binding.apply {
+                        glide
+                            .load(output.data.productImage)
+                            .placeholder(R.drawable.ic_broke_image)
+                            .transform(CenterCrop(), RoundedCorners(12))
+                            .into(binding.image)
                         etProductName.setText(output.data.productName)
                         etProductPrice.setText(output.data.productPrice)
                         etType.setText(output.data.productType)
                         etUnit.setText(output.data.unit.toString())
                         etSpecification.setText(output.data.productSpecification)
                     }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun deleteProduct(computerStoreProduct: ComputerStoreProduct) {
+        binding.ivDelete.setOnClickListener {
+            val viewDialog = ViewConfirmationDialogBinding.inflate(layoutInflater, null, false)
+
+            val builder = AlertDialog.Builder(requireContext())
+                .setView(viewDialog.root)
+
+            viewDialog.tvTextInformation.text = "Are you sure want to delete ?"
+            viewDialog.tvInfo.show()
+            viewDialog.tvInfo.text = computerStoreProduct.productName
+            val dialog = builder.create()
+            dialog.setCancelable(false)
+            dialog.show()
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            viewDialog.btnYes.setOnClickListener {
+                viewDialog.btnYes.text = ""
+                viewDialog.btnProgressSignUp.show()
+                viewModel.deleteData(computerStoreProduct)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    findNavController().navigateUp()
+                    dialog.dismiss()
+                    toastShort("Delete Successfully.")
+                }, Constants.DELAY_TO_MOVE_ANOTHER_FRAGMENT)
+            }
+            viewDialog.imgCancelAction.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+    }
+
+    private fun observeDeleteData() {
+        viewModel.deleteComputerStoreProduct.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Error -> {
+                    toastShort(it.error)
+                }
+                is Result.Success -> {
+                    toastShort(output)
                 }
                 else -> {}
             }
@@ -174,11 +227,13 @@ class AddOrUpdateFragment : Fragment() {
         val type = arguments?.getString(EXTRA_ACTION_TYPE, "")
         when (type) {
             "add" -> {
+                binding.ivDelete.hide()
                 binding.btnAddNewData.text = "Add Data"
                 addOrUpdateDataExecution()
                 observeAddData()
             }
             "edit" -> {
+                binding.ivDelete.show()
                 binding.btnAddNewData.text = "Update Data"
                 addOrUpdateDataExecution()
                 observeUpdateData()

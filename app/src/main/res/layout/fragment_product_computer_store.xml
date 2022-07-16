@@ -36,19 +36,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/item_unverified_shimmer" />
+            <include layout="@layout/item_computer_store_product_shimmer" />
 
-            <include layout="@layout/item_unverified_shimmer" />
+            <include layout="@layout/item_computer_store_product_shimmer" />
 
-            <include layout="@layout/item_unverified_shimmer" />
+            <include layout="@layout/item_computer_store_product_shimmer" />
 
-            <include layout="@layout/item_unverified_shimmer" />
+            <include layout="@layout/item_computer_store_product_shimmer" />
 
-            <include layout="@layout/item_unverified_shimmer" />
+            <include layout="@layout/item_computer_store_product_shimmer" />
 
-            <include layout="@layout/item_unverified_shimmer" />
+            <include layout="@layout/item_computer_store_product_shimmer" />
 
-            <include layout="@layout/item_unverified_shimmer" />
+            <include layout="@layout/item_computer_store_product_shimmer" />
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 

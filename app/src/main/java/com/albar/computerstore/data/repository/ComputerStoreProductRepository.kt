@@ -23,6 +23,11 @@ interface ComputerStoreProductRepository {
         result: (Result<String>) -> Unit
     )
 
+    fun deleteComputerStoreProduct(
+        computerStoreProduct: ComputerStoreProduct,
+        result: (Result<String>) -> Unit
+    )
+
     fun updateComputerStoreProduct(
         computerStoreProduct: ComputerStoreProduct,
         result: (Result<String>) -> Unit
