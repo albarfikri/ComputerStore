@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentProductComputerStoreBinding
@@ -18,6 +20,8 @@ import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreProductAdapter
+import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment.Companion.EXTRA_ACTION_TYPE
+import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment.Companion.EXTRA_ID_COMPUTER_STORE_PRODUCT
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
@@ -56,8 +60,14 @@ class ProductComputerStoreFragment : Fragment() {
 
     private val adapter by lazy {
         ComputerStoreProductAdapter(
-            onItemClicked = { pos, item ->
-
+            onItemClicked = { _, item ->
+                findNavController().navigate(
+                    R.id.action_memberFragment_to_addOrUpdateFragment,
+                    Bundle().apply {
+                        putString(EXTRA_ACTION_TYPE, "edit")
+                        putString(EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
+                    }
+                )
             },
             glide
         )

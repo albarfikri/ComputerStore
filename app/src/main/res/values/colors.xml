@@ -16,4 +16,6 @@
     <color name="tabColor">#EAEAEA</color>
     <color name="verified">#43A047</color>
     <color name="unverified">#ed4a63</color>
+    <color name="add">#FB8C00</color>
+    <color name="search">#00ACC1</color>
 </resources>

@@ -2,10 +2,9 @@ package com.albar.computerstore.others
 
 import android.app.Activity
 import android.view.View
+import android.view.animation.Animation
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.albar.computerstore.R
 import com.google.android.material.snackbar.Snackbar
 
 fun View.hide() {
@@ -47,4 +46,18 @@ fun Activity.toastLong(msg: String?) {
 
 fun Activity.toastShort(msg: String?) {
     Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+}
+
+fun View.startAnimation(animation: Animation, onEnd: () -> Unit) {
+    animation.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation) = Unit
+
+        override fun onAnimationEnd(animation: Animation) {
+            onEnd()
+        }
+
+        override fun onAnimationRepeat(p0: Animation?) = Unit
+
+    })
+    this.startAnimation(animation)
 }

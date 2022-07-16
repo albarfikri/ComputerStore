@@ -45,7 +45,10 @@ class AddOrUpdateFragment : Fragment() {
     lateinit var glide: RequestManager
 
     companion object {
+        const val EXTRA_ID_COMPUTER_STORE_PRODUCT = "extra_id_computer_store_product"
         const val EXTRA_ID_COMPUTER_STORE = "extra_id_computer_store"
+        const val EXTRA_ACTION_TYPE = "extra_action_type"
+
     }
 
     override fun onCreateView(
@@ -63,10 +66,10 @@ class AddOrUpdateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setDefaultText()
         backToThePrevious()
         btnUploadImageClicked()
-        addData()
-        observeAddData()
+        addOrUpdateData()
     }
 
     private fun setUpDropDown() {
@@ -80,7 +83,28 @@ class AddOrUpdateFragment : Fragment() {
         }
     }
 
-    private fun addData() {
+    private fun setDefaultText() {
+        val idComputerStoreProduct = arguments?.getString(EXTRA_ID_COMPUTER_STORE_PRODUCT, "")!!
+        toastShort(idComputerStoreProduct)
+        viewModel.getProductById(idComputerStoreProduct)
+        viewModel.getProductById.observe(viewLifecycleOwner) { output ->
+            when (output) {
+                is Result.Success -> {
+                    toastShort("Set Successfully")
+                    binding.apply {
+                        etProductName.setText(output.data.productName)
+                        etProductPrice.setText(output.data.productPrice)
+                        etType.setText(output.data.productType)
+                        etUnit.setText(output.data.unit.toString())
+                        etSpecification.setText(output.data.productSpecification)
+                    }
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun addOrUpdateDataExecution() {
         binding.apply {
             btnAddNewData.setOnClickListener {
                 var isEmptyFields = false
@@ -105,20 +129,81 @@ class AddOrUpdateFragment : Fragment() {
 
                 if (!isEmptyFields) {
                     val idComputerStore = arguments?.getString(EXTRA_ID_COMPUTER_STORE)!!
-                    viewModel.addData(
-                        ComputerStoreProduct(
-                            id = "",
-                            idComputerStore = idComputerStore,
-                            productName = productName,
-                            productType = output,
-                            productPrice = productPrice,
-                            productImage = imageUri.toString(),
-                            productSpecification = etSpecification.text.toString(),
-                            unit = productUnit.toInt(),
-                            isStockAvailable = productUnit.toInt() > 0,
-                            createAt = Date()
-                        )
-                    )
+                    val type = arguments?.getString(EXTRA_ACTION_TYPE, "")
+                    when (type) {
+                        "add" -> {
+                            viewModel.addData(
+                                ComputerStoreProduct(
+                                    id = "",
+                                    idComputerStore = idComputerStore,
+                                    productName = productName,
+                                    productType = output,
+                                    productPrice = productPrice,
+                                    productImage = imageUri.toString(),
+                                    productSpecification = etSpecification.text.toString(),
+                                    unit = productUnit.toInt(),
+                                    isStockAvailable = productUnit.toInt() > 0,
+                                    createAt = Date()
+                                )
+                            )
+                        }
+                        "edit" -> {
+                            viewModel.updateData(
+                                ComputerStoreProduct(
+                                    id = "",
+                                    idComputerStore = idComputerStore,
+                                    productName = productName,
+                                    productType = output,
+                                    productPrice = productPrice,
+                                    productImage = imageUri.toString(),
+                                    productSpecification = etSpecification.text.toString(),
+                                    unit = productUnit.toInt(),
+                                    isStockAvailable = productUnit.toInt() > 0,
+                                    createAt = Date()
+                                )
+                            )
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    private fun addOrUpdateData() {
+        val type = arguments?.getString(EXTRA_ACTION_TYPE, "")
+        when (type) {
+            "add" -> {
+                binding.btnAddNewData.text = "Add Data"
+                addOrUpdateDataExecution()
+                observeAddData()
+            }
+            "edit" -> {
+                binding.btnAddNewData.text = "Update Data"
+                addOrUpdateDataExecution()
+                observeUpdateData()
+            }
+        }
+    }
+
+    private fun observeUpdateData() {
+        viewModel.updateComputerStoreProduct.observe(viewLifecycleOwner) { output ->
+            when (output) {
+                is Result.Loading -> {
+                    binding.btnProgressAdd.show()
+                    binding.btnAddNewData.text = ""
+                }
+                is Result.Error -> {
+                    binding.btnProgressAdd.hide()
+                    binding.btnAddNewData.text = getString(R.string.update_data)
+                    toastShort(output.error)
+                }
+                is Result.Success -> {
+                    toastShort(output.data)
+                    clearFields()
+                    binding.btnProgressAdd.hide()
+                    binding.btnAddNewData.text = getString(R.string.update_data)
+                    binding.btnAddNewData.snackBarShort("Data added successfully")
                 }
             }
         }

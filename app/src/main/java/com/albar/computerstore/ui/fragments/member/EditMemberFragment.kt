@@ -263,13 +263,18 @@ class EditMemberFragment : Fragment() {
                     when (uploadedUri) {
                         is Result.Loading -> {
                             binding.progressBar.show()
+                            binding.btnUpdateMember.isClickable = false
+                            binding.btnUpdateMember.alpha = 0.6F
                         }
                         is Result.Error -> {
                             binding.progressBar.hide()
+                            binding.btnUpdateMember.isClickable = false
+                            binding.btnUpdateMember.alpha = 0.6F
                         }
                         is Result.Success -> {
                             imageUri = uploadedUri.data
                             binding.progressBar.hide()
+                            binding.btnUpdateMember.show()
                         }
                     }
                 }

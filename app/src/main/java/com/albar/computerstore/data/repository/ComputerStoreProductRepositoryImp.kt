@@ -68,6 +68,27 @@ class ComputerStoreProductRepositoryImp(
             }
     }
 
+    override fun getProductById(id: String, result: (Result<ComputerStoreProduct>) -> Unit) {
+        val document = database.collection(COMPUTER_STORE_PRODUCT_TABLE)
+        document.whereEqualTo("id", id)
+            .get()
+            .addOnSuccessListener {
+                if (it.isEmpty) {
+                    result.invoke(Result.Error("No data Available"))
+                }
+
+                it.forEach { document ->
+                    val computerStoreProduct = document.toObject(ComputerStoreProduct::class.java)
+                    result.invoke(Result.Success(computerStoreProduct))
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    Result.Error(it.localizedMessage!!)
+                )
+            }
+    }
+
     override fun addComputerStoreProduct(
         computerStoreProduct: ComputerStoreProduct,
         result: (Result<String>) -> Unit
@@ -81,6 +102,22 @@ class ComputerStoreProductRepositoryImp(
             }
             .addOnFailureListener {
                 result.invoke(Result.Error("Failed to insert local data"))
+            }
+    }
+
+    override fun updateComputerStoreProduct(
+        computerStoreProduct: ComputerStoreProduct,
+        result: (Result<String>) -> Unit
+    ) {
+        val document = database.collection(Constants.COMPUTER_STORE_PRODUCT_TABLE)
+            .document(computerStoreProduct.id)
+        document
+            .set(computerStoreProduct)
+            .addOnSuccessListener {
+                result.invoke(Result.Success("Data has been updated successfully"))
+            }
+            .addOnFailureListener {
+                result.invoke(Result.Error("Failed to restore local data"))
             }
     }
 }

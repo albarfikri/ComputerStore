@@ -31,16 +31,26 @@ class ComputerStoreProductViewModel @Inject constructor(
     val getProductByType: LiveData<Result<List<ComputerStoreProduct>>>
         get() = _getProductByType
 
-    fun getComputerStoreProduct() {
-        _computerStoreProduct.value = Result.Loading
+    private val _getProductById = MutableLiveData<Result<ComputerStoreProduct>>()
+    val getProductById: LiveData<Result<ComputerStoreProduct>>
+        get() = _getProductById
 
-    }
+    private val _updateComputerStoreProduct = MutableLiveData<Result<String>>()
+    val updateComputerStoreProduct: LiveData<Result<String>>
+        get() = _updateComputerStoreProduct
 
-    // Auth Repository
+
     fun addData(computerStoreProduct: ComputerStoreProduct) {
         _addData.value = Result.Loading
         computerStoreProductRepository.addComputerStoreProduct(computerStoreProduct) {
             _addData.value = it
+        }
+    }
+
+    fun updateData(computerStoreProduct: ComputerStoreProduct) {
+        _updateComputerStoreProduct.value = Result.Loading
+        computerStoreProductRepository.updateComputerStoreProduct(computerStoreProduct) {
+            _updateComputerStoreProduct.value = it
         }
     }
 
@@ -56,6 +66,12 @@ class ComputerStoreProductViewModel @Inject constructor(
         computerStoreProductRepository.getProductByType(idComputerStore, type) {
             _getProductByType.value = it
         }
+    }
 
+    fun getProductById(id: String) {
+        _getProductById.value = Result.Loading
+        computerStoreProductRepository.getProductById(id) {
+            _getProductById.value = it
+        }
     }
 }

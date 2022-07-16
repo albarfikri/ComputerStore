@@ -9,8 +9,12 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,8 +24,10 @@ import com.albar.computerstore.databinding.FragmentMemberBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.show
+import com.albar.computerstore.others.startAnimation
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreProductPagerAdapter
+import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment.Companion.EXTRA_ACTION_TYPE
 import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment.Companion.EXTRA_ID_COMPUTER_STORE
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.bumptech.glide.RequestManager
@@ -37,6 +43,34 @@ import kotlin.math.roundToInt
 class MemberFragment : Fragment() {
     private var _binding: FragmentMemberBinding? = null
     private val binding get() = _binding!!
+
+    // Anim
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_close_anim
+        )
+    }
+    private val fromBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.from_bottom_anim
+        )
+    }
+    private val toBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.to_bottom_anim
+        )
+    }
+
+    private var fabClicked = false
 
     private val viewModel: ComputerStoreViewModel by viewModels()
 
@@ -70,7 +104,7 @@ class MemberFragment : Fragment() {
 
         setTabAndViewPager()
         setMemberIdentityFromSharedPref()
-        addNewData()
+        fabButtons()
     }
 
     private fun setTabAndViewPager() {
@@ -170,11 +204,76 @@ class MemberFragment : Fragment() {
         }
     }
 
-    private fun addNewData() {
-        val mBundle = Bundle()
-        mBundle.putString(EXTRA_ID_COMPUTER_STORE, id)
-        binding.btnAddNewData.setOnClickListener {
-            findNavController().navigate(R.id.action_memberFragment_to_addOrUpdateFragment, mBundle)
+    private fun fabButtons() {
+        binding.apply {
+            btnGroup.setOnClickListener {
+                groupButtonClicked()
+            }
+
+            btnAdd.setOnClickListener {
+                val mBundle = Bundle()
+                mBundle.putString(EXTRA_ID_COMPUTER_STORE, id)
+                mBundle.putString(EXTRA_ACTION_TYPE, "add")
+                findNavController().navigate(
+                    R.id.action_memberFragment_to_addOrUpdateFragment,
+                    mBundle
+                )
+                fabClicked = false
+            }
+
+            btnSearch.setOnClickListener {
+                animationToSearchFragment()
+                fabClicked = false
+            }
+        }
+    }
+
+    private fun groupButtonClicked() {
+        setVisibility(fabClicked)
+        setAnimation(fabClicked)
+        fabClicked = !fabClicked
+    }
+
+    private fun setAnimation(clicked: Boolean) {
+        binding.apply {
+            if (!clicked) {
+                btnAdd.show()
+                btnSearch.show()
+            } else {
+                btnAdd.hide()
+                btnSearch.hide()
+            }
+        }
+    }
+
+    private fun setVisibility(clicked: Boolean) {
+        binding.apply {
+            if (!clicked) {
+                btnAdd.startAnimation(fromBottom)
+                btnSearch.startAnimation(fromBottom)
+                btnGroup.startAnimation(rotateOpen)
+            } else {
+                btnAdd.startAnimation(toBottom)
+                btnSearch.startAnimation(toBottom)
+                btnGroup.startAnimation(rotateClose)
+            }
+        }
+    }
+
+    private fun animationToSearchFragment() {
+        val animation =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.circle_explosion_anim).apply {
+                duration = 700
+                interpolator = AccelerateInterpolator()
+            }
+
+        with(binding) {
+            viewInterpolator.isInvisible = true
+            viewInterpolator.startAnimation(animation) {
+                findNavController().navigate(
+                    R.id.action_memberFragment_to_searchProductFragment)
+                viewInterpolator.isInvisible = false
+            }
         }
     }
 

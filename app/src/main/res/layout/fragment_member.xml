@@ -104,11 +104,11 @@
                 android:layout_marginBottom="16dp"
                 android:background="@null"
                 android:translationZ="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/viewPager2"
                 app:layout_constraintTop_toTopOf="parent"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:tabGravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:tabIconTintMode="src_over"
                 app:tabIndicatorAnimationDuration="@android:integer/config_mediumAnimTime"
                 app:tabIndicatorAnimationMode="elastic"
@@ -166,9 +166,37 @@
             app:layout_constraintGuide_percent=".50" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btn_add_new_data"
+            android:id="@+id/btn_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/search"
+            android:focusable="true"
+            android:src="@drawable/ic_search"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_add"
+            app:layout_constraintEnd_toEndOf="@id/btn_add"
+            app:layout_constraintStart_toStartOf="@id/btn_add" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:backgroundTint="@color/add"
+            android:focusable="true"
+            android:src="@drawable/ic_computer"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/btn_group"
+            app:layout_constraintEnd_toEndOf="@id/btn_group"
+            app:layout_constraintStart_toStartOf="@id/btn_group" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryVariant"
+            android:focusable="true"
             android:src="@drawable/ic_add"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -176,5 +204,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/constraintLayout"
             app:layout_constraintVertical_bias="0.9" />
+
+        <View
+            android:id="@+id/viewInterpolator"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_img"
+            android:backgroundTint="@color/search"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/btn_search"
+            app:layout_constraintEnd_toEndOf="@id/btn_search"
+            app:layout_constraintStart_toStartOf="@id/btn_search"
+            app:layout_constraintTop_toTopOf="@id/btn_search" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
