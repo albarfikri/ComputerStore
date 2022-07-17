@@ -16,7 +16,7 @@ class ComputerStoreProductAdapter(
     val glide: RequestManager
 ) : RecyclerView.Adapter<ComputerStoreProductAdapter.MyViewHolder>() {
 
-    private var list: MutableList<ComputerStoreProduct> = arrayListOf()
+    var list: MutableList<ComputerStoreProduct> = arrayListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

@@ -18,6 +18,11 @@ interface ComputerStoreProductRepository {
         result: (Result<ComputerStoreProduct>) -> Unit
     )
 
+    fun getProductByName(
+        productName: String,
+        result: (Result<List<ComputerStoreProduct>>) -> Unit
+    )
+
     fun addComputerStoreProduct(
         computerStoreProduct: ComputerStoreProduct,
         result: (Result<String>) -> Unit

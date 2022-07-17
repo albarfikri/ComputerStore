@@ -126,5 +126,8 @@
         <action
             android:id="@+id/action_searchProductFragment_to_memberFragment"
             app:destination="@id/memberFragment" />
+        <action
+            android:id="@+id/action_searchProductFragment_to_addOrUpdateFragment"
+            app:destination="@id/addOrUpdateFragment" />
     </fragment>
 </navigation>

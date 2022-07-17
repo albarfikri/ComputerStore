@@ -131,24 +131,28 @@ class AdministratorFragment : Fragment() {
             .setView(viewDialog.root)
 
         val dialog = builder.create()
-        dialog.setCancelable(false)
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-
-        viewDialog.btnYes.setOnClickListener {
-            toastShort("Exit")
-            viewModel.logout {
-                viewDialog.btnYes.text = ""
-                viewDialog.btnProgressSignUp.show()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    findNavController().navigate(R.id.action_administratorFragment_to_signinFragment)
-                    dialog.dismiss()
-                    toastShort("Log out successfully.")
-                }, Constants.DELAY_TO_MOVE_ANOTHER_FRAGMENT)
-            }
+        dialog.apply {
+            setCancelable(false)
+            show()
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
         }
-        viewDialog.imgCancelAction.setOnClickListener {
-            dialog.dismiss()
+
+        viewDialog.apply {
+            btnYes.setOnClickListener {
+                toastShort("Exit")
+                viewModel.logout {
+                    btnYes.text = ""
+                    btnProgressSignUp.show()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        findNavController().navigate(R.id.action_administratorFragment_to_signinFragment)
+                        dialog.dismiss()
+                        toastShort("Log out successfully.")
+                    }, Constants.DELAY_TO_MOVE_ANOTHER_FRAGMENT)
+                }
+            }
+            imgCancelAction.setOnClickListener {
+                dialog.dismiss()
+            }
         }
     }
 

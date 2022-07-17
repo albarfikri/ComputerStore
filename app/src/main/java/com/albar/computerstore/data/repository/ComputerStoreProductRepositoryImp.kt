@@ -89,6 +89,42 @@ class ComputerStoreProductRepositoryImp(
             }
     }
 
+    override fun getProductByName(
+        productName: String,
+        result: (Result<List<ComputerStoreProduct>>) -> Unit
+    ) {
+        val document = database.collection(COMPUTER_STORE_PRODUCT_TABLE)
+        document
+            .get()
+            .addOnSuccessListener {
+                if (it.isEmpty) {
+                    result.invoke(Result.Error("No data Available"))
+                }
+
+                val computerStoreProductList = arrayListOf<ComputerStoreProduct>()
+
+                it.forEach { document ->
+                    val computerStoreProduct =
+                        document.toObject(ComputerStoreProduct::class.java)
+                    if (computerStoreProduct.productName.lowercase()
+                            .contains(productName.lowercase())
+                    ) {
+                        computerStoreProductList.add(computerStoreProduct)
+                        result.invoke(Result.Success(computerStoreProductList))
+                    }
+                    if (computerStoreProductList.isEmpty()) {
+                        result.invoke(Result.Error("No data Available"))
+                    }
+
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(
+                    Result.Error(it.localizedMessage!!)
+                )
+            }
+    }
+
     override fun addComputerStoreProduct(
         computerStoreProduct: ComputerStoreProduct,
         result: (Result<String>) -> Unit
