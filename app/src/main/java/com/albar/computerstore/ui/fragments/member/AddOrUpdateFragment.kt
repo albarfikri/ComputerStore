@@ -103,6 +103,7 @@ class AddOrUpdateFragment : Fragment() {
                         etProductName.setText(output.data.productName)
                         etProductPrice.setText(output.data.productPrice)
                         etType.setText(output.data.productType)
+                        setUpDropDown()
                         etUnit.setText(output.data.unit.toString())
                         etSpecification.setText(output.data.productSpecification)
                     }
@@ -224,8 +225,7 @@ class AddOrUpdateFragment : Fragment() {
     }
 
     private fun addOrUpdateData() {
-        val type = arguments?.getString(EXTRA_ACTION_TYPE, "")
-        when (type) {
+        when (arguments?.getString(EXTRA_ACTION_TYPE, "")) {
             "add" -> {
                 binding.ivDelete.hide()
                 binding.btnAddNewData.text = "Add Data"

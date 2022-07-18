@@ -18,4 +18,5 @@
     <color name="unverified">#ed4a63</color>
     <color name="add">#FB8C00</color>
     <color name="search">#00ACC1</color>
+    <color name="hint_search_color">#BFBCBC</color>
 </resources>

@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
-import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 import com.albar.computerstore.databinding.FragmentSearchProductBinding
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
@@ -57,6 +56,7 @@ class SearchProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSearchProductBinding.inflate(inflater, container, false)
+        viewModel.getAllProduct()
         return binding.root
     }
 
@@ -65,33 +65,58 @@ class SearchProductFragment : Fragment() {
         backToThePrevious()
         setUpRecyclerView()
         search()
+        observeAdapterToGetAll()
     }
 
     private fun search() {
+
         binding.svProduct.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String): Boolean {
-                if (newText.isNotEmpty()) {
-                    binding.svProduct.clearFocus()
-                    viewModel.getProductByName(newText)
-                    observeAdapter()
-                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                return false
+                if (newText.isNotEmpty()) {
+                    viewModel.getProductByName(newText)
+                    observeAdapterToGetSearch()
+                } else {
+                    viewModel.getAllProduct()
+                }
+                return true
             }
 
         })
+    }
 
-        binding.svProduct.setOnCloseListener {
-            binding.rvProductList.hide()
-            return@setOnCloseListener false
+    private fun observeAdapterToGetSearch() {
+        viewModel.getProductByName.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {
+                    dataAvailableCheck(true)
+                    binding.rvProductList.hide()
+                    binding.shimmer.startShimmer()
+                    binding.shimmer.show()
+                }
+                is Result.Error -> {
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
+                    binding.rvProductList.hide()
+                    dataAvailableCheck(false)
+                    toastShort(it.error)
+                }
+                is Result.Success -> {
+                    dataAvailableCheck(true)
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
+                    binding.rvProductList.show()
+                    adapter.updateList(it.data.toMutableList())
+                }
+            }
         }
     }
 
-    private fun observeAdapter() {
-        viewModel.getProductByName.observe(viewLifecycleOwner) {
+    private fun observeAdapterToGetAll() {
+        viewModel.getAllProduct.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> {
                     dataAvailableCheck(true)
