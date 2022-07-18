@@ -160,8 +160,8 @@ class ComputerStoreProductRepositoryImp(
         computerStoreProduct: ComputerStoreProduct,
         result: (Result<String>) -> Unit
     ) {
-        val document = database.collection(Constants.COMPUTER_STORE_PRODUCT_TABLE)
-            .document(computerStoreProduct.id)
+        val document =
+            database.collection(COMPUTER_STORE_PRODUCT_TABLE).document(computerStoreProduct.id)
         document
             .set(computerStoreProduct)
             .addOnSuccessListener {

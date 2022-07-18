@@ -2,6 +2,7 @@ package com.albar.computerstore.ui.fragments.member
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
+import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 import com.albar.computerstore.databinding.FragmentAddOrUpdateBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
@@ -28,6 +30,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
@@ -36,7 +39,7 @@ import javax.inject.Inject
 class AddOrUpdateFragment : Fragment() {
     private var _binding: FragmentAddOrUpdateBinding? = null
     private val binding get() = _binding!!
-    private var output: String = ""
+    private var outputGeneral: String = ""
     private var imageUri: Uri? = null
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
@@ -44,6 +47,12 @@ class AddOrUpdateFragment : Fragment() {
 
     @Inject
     lateinit var glide: RequestManager
+
+    @Inject
+    lateinit var gson: Gson
+
+    @Inject
+    lateinit var sharedPref: SharedPreferences
 
     companion object {
         const val EXTRA_ID_COMPUTER_STORE_PRODUCT = "extra_id_computer_store_product"
@@ -68,6 +77,7 @@ class AddOrUpdateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setDefaultText()
+        setUpDropDown()
         backToThePrevious()
         btnUploadImageClicked()
         addOrUpdateData()
@@ -80,8 +90,7 @@ class AddOrUpdateFragment : Fragment() {
             ArrayAdapter(requireContext(), R.layout.dropdown_item_product_type, productType)
         binding.etType.setAdapter(arrayAdapter)
         binding.etType.setOnItemClickListener { _, _, position, _ ->
-            output = arrayAdapter.getItem(position).toString()
-            toastShort(output)
+            outputGeneral = arrayAdapter.getItem(position).toString()
         }
     }
 
@@ -103,7 +112,10 @@ class AddOrUpdateFragment : Fragment() {
                         etProductName.setText(output.data.productName)
                         etProductPrice.setText(output.data.productPrice)
                         etType.setText(output.data.productType)
+
+                        outputGeneral = output.data.productType
                         setUpDropDown()
+
                         etUnit.setText(output.data.unit.toString())
                         etSpecification.setText(output.data.productSpecification)
                     }
@@ -151,7 +163,7 @@ class AddOrUpdateFragment : Fragment() {
                     toastShort(it.error)
                 }
                 is Result.Success -> {
-                    toastShort(output)
+                    toastShort(outputGeneral)
                 }
                 else -> {}
             }
@@ -182,16 +194,23 @@ class AddOrUpdateFragment : Fragment() {
                 }
 
                 if (!isEmptyFields) {
-                    val idComputerStore = arguments?.getString(EXTRA_ID_COMPUTER_STORE)!!
+                    // from shared pref
+                    val json = sharedPref.getString(Constants.COMPUTER_STORE_SESSION, "")
+                    val obj = gson.fromJson(json, ComputerStore::class.java)
+
+                    // from bundle
+                    val idComputerStoreProduct =
+                        arguments?.getString(EXTRA_ID_COMPUTER_STORE_PRODUCT)!!
                     val type = arguments?.getString(EXTRA_ACTION_TYPE, "")
+
                     when (type) {
                         "add" -> {
                             viewModel.addData(
                                 ComputerStoreProduct(
                                     id = "",
-                                    idComputerStore = idComputerStore,
+                                    idComputerStore = obj.id,
                                     productName = productName,
-                                    productType = output,
+                                    productType = outputGeneral,
                                     productPrice = productPrice,
                                     productImage = imageUri.toString(),
                                     productSpecification = etSpecification.text.toString(),
@@ -204,10 +223,10 @@ class AddOrUpdateFragment : Fragment() {
                         "edit" -> {
                             viewModel.updateData(
                                 ComputerStoreProduct(
-                                    id = "",
-                                    idComputerStore = idComputerStore,
+                                    id = idComputerStoreProduct,
+                                    idComputerStore = obj.id,
                                     productName = productName,
-                                    productType = output,
+                                    productType = outputGeneral,
                                     productPrice = productPrice,
                                     productImage = imageUri.toString(),
                                     productSpecification = etSpecification.text.toString(),

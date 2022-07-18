@@ -304,8 +304,6 @@ class EditMemberFragment : Fragment() {
                 etLat.setText(latValue)
                 etLng.setText(lngValue)
                 etAddress.setText(addressValue)
-//                etLat.error = null
-//                etLng.error = null
 
                 Toast.makeText(activity, "$latValue, $lngValue", Toast.LENGTH_SHORT).show()
             }
