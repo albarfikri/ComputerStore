@@ -1,6 +1,5 @@
 package com.albar.computerstore.ui.fragments.member
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -91,6 +90,8 @@ class MemberFragment : Fragment() {
 
     private var id: String = ""
 
+    private var objectComputerStoreComputerFragment: ComputerStore? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -109,8 +110,14 @@ class MemberFragment : Fragment() {
     }
 
     private fun setTabAndViewPager() {
+        val computerStoreProductPagerAdapter = ComputerStoreProductPagerAdapter(this)
+        computerStoreProductPagerAdapter.apply {
+            objectComputerStore = objectComputerStoreComputerFragment
+            chosenAdapterSetFrom = adapterSetFrom[1]
+        }
+
         val titles = ArrayList(tabTitles.keys)
-        binding.viewPager2.adapter = ComputerStoreProductPagerAdapter(this)
+        binding.viewPager2.adapter = computerStoreProductPagerAdapter
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             tab.text = titles[position]
         }.attach()
@@ -272,7 +279,8 @@ class MemberFragment : Fragment() {
             viewInterpolator.isInvisible = true
             viewInterpolator.startAnimation(animation) {
                 findNavController().navigate(
-                    R.id.action_memberFragment_to_searchProductFragment)
+                    R.id.action_memberFragment_to_searchProductFragment
+                )
                 viewInterpolator.isInvisible = false
             }
         }

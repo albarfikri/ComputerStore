@@ -151,4 +151,10 @@ dependencies {
 
     // ImagePicker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+
+    // Flaviofaria (moving images)
+    implementation "com.flaviofaria:kenburnsview:1.0.7"
+
+    // Makerman
+    implementation "com.makeramen:roundedimageview:2.3.0"
 }

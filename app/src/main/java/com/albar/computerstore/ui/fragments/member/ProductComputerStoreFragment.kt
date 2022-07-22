@@ -48,26 +48,45 @@ class ProductComputerStoreFragment : Fragment() {
     lateinit var sharedPref: SharedPreferences
 
     companion object {
+        const val EXTRA_ADAPTER_SET_FROM = "extra_adapter_set_from"
+        const val EXTRA_ID_COMPUTER = "extra_id_computer"
         private const val TYPE = "type"
+        const val EXTRA_COMPUTER_STORE_OBJECT = "extra_computer_store_object"
 
         @JvmStatic
-        fun newInstance(type: String) = ProductComputerStoreFragment().apply {
-            arguments = Bundle().apply {
-                putString(TYPE, type)
+        fun newInstance(adapterSetFrom: String, type: String, objectComputerStore: ComputerStore) =
+            ProductComputerStoreFragment().apply {
+                arguments = Bundle().apply {
+                    putString(EXTRA_ADAPTER_SET_FROM, adapterSetFrom)
+                    putString(TYPE, type)
+                    putParcelable(EXTRA_COMPUTER_STORE_OBJECT, objectComputerStore)
+                }
             }
-        }
     }
 
     private val adapter by lazy {
         ComputerStoreProductAdapter(
             onItemClicked = { _, item ->
-                findNavController().navigate(
-                    R.id.action_memberFragment_to_addOrUpdateFragment,
-                    Bundle().apply {
-                        putString(EXTRA_ACTION_TYPE, "edit")
-                        putString(EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
+                toastShort(arguments?.getString(EXTRA_ADAPTER_SET_FROM))
+                when (arguments?.getString(EXTRA_ADAPTER_SET_FROM)) {
+                    "Main" -> {
+                        findNavController().navigate(
+                            R.id.action_detailList_to_detailComputerStoreProductFragment,
+                            Bundle().apply {
+                                putString(EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
+                            }
+                        )
                     }
-                )
+                    "Member" -> {
+                        findNavController().navigate(
+                            R.id.action_memberFragment_to_addOrUpdateFragment,
+                            Bundle().apply {
+                                putString(EXTRA_ACTION_TYPE, "edit")
+                                putString(EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
+                            }
+                        )
+                    }
+                }
             },
             glide
         )
@@ -126,12 +145,20 @@ class ProductComputerStoreFragment : Fragment() {
     private fun retrieveData() {
         val json = sharedPref.getString(Constants.COMPUTER_STORE_SESSION, "")
         val obj = gson.fromJson(json, ComputerStore::class.java)
+        val objComputerStore: ComputerStore? =
+            arguments?.getParcelable(EXTRA_COMPUTER_STORE_OBJECT)
 
         val type = arguments?.getString(TYPE)
-        val idComputerStore = obj.id
+        val idComputerStore = if (objComputerStore?.id.isNullOrEmpty()) {
+            obj.id
+        } else {
+            objComputerStore?.id
+        }
 
         if (type != null) {
-            viewModel.getProductByType(idComputerStore, type)
+            if (idComputerStore != null) {
+                viewModel.getProductByType(idComputerStore, type)
+            }
             viewModel.getProductByType.observe(viewLifecycleOwner) {
                 when (it) {
                     is Result.Loading -> {

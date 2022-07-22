@@ -274,10 +274,9 @@ class AddOrUpdateFragment : Fragment() {
                 }
                 is Result.Success -> {
                     toastShort(output.data)
-                    clearFields()
                     binding.btnProgressAdd.hide()
                     binding.btnAddNewData.text = getString(R.string.update_data)
-                    binding.btnAddNewData.snackBarShort("Data added successfully")
+                    binding.btnAddNewData.snackBarShort("Data updated successfully")
                 }
             }
         }

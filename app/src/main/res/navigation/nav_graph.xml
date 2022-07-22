@@ -53,5 +53,13 @@
         <action
             android:id="@+id/action_detailList_to_list"
             app:destination="@id/list" />
+        <action
+            android:id="@+id/action_detailList_to_detailComputerStoreProductFragment"
+            app:destination="@id/detailComputerStoreProductFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/detailComputerStoreProductFragment"
+        android:name="com.albar.computerstore.ui.fragments.detail.DetailComputerStoreProductFragment"
+        android:label="fragment_detail_computer_store_product"
+        tools:layout="@layout/fragment_detail_computer_store_product" />
 </navigation>

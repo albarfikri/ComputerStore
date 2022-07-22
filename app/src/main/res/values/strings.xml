@@ -57,6 +57,7 @@
     <string name="specification">Specification</string>
     <string name="add_data">Add Data</string>
     <string name="update_data">Update Data</string>
+    <string name="productAdd">Product Add</string>
 
 
     <style name="adminMember">

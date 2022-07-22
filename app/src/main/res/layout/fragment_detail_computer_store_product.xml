@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_200"
+    tools:ignore="Overdraw">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.flaviofaria.kenburnsview.KenBurnsView
+                    android:id="@+id/tv_backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/custom_back_button"
+                android:elevation="20dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.03"
+                app:tint="@color/white" />
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey_200"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="4dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/iv_productImage"
+                android:layout_width="155dp"
+                android:layout_height="193dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/app_name"
+                android:src="@color/teal_200"
+                android:translationZ="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.070"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.011"
+                app:riv_corner_radius="10dp"
+                tools:src="@color/teal_200" />
+
+            <TextView
+                android:id="@+id/tv_productNameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/avenir_regular"
+                android:gravity="center_vertical"
+                android:text="@string/product_name"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_productImage"
+                app:layout_constraintTop_toTopOf="@+id/iv_productImage"
+                tools:text="@string/product_name" />
+
+            <TextView
+                android:id="@+id/tv_productName"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="12dp"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/avenir_bold"
+                android:gravity="center_vertical"
+                android:text="@string/loading"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_productNameTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tv_productNameTitle"
+                tools:text="@string/product_name" />
+
+            <TextView
+                android:id="@+id/tv_purpose_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="12dp"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/avenir_regular"
+                android:gravity="center_vertical"
+                android:text="@string/product_price"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/iv_productImage"
+                app:layout_constraintTop_toBottomOf="@+id/tv_productName"
+                tools:text="@string/product_price" />
+
+            <TextView
+                android:id="@+id/tv_productPrice"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:drawablePadding="4dp"
+                android:fontFamily="@font/avenir_bold"
+                android:gravity="center_vertical"
+                android:text="@string/loading"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/tv_purpose_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_purpose_title"
+                tools:text="@string/product_price" />
+
+            <ImageView
+                android:id="@+id/category_image"
+                android:layout_width="100dp"
+                android:layout_height="31dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.6"
+                android:src="@drawable/category_indicator"
+                android:textColor="@color/white"
+                android:translationZ="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_productImage"
+                app:layout_constraintEnd_toEndOf="@+id/iv_productImage"
+                app:layout_constraintStart_toStartOf="@+id/iv_productImage"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/tv_productType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="2dp"
+                android:fontFamily="@font/avenir_bold"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:translationZ="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/category_image"
+                app:layout_constraintEnd_toEndOf="@+id/category_image"
+                app:layout_constraintStart_toStartOf="@+id/category_image"
+                app:layout_constraintTop_toTopOf="@+id/category_image"
+                tools:text="Computer" />
+
+            <TextView
+                android:id="@+id/tv_unit_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/avenir_medium"
+                android:text="@string/product_unit"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/iv_productImage"
+                app:layout_constraintStart_toStartOf="@+id/iv_productImage"
+                app:layout_constraintTop_toBottomOf="@+id/tv_productType"
+                tools:text="@string/product_unit" />
+
+            <TextView
+                android:id="@+id/tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/avenir_bold"
+                android:text="@string/loading"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/tv_unit_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_unit_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_unit_title"
+                tools:text="12 Unit" />
+
+            <TextView
+                android:id="@+id/tv_specification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/avenir_bold"
+                android:text="@string/specification"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="@+id/iv_productImage"
+                app:layout_constraintTop_toBottomOf="@+id/iv_productImage"
+                tools:text="@string/specification" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@color/colorPrimary"
+                app:layout_anchorGravity="center"
+                app:layout_constraintBottom_toTopOf="@+id/tv_specification"
+                app:layout_constraintEnd_toEndOf="@+id/tv_specification_title"
+                app:layout_constraintStart_toStartOf="@+id/tv_specification_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_specification_title" />
+
+            <TextView
+                android:id="@+id/tv_specification"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="22dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/avenir_regular"
+                android:gravity="center_vertical"
+                android:justificationMode="inter_word"
+                android:text="@string/loading"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_specification_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_specification_title"
+                tools:text="@string/specification" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
