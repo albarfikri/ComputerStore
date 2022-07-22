@@ -61,15 +61,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvName" />
 
         <TextView
-            android:id="@+id/msg"
+            android:id="@+id/tv_distance"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="70dp"
             android:gravity="right"
-            android:text="@string/loading"
-            android:textColor="@color/black"
-            android:textSize="14sp"
+            android:text="2,3 km"
+            android:textColor="@color/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
             app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
@@ -82,7 +83,7 @@
             android:background="#26000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgComputerStore"
-            app:layout_constraintTop_toBottomOf="@+id/msg" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_distance" />
 
         <ImageView
             android:id="@+id/call"

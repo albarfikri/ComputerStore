@@ -5,27 +5,30 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.albar.computerstore.R
 import com.albar.computerstore.data.remote.entity.ComputerStore
-import com.albar.computerstore.data.remote.entity.ComputerStoreNearest
-import com.albar.computerstore.databinding.ItemComputerStoreListBinding
+import com.albar.computerstore.databinding.ItemComputerStoreNearestBinding
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class ComputerStoreListAdapter(
+class ComputerStoreNearestAdapter(
     val onItemClicked: (Int, ComputerStore) -> Unit,
     val onCallClicked: (Int, String) -> Unit,
     val onDetailClicked: (Int, ComputerStore) -> Unit,
     val glide: RequestManager
-) : RecyclerView.Adapter<ComputerStoreListAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<ComputerStoreNearestAdapter.MyViewHolder>() {
 
-    var list: MutableList<ComputerStore> = arrayListOf()
+    private var list: MutableList<ComputerStore> = arrayListOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): MyViewHolder {
         val itemView =
-            ItemComputerStoreListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemComputerStoreNearestBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         return MyViewHolder(itemView)
     }
 
@@ -48,12 +51,13 @@ class ComputerStoreListAdapter(
         return list.size
     }
 
-    inner class MyViewHolder(val binding: ItemComputerStoreListBinding) :
+    inner class MyViewHolder(val binding: ItemComputerStoreNearestBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ComputerStore) {
             binding.apply {
                 tvName.text = item.name
                 tvAddress.text = item.address
+                tvDistance.text = item.positionOrder.toString()
                 glide
                     .load(item.image)
                     .placeholder(R.drawable.ic_broke_image)

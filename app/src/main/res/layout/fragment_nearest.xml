@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Longitude"
-        android:textSize="24sp"
+        android:fontFamily="@font/avenir_bold"
+        android:text="@string/loading"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,6 +21,7 @@
         android:id="@+id/tvLonInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_medium"
         android:text="Longitude"
         app:layout_constraintEnd_toEndOf="@+id/tvLon"
         app:layout_constraintHorizontal_bias="0.5"
@@ -30,8 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Latitude"
-        android:textSize="24sp"
+        android:fontFamily="@font/avenir_bold"
+        android:text="@string/loading"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,6 +44,7 @@
         android:id="@+id/tvLatInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_medium"
         android:text="Latitude"
         app:layout_constraintEnd_toEndOf="@+id/tvLat"
         app:layout_constraintHorizontal_bias="0.5"
@@ -48,19 +53,25 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvPosition"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Latitude"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/tvInfoPosition"
-        app:layout_constraintStart_toStartOf="@id/tvInfoPosition"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/avenir_medium"
+        android:gravity="center"
+        android:justificationMode="inter_word"
+        android:text="@string/loading"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvInfoPosition" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvInfoPosition"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/avenir_bold"
         android:text="Your Location"
         app:layout_constraintEnd_toEndOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.5"
@@ -72,7 +83,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7017784" />
+        app:layout_constraintGuide_begin="188dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvComputerList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_nearestDetail"
+        tools:listitem="@layout/item_computer_store_nearest" />
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -80,4 +103,78 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp"
+        android:elevation="10dp"
+        android:indeterminateTint="@color/colorPrimaryVariant"
+        android:translationZ="12dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/noNetwork"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@color/white"
+        android:tooltipText="@string/app_name"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_internet_connection"
+        app:lottie_speed="1" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/noDataLottie"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@color/white"
+        android:tooltipText="@string/app_name"
+        android:translationZ="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/no_data"
+        app:lottie_speed="1" />
+
+    <TextView
+        android:id="@+id/tv_nearestDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/avenir_bold"
+        android:text="Nearest Computer Store from you"
+        android:textColor="@color/colorPrimaryVariant"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/noDataDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/avenir_bold"
+        android:text="@string/no_data_available"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/noDataLottie"
+        app:layout_constraintEnd_toEndOf="@id/noDataLottie"
+        app:layout_constraintStart_toStartOf="@id/noDataLottie" />
 </androidx.constraintlayout.widget.ConstraintLayout>

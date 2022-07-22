@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
-class ComputerStore(
+class ComputerStoreNearest(
     var id: String = "",
     val name: String = "Not set",
     val address: String = "Not set",

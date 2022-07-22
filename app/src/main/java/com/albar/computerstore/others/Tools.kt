@@ -1,19 +1,20 @@
 package com.albar.computerstore.others
 
 import android.util.Base64
-import java.lang.Math.round
 import java.lang.Math.toRadians
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import kotlin.math.asin
 import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 
 object Tools {
     private const val SECRET_KEY = "abcdefghijklmnop"
     private const val SECRET_IV = "ponmlkjihgfedcba"
+    private var DISTANCE = 0.0
 
     // Haversine
     private const val R = 6372.8
@@ -59,7 +60,8 @@ object Tools {
                     .pow(2.0)
             )
         )
-        return round(d * 100.0) / 100.0
+        DISTANCE = (d * 100.0).roundToInt() / 100.0
+        return (d * 100.0).roundToInt() / 100.0
     }
 
     fun euclideanFormula(oLat: Double, oLon: Double, dLat: Double, dLon: Double): Double {
@@ -72,15 +74,24 @@ object Tools {
         return (FV0 - FVw) + FFVsf * FFVcs
     }
 
-    fun timeCalculation(L: Double, FV: Double): Double {
+    fun timeCalculation(L: Double = DISTANCE, FV: Double): Double {
         return L / FV
     }
 
-    fun timeStreeDensity(tk: Double, kj: Double): Double {
+    fun streetDensity(tk: Double, kj: Double): Double {
         return tk / kj
     }
 
-    fun finalOutput() {
+    fun finalOutputWithHaversine(
+        distance: Double,
+        timeCalculation: Double,
+        streetDensity: Double
+    ): Double {
+        return (distance + timeCalculation + streetDensity) / 3
+
+    }
+
+    fun finalOutputWithEuclidean() {
 
     }
 }

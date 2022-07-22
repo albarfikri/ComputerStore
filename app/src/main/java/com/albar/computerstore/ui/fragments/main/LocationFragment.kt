@@ -30,6 +30,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -89,7 +90,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         // getting current latitude and longitude
         val latLng = LatLng(currentLocation?.latitude!!, currentLocation?.longitude!!)
 
-
+        map!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
 
         map!!.isMyLocationEnabled = true
 
@@ -208,6 +209,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 //                        val updateLatLng =
 //                            LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
 //                        drawMarker(updateLatLng)
+                        toastShort(currentLocation?.latitude.toString())
                     }
                 }
             }
