@@ -8,6 +8,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -65,6 +66,7 @@ class EditMemberFragment : Fragment() {
     private var latValue: String? = null
     private var lngValue: String? = null
     private var addressValue: String? = null
+    private var areaOutput: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,6 +110,16 @@ class EditMemberFragment : Fragment() {
                     snackBar.show()
                 }
             }
+        }
+    }
+
+    private fun setUpDropDown() {
+        val productType = resources.getStringArray(R.array.computerStoreArea)
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.dropdown_item_product_type, productType)
+        binding.etArea.setAdapter(arrayAdapter)
+        binding.etArea.setOnItemClickListener { _, _, position, _ ->
+            areaOutput = arrayAdapter.getItem(position).toString()
         }
     }
 
@@ -219,6 +231,11 @@ class EditMemberFragment : Fragment() {
             etAddress.setText(objectComputerStore.address)
             etLat.setText(objectComputerStore.lat.toString())
             etLng.setText(objectComputerStore.lng.toString())
+
+            etArea.setText(objectComputerStore.area)
+            areaOutput = objectComputerStore.area
+            setUpDropDown()
+
             etUsername.setText(objectComputerStore.username)
             etPassword.setText(objectComputerStore.password.decryptCBC())
             etEmail.setText(objectComputerStore.email)
@@ -359,6 +376,7 @@ class EditMemberFragment : Fragment() {
                     isVerified = objectComputerStore.isVerified,
                     lat = etLat.text.toString().toDouble(),
                     lng = etLng.text.toString().toDouble(),
+                    area = areaOutput,
                     createAt = Date(),
                     name = etUsername.text.toString(),
                     address = etAddress.text.toString(),

@@ -57,7 +57,8 @@ class ComputerStoreNearestAdapter(
             binding.apply {
                 tvName.text = item.name
                 tvAddress.text = item.address
-                tvDistance.text = item.positionOrder.toString()
+                tvDistance.text = "${item.distance} Km"
+                tvNearestLevel.text = item.positionOrder.toString()
                 glide
                     .load(item.image)
                     .placeholder(R.drawable.ic_broke_image)

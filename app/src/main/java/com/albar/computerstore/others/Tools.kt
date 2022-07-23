@@ -14,7 +14,6 @@ import kotlin.math.sqrt
 object Tools {
     private const val SECRET_KEY = "abcdefghijklmnop"
     private const val SECRET_IV = "ponmlkjihgfedcba"
-    private var DISTANCE = 0.0
 
     // Haversine
     private const val R = 6372.8
@@ -60,21 +59,33 @@ object Tools {
                     .pow(2.0)
             )
         )
-        DISTANCE = (d * 100.0).roundToInt() / 100.0
+        L = (d * 100.0).roundToInt() / 100.0
         return (d * 100.0).roundToInt() / 100.0
     }
 
     fun euclideanFormula(oLat: Double, oLon: Double, dLat: Double, dLon: Double): Double {
-        val d = sqrt((dLat - oLat).pow(2) + (dLon - oLon).pow(2)) * earthDegree
-
-        return d
+        return sqrt((dLat - oLat).pow(2) + (dLon - oLon).pow(2)) * earthDegree
     }
+
+    // Parameter Kecepatan Arus Bebas
+    private var FV0: Double = 0.0 // Kecepatan arus bebas dasar (km/jam)
+    private var FVw: Double = 0.0 // Penyesuaian kecepatan akibat lebar jalur (km/jam)
+    private var FFVsf: Double = 0.0 // Penyesuaian hambatan samping dan lebar bahu jalan
+    private var FFVcs: Double = 0.0 // Penyesuaian ukuran kota
+
+    // Parameter kalkulasi waktu
+    private var L: Double = 0.0 // Panjang Rute menggunakan haversine atau euclidean
+    private var FV: Double = 0.0 // Kecepatan arus bebas -> output dari kalkulasi speed calculation
+
+    // streetDensity
+    private var tk: Double = 0.0 // Total kendaraan
+    private var kj: Double = 0.0 // Kapasitas jalan
 
     fun speedCalculation(FV0: Double, FVw: Double, FFVsf: Double, FFVcs: Double): Double {
         return (FV0 - FVw) + FFVsf * FFVcs
     }
 
-    fun timeCalculation(L: Double = DISTANCE, FV: Double): Double {
+    fun timeCalculation(L: Double = this.L, FV: Double): Double {
         return L / FV
     }
 
@@ -83,12 +94,77 @@ object Tools {
     }
 
     fun finalOutputWithHaversine(
+        availableArea: Array<String>,
+        computerAreaFromApi: String,
         distance: Double,
-        timeCalculation: Double,
-        streetDensity: Double
     ): Double {
-        return (distance + timeCalculation + streetDensity) / 3
+        var timeCalculation = 0.0
+        var streetDensity = 0.0
 
+        // Sudirman
+        if (availableArea[0] == computerAreaFromApi) {
+            FV0 = 2.2
+            FVw = 2.3
+            FFVsf = 4.2
+            FFVcs = 2.3
+            tk = 0.3
+            kj = 2.2
+        }
+
+        // Riau
+        if (availableArea[1] == computerAreaFromApi) {
+            FV0 = 2.2
+            FVw = 2.3
+            FFVsf = 4.2
+            FFVcs = 2.3
+            tk = 0.3
+            kj = 2.2
+        }
+
+        // Ahmad Yani
+        if (availableArea[2] == computerAreaFromApi) {
+            FV0 = 2.2
+            FVw = 2.3
+            FFVsf = 4.2
+            FFVcs = 2.3
+            tk = 0.3
+            kj = 2.2
+        }
+        // Durian
+        if (availableArea[3] == computerAreaFromApi) {
+            FV0 = 2.2
+            FVw = 2.3
+            FFVsf = 4.2
+            FFVcs = 2.3
+            tk = 0.3
+            kj = 2.2
+        }
+        // Tambusai
+        if (availableArea[4] == computerAreaFromApi) {
+            FV0 = 2.2
+            FVw = 2.3
+            FFVsf = 4.2
+            FFVcs = 2.3
+            tk = 0.3
+            kj = 2.2
+        }
+        // Soekarno-Hatta
+        if (availableArea[5] == computerAreaFromApi) {
+            FV0 = 2.2
+            FVw = 2.3
+            FFVsf = 4.2
+            FFVcs = 2.3
+            tk = 0.3
+            kj = 2.2
+        }
+
+        FV = speedCalculation(FV0, FVw, FFVsf, FFVcs)
+
+        timeCalculation = timeCalculation(distance, FV)
+
+        streetDensity = streetDensity(tk, kj)
+
+        return (distance + timeCalculation + streetDensity) / 3
     }
 
     fun finalOutputWithEuclidean() {

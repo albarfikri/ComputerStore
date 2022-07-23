@@ -59,6 +59,7 @@ class ComputerStoreListAdapter(
                     .placeholder(R.drawable.ic_broke_image)
                     .transform(CenterCrop(), RoundedCorners(10))
                     .into(imgComputerStore)
+
                 detail.setOnClickListener { onDetailClicked.invoke(adapterPosition, item) }
                 call.setOnClickListener {
                     onCallClicked.invoke(

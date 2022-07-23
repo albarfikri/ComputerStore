@@ -58,6 +58,7 @@
     <string name="add_data">Add Data</string>
     <string name="update_data">Update Data</string>
     <string name="productAdd">Product Add</string>
+    <string name="choose_computer_store_area">Choose Computer Store Area</string>
 
 
     <style name="adminMember">
@@ -77,5 +78,14 @@
     <string-array name="productType">
         <item>Computer</item>
         <item>Accessory</item>
+    </string-array>
+
+    <string-array name="computerStoreArea">
+        <item>Sudirman</item>
+        <item>Riau</item>
+        <item>Ahmad Yani</item>
+        <item>Durian</item>
+        <item>Tambusai</item>
+        <item>Soekarno-Hatta</item>
     </string-array>
 </resources>

@@ -24,9 +24,6 @@ import com.albar.computerstore.databinding.FragmentNearestBinding
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Tools.finalOutputWithHaversine
 import com.albar.computerstore.others.Tools.haversineFormula
-import com.albar.computerstore.others.Tools.speedCalculation
-import com.albar.computerstore.others.Tools.streetDensity
-import com.albar.computerstore.others.Tools.timeCalculation
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.show
@@ -219,27 +216,29 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 }
                 is Result.Success -> {
                     binding.loading.hide()
+
                     it.data.forEach { output ->
+                        val availableArea = resources.getStringArray(R.array.computerStoreArea)
+
+                        val computerAreaFromAPI = output.area
+
                         val position = finalOutputWithHaversine(
+                            availableArea,
+                            computerAreaFromAPI,
                             // Distance
                             haversineFormula(
                                 originLatitude,
                                 originLongitude,
                                 output.lat,
                                 output.lng
-                            ),
-                            // TimeCalculation
-                            timeCalculation(
-                                haversineFormula(
-                                    originLatitude,
-                                    originLongitude,
-                                    output.lat,
-                                    output.lng
-                                ),
-                                speedCalculation(123.0, 123.0, 123.0, 12.0)
-                            ),
-                            // Street Density
-                            streetDensity(11.0, 12.0)
+                            )
+                        )
+
+                        val distance = haversineFormula(
+                            originLatitude,
+                            originLongitude,
+                            output.lat,
+                            output.lng
                         )
 
                         val data = ComputerStore(
@@ -256,7 +255,8 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                             email = output.email,
                             username = output.username,
                             password = output.password,
-                            positionOrder = position
+                            positionOrder = position,
+                            distance = distance
                         )
                         listAfterCalculating.add(data)
                     }
@@ -267,6 +267,7 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
         }
     }
+
 
     private fun getAddress(lat: Double, lng: Double): String? {
         val geoCoder = Geocoder(requireContext(), Locale.getDefault())
@@ -304,7 +305,6 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 }
             }
         }
-
         fusedLocationProviderClient.requestLocationUpdates(
             locationRequest, locationCallback as LocationCallback,
             Looper.getMainLooper()
@@ -321,11 +321,11 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     override fun onPause() {
         super.onPause()
-        stopLocationUpdates()
+        if (!isRequestingLocationUpdates) stopLocationUpdates()
     }
 
     override fun onResume() {
-        startLocationUpdates()
+        if (!isRequestingLocationUpdates) startLocationUpdates()
         super.onResume()
     }
 

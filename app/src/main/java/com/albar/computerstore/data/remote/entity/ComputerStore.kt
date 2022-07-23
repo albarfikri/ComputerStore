@@ -12,6 +12,7 @@ class ComputerStore(
     val address: String = "Not set",
     val lat: Double = 0.0,
     val lng: Double = 0.0,
+    val area: String = "",
     val email: String = "Not set",
     val image: String = "",
     val phone: String = "Not set",
@@ -23,6 +24,7 @@ class ComputerStore(
     val isVerified: Boolean = false,
     @field:JvmField
     val isAdmin: Boolean = false,
-    val positionOrder: Double = 0.0
+    val positionOrder: Double = 0.0,
+    val distance: Double = 0.0
     //val computerStoreData: List<ComputerStoreData>? = null
 ) : Parcelable

@@ -78,7 +78,7 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/iv_productImage"
-                android:layout_width="155dp"
+                android:layout_width="185dp"
                 android:layout_height="193dp"
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="12dp"

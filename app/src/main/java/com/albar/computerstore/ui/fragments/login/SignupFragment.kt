@@ -5,6 +5,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -35,6 +36,7 @@ class SignupFragment : Fragment() {
     private var latValue: String? = null
     private var lngValue: String? = null
     private var addressValue: String? = null
+    private var outputGeneral: String = ""
 
     private val viewModel: ComputerStoreViewModel by viewModels()
     private val networkStatusViewModel: NetworkViewModel by viewModels()
@@ -70,6 +72,8 @@ class SignupFragment : Fragment() {
                 noNetworkAvailableSign(isConnected)
             }
         }
+
+        setUpDropDown()
     }
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
@@ -247,6 +251,7 @@ class SignupFragment : Fragment() {
                             address = inputAddress,
                             lat = inputLat.toDouble(),
                             lng = inputLng.toDouble(),
+                            area = outputGeneral,
                             email = inputEmail,
                             phone = inputPhone,
                             image = "",
@@ -261,6 +266,16 @@ class SignupFragment : Fragment() {
         }
     }
 
+    private fun setUpDropDown() {
+        val productType = resources.getStringArray(R.array.computerStoreArea)
+        val arrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.dropdown_item_product_type, productType)
+        outputGeneral = arrayAdapter.getItem(0).toString()
+        binding.etArea.setAdapter(arrayAdapter)
+        binding.etArea.setOnItemClickListener { _, _, position, _ ->
+            outputGeneral = arrayAdapter.getItem(position).toString()
+        }
+    }
 
     private fun clearFields() {
         binding.apply {
