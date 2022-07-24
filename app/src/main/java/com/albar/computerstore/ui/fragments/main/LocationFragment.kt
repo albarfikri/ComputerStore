@@ -63,6 +63,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private lateinit var setLocation: LatLng
     private var addressBasedOnLatLng: String = ""
 
+    private var computerStoreName: String = ""
+
 
     private lateinit var locationRequest: LocationRequest
     private var locationCallback: LocationCallback? = null
@@ -121,7 +123,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         if (!isCurrentLocation) {
             val markerOptions = MarkerOptions()
                 .position(latLng)
-                .title(titleText)
+                .title(computerStoreName)
                 .snippet(getAddress(latLng.latitude, latLng.longitude))
                 .draggable(false)
             map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
@@ -169,8 +171,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                 }
                 is Result.Success -> {
                     binding.loading.hide()
-                    it.data.forEach {
-                        val newLatLng = LatLng(it.lat, it.lng)
+                    it.data.forEach { output ->
+                        computerStoreName = output.name
+                        val newLatLng = LatLng(output.lat, output.lng)
                         drawMarker(newLatLng)
                     }
                 }

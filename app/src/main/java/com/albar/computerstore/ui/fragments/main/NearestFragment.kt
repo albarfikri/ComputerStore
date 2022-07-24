@@ -204,7 +204,7 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun retrieveData() {
         viewModel.getComputerStore()
-        viewModel.computerStore.observe(viewLifecycleOwner) { it ->
+        viewModel.computerStore.observe(requireActivity()) { it ->
             when (it) {
                 is Result.Loading -> {
                     listAfterCalculating.clear()

@@ -203,7 +203,7 @@ class MemberFragment : Fragment() {
         id = obj.id
 
         binding.apply {
-            etUsername.text = obj.username
+            etUsername.text = obj.name
             glide
                 .load(obj.image)
                 .placeholder(R.drawable.ic_broke_image)

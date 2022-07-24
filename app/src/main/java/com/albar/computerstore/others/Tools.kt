@@ -148,6 +148,7 @@ object Tools {
             tk = 0.3
             kj = 2.2
         }
+
         // Soekarno-Hatta
         if (availableArea[5] == computerAreaFromApi) {
             FV0 = 2.2

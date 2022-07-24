@@ -378,7 +378,7 @@ class EditMemberFragment : Fragment() {
                     lng = etLng.text.toString().toDouble(),
                     area = areaOutput,
                     createAt = Date(),
-                    name = etUsername.text.toString(),
+                    name = etStoreName.text.toString(),
                     address = etAddress.text.toString(),
                     image = imageUri.toString(),
                     phone = etPhone.text.toString(),
