@@ -17,11 +17,8 @@ import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentLocationBinding
-import com.albar.computerstore.others.Constants
-import com.albar.computerstore.others.hide
+import com.albar.computerstore.others.*
 import com.albar.computerstore.others.permissions.AppUtility
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomInfoWindowGoogleMap
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
@@ -86,12 +83,15 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        // getting current latitude and longitude
-        val latLng = LatLng(currentLocation?.latitude!!, currentLocation?.longitude!!)
-
         map!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
 
         map!!.isMyLocationEnabled = true
+        map?.setPadding(0, 0, 0, 125)
+        map?.uiSettings?.setAllGesturesEnabled(true)
+        map?.uiSettings?.isMyLocationButtonEnabled = true
+        map?.uiSettings?.isZoomGesturesEnabled = true
+        map?.uiSettings?.isMapToolbarEnabled = true
+        map?.uiSettings?.isZoomControlsEnabled = true
 
         // get coordinates by dragging marker
         map!!.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
@@ -104,10 +104,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                 }
 
                 isCurrentLocation = true
-
-                // adding new coordinates from the new marker
-                val newLatLng = LatLng(marker.position.latitude, marker.position.longitude)
-                //drawMarker(newLatLng)
             }
 
             override fun onMarkerDragStart(marker: Marker) {}
@@ -140,38 +136,35 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private fun drawMarker(computerStoreData: List<ComputerStore>) {
         for (data in computerStoreData) {
             val info = ComputerStore()
+            val distance = Tools.haversineFormula(
+                currentLocation!!.latitude,
+                currentLocation!!.longitude,
+                data.lat,
+                data.lng
+            )
+
             info.name = data.name
             info.address = data.address
             info.image = data.image
-
-            val customInfoWindow = CustomInfoWindowGoogleMap(requireActivity(), glide)
-            map?.setInfoWindowAdapter(customInfoWindow)
+            info.distance = distance
 
             val markerOptions = MarkerOptions()
                 .position(LatLng(data.lat, data.lng))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
 
             currentMarker = map?.addMarker(markerOptions)
+
+            val customInfoWindow = CustomInfoWindowGoogleMap(requireActivity(), glide)
+            map?.setInfoWindowAdapter(customInfoWindow)
+
             currentMarker?.tag = info
             currentMarker?.showInfoWindow()
 
             map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 12f))
-            map?.uiSettings?.setAllGesturesEnabled(true)
-            map?.uiSettings?.isZoomGesturesEnabled = true
 
             setLocation = LatLng(data.lat, data.lng)
         }
     }
-
-//    private fun getAddress(lat: Double, lng: Double): String? {
-//        val geoCoder = Geocoder(requireContext(), Locale.getDefault())
-//        val address = geoCoder.getFromLocation(lat, lng, 1)
-//        if (address.size > 0) {
-//            addressBasedOnLatLng = address[0].getAddressLine(0).toString()
-//            return address[0].getAddressLine(0).toString()
-//        }
-//        return ""
-//    }
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
         if (!isConnectionAvailable) {

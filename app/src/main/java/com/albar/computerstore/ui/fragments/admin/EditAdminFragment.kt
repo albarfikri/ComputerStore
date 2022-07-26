@@ -253,11 +253,17 @@ class EditAdminFragment : Fragment() {
                     when (uploadedUri) {
                         is Result.Loading -> {
                             binding.progressBar.show()
+                            binding.btnUpdate.isClickable = false
+                            binding.btnUpdate.alpha = 0.6F
                         }
                         is Result.Error -> {
+                            binding.btnUpdate.isClickable = false
+                            binding.btnUpdate.alpha = 0.6F
                             binding.progressBar.hide()
                         }
                         is Result.Success -> {
+                            binding.btnUpdate.alpha = 1F
+                            binding.btnUpdate.isClickable = true
                             imageUri = uploadedUri.data
                             binding.progressBar.hide()
                         }

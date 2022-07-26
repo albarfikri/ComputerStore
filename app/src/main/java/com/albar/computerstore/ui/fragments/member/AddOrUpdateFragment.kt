@@ -327,13 +327,13 @@ class AddOrUpdateFragment : Fragment() {
             val data = result.data
             when (resultCode) {
                 Activity.RESULT_OK -> {
+                    binding.progressBar.hide()
                     val fileUri = data?.data!!
                     imageUri = fileUri
-                    binding.progressBar.hide()
                     glide
                         .load(imageUri)
                         .placeholder(R.drawable.ic_broke_image)
-                        .transform(CenterCrop(), RoundedCorners(50))
+                        .transform(CenterCrop(), RoundedCorners(10))
                         .into(binding.image)
                     imageUpload()
                 }
@@ -342,7 +342,7 @@ class AddOrUpdateFragment : Fragment() {
                     toastShort(ImagePicker.getError(data))
                 }
                 else -> {
-                    binding.progressBar.hide()
+                    binding.progressBar.show()
                 }
             }
         }
@@ -354,11 +354,17 @@ class AddOrUpdateFragment : Fragment() {
                     when (uploadedUri) {
                         is Result.Loading -> {
                             binding.progressBar.show()
+                            binding.btnAddNewData.isClickable = false
+                            binding.btnAddNewData.alpha = 0.6F
                         }
                         is Result.Error -> {
-                            binding.progressBar.hide()
+                            binding.btnAddNewData.isClickable = false
+                            binding.btnProgressAdd.alpha = 0.6F
+                            binding.btnAddNewData.hide()
                         }
                         is Result.Success -> {
+                            binding.btnAddNewData.isClickable = true
+                            binding.btnAddNewData.alpha = 1F
                             imageUri = uploadedUri.data
                             binding.progressBar.hide()
                         }

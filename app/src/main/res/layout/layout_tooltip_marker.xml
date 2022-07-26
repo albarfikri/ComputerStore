@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:background="@drawable/custom_tooltip_bg"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_tooltip_bg">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_content"
@@ -13,9 +13,9 @@
         android:layout_centerInParent="true"
         android:elevation="0dp"
         android:orientation="vertical"
-        app:cardUseCompatPadding="true"
         app:cardBackgroundColor="@color/colorPrimaryVariant"
-        app:cardCornerRadius="18dp">
+        app:cardCornerRadius="18dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,20 +33,49 @@
                     android:layout_width="100dp"
                     android:layout_height="80dp"
                     android:layout_alignParentStart="true"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    app:tint="@color/white" />
 
                 <TextView
-                    android:id="@+id/tv_nama_toko_komputer"
+                    android:id="@+id/tv_computer_store_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_toEndOf="@id/iv_location"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_toEndOf="@+id/iv_location"
                     android:fontFamily="@font/avenir_bold"
                     android:text="@string/loading"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_computer_store_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_computer_store_name"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_toEndOf="@+id/iv_location"
+                    android:fontFamily="@font/avenir_medium"
+                    android:text="@string/loading"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />    
+                
+<!--                <TextView-->
+<!--                    android:id="@+id/tv_computer_store_time_estimation"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_below="@id/tv_computer_store_name"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_marginStart="4dp"-->
+<!--                    android:layout_marginEnd="4dp"-->
+<!--                    android:layout_toEndOf="@+id/iv_location"-->
+<!--                    android:fontFamily="@font/avenir_medium"-->
+<!--                    android:text="@string/loading"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="12sp" />-->
             </RelativeLayout>
 
             <LinearLayout
@@ -54,13 +83,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_tooltip_bg"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:translationZ="24dp">
 
                 <TextView
                     android:id="@+id/iv_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/avenir_regular"
+                    android:fontFamily="@font/avenir_medium"
                     android:text="@string/loading"
                     android:textColor="@color/white"
                     android:textSize="12sp" />

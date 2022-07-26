@@ -142,7 +142,6 @@ class EditMemberFragment : Fragment() {
                 val inputPassword = etPassword.text.toString().trim()
 
 
-
                 if (inputStoreName.isEmpty()) {
                     isEmptyFields = true
                     etStoreName.error = "Store Name Field cannot be empty"
@@ -268,7 +267,7 @@ class EditMemberFragment : Fragment() {
                     toastShort(ImagePicker.getError(data))
                 }
                 else -> {
-                    binding.progressBar.hide()
+                    binding.progressBar.show()
                 }
             }
         }
@@ -290,6 +289,8 @@ class EditMemberFragment : Fragment() {
                         }
                         is Result.Success -> {
                             imageUri = uploadedUri.data
+                            binding.btnUpdateMember.isClickable = true
+                            binding.btnUpdateMember.alpha = 1.0F
                             binding.progressBar.hide()
                             binding.btnUpdateMember.show()
                         }
