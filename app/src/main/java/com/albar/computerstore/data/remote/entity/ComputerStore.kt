@@ -8,13 +8,13 @@ import java.util.*
 @Parcelize
 class ComputerStore(
     var id: String = "",
-    val name: String = "Not set",
-    val address: String = "Not set",
+    var name: String = "Not set",
+    var address: String = "Not set",
     val lat: Double = 0.0,
     val lng: Double = 0.0,
     val area: String = "",
     val email: String = "Not set",
-    val image: String = "",
+    var image: String = "",
     val phone: String = "Not set",
     val username: String = "Not set",
     val password: String = "Not set",

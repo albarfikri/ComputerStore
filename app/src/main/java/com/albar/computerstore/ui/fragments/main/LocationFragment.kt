@@ -3,7 +3,6 @@ package com.albar.computerstore.ui.fragments.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.location.Geocoder
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -16,27 +15,26 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
+import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentLocationBinding
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
+import com.albar.computerstore.ui.dialogfragments.CustomInfoWindowGoogleMap
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
+import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -46,6 +44,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
     @Inject
     lateinit var sharedPref: SharedPreferences
+
+    @Inject
+    lateinit var glide: RequestManager
 
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -61,10 +62,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private var isRequestingLocationUpdates = false
 
     private lateinit var setLocation: LatLng
-    private var addressBasedOnLatLng: String = ""
-
-    private var computerStoreName: String = ""
-
 
     private lateinit var locationRequest: LocationRequest
     private var locationCallback: LocationCallback? = null
@@ -117,47 +114,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         })
     }
 
-    private fun drawMarker(latLng: LatLng) {
-        val titleText = if (!isCurrentLocation) "Your current coordinate" else "Your new coordinate"
-
-        if (!isCurrentLocation) {
-            val markerOptions = MarkerOptions()
-                .position(latLng)
-                .title(computerStoreName)
-                .snippet(getAddress(latLng.latitude, latLng.longitude))
-                .draggable(false)
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
-            currentMarker = map?.addMarker(markerOptions)
-            currentMarker?.showInfoWindow()
-
-            setLocation = latLng
-
-            isCurrentLocation = false
-        } else {
-            val markerOptions = MarkerOptions()
-                .position(latLng)
-                .title(titleText)
-                .snippet(getAddress(latLng.latitude, latLng.longitude))
-                .draggable(true)
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
-            currentMarker = map?.addMarker(markerOptions)
-            currentMarker?.showInfoWindow()
-
-            setLocation = latLng
-        }
-
-    }
-
-    private fun getAddress(lat: Double, lng: Double): String? {
-        val geoCoder = Geocoder(requireContext(), Locale.getDefault())
-        val address = geoCoder.getFromLocation(lat, lng, 1)
-        if (address.size > 0) {
-            addressBasedOnLatLng = address[0].getAddressLine(0).toString()
-            return address[0].getAddressLine(0).toString()
-        }
-        return ""
-    }
-
     private fun retrieveData() {
         viewModel.getComputerStore()
         viewModel.computerStore.observe(viewLifecycleOwner) {
@@ -171,15 +127,51 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                 }
                 is Result.Success -> {
                     binding.loading.hide()
-                    it.data.forEach { output ->
-                        computerStoreName = output.name
-                        val newLatLng = LatLng(output.lat, output.lng)
-                        drawMarker(newLatLng)
+                    if (it.data.isNotEmpty()) {
+                        drawMarker(it.data)
+                    } else {
+                        toastShort("Have no computer store data!")
                     }
                 }
             }
         }
     }
+
+    private fun drawMarker(computerStoreData: List<ComputerStore>) {
+        for (data in computerStoreData) {
+            val info = ComputerStore()
+            info.name = data.name
+            info.address = data.address
+            info.image = data.image
+
+            val customInfoWindow = CustomInfoWindowGoogleMap(requireActivity(), glide)
+            map?.setInfoWindowAdapter(customInfoWindow)
+
+            val markerOptions = MarkerOptions()
+                .position(LatLng(data.lat, data.lng))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+
+            currentMarker = map?.addMarker(markerOptions)
+            currentMarker?.tag = info
+            currentMarker?.showInfoWindow()
+
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 12f))
+            map?.uiSettings?.setAllGesturesEnabled(true)
+            map?.uiSettings?.isZoomGesturesEnabled = true
+
+            setLocation = LatLng(data.lat, data.lng)
+        }
+    }
+
+//    private fun getAddress(lat: Double, lng: Double): String? {
+//        val geoCoder = Geocoder(requireContext(), Locale.getDefault())
+//        val address = geoCoder.getFromLocation(lat, lng, 1)
+//        if (address.size > 0) {
+//            addressBasedOnLatLng = address[0].getAddressLine(0).toString()
+//            return address[0].getAddressLine(0).toString()
+//        }
+//        return ""
+//    }
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
         if (!isConnectionAvailable) {
@@ -212,7 +204,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 //                        val updateLatLng =
 //                            LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
 //                        drawMarker(updateLatLng)
-                        toastShort(currentLocation?.latitude.toString())
                     }
                 }
             }

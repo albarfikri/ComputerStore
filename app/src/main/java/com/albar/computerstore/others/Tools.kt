@@ -47,8 +47,6 @@ object Tools {
     // o -> origin, d -> destination
 
     fun haversineFormula(oLat: Double, oLon: Double, dLat: Double, dLon: Double): Double {
-        val lat1 = toRadians(oLat)
-        val lat2 = toRadians(dLat)
         val Δlat = toRadians(dLat - oLat)
         val Δlon = toRadians(dLon - oLon)
 
@@ -71,7 +69,7 @@ object Tools {
     private var FV0: Double = 0.0 // Kecepatan arus bebas dasar (km/jam)
     private var FVw: Double = 0.0 // Penyesuaian kecepatan akibat lebar jalur (km/jam)
     private var FFVsf: Double = 0.0 // Penyesuaian hambatan samping dan lebar bahu jalan
-    private var FFVcs: Double = 0.0 // Penyesuaian ukuran kota
+    private var FFVcs: Double = 0.0 // Penyesuaian ukuran kota 994.59 juta
 
     // Parameter kalkulasi waktu
     private var L: Double = 0.0 // Panjang Rute menggunakan haversine atau euclidean
@@ -81,15 +79,15 @@ object Tools {
     private var tk: Double = 0.0 // Total kendaraan
     private var kj: Double = 0.0 // Kapasitas jalan
 
-    fun speedCalculation(FV0: Double, FVw: Double, FFVsf: Double, FFVcs: Double): Double {
+    private fun speedCalculation(FV0: Double, FVw: Double, FFVsf: Double, FFVcs: Double): Double {
         return (FV0 - FVw) + FFVsf * FFVcs
     }
 
-    fun timeCalculation(L: Double = this.L, FV: Double): Double {
+    private fun timeCalculation(L: Double = this.L, FV: Double): Double {
         return L / FV
     }
 
-    fun streetDensity(tk: Double, kj: Double): Double {
+    private fun streetDensity(tk: Double, kj: Double): Double {
         return tk / kj
     }
 
@@ -98,74 +96,71 @@ object Tools {
         computerAreaFromApi: String,
         distance: Double,
     ): Double {
-        var timeCalculation = 0.0
-        var streetDensity = 0.0
-
         // Sudirman
         if (availableArea[0] == computerAreaFromApi) {
-            FV0 = 2.2
-            FVw = 2.3
-            FFVsf = 4.2
-            FFVcs = 2.3
-            tk = 0.3
-            kj = 2.2
+            FV0 = 57.0
+            FVw = 0.0
+            FFVsf = 0.0
+            FFVcs = 0.94
+            tk = 3395.0
+            kj = 4203.11
         }
 
         // Riau
         if (availableArea[1] == computerAreaFromApi) {
-            FV0 = 2.2
-            FVw = 2.3
-            FFVsf = 4.2
-            FFVcs = 2.3
-            tk = 0.3
-            kj = 2.2
+            FV0 = 42.0
+            FVw = 3.0
+            FFVsf = 0.0
+            FFVcs = 0.94
+            tk = 1888.96
+            kj = 2726.05
         }
 
         // Ahmad Yani
         if (availableArea[2] == computerAreaFromApi) {
-            FV0 = 2.2
-            FVw = 2.3
-            FFVsf = 4.2
-            FFVcs = 2.3
-            tk = 0.3
-            kj = 2.2
+            FV0 = 51.0
+            FVw = 0.0
+            FFVsf = 0.0
+            FFVcs = 0.94
+            tk = 1675.0
+            kj = 4022.37
         }
         // Durian
         if (availableArea[3] == computerAreaFromApi) {
-            FV0 = 2.2
-            FVw = 2.3
-            FFVsf = 4.2
-            FFVcs = 2.3
-            tk = 0.3
-            kj = 2.2
+            FV0 = 42.0
+            FVw = 3.0
+            FFVsf = 0.0
+            FFVcs = 0.94
+            tk = 928.5
+            kj = 1745.63
         }
         // Tambusai
         if (availableArea[4] == computerAreaFromApi) {
-            FV0 = 2.2
-            FVw = 2.3
-            FFVsf = 4.2
-            FFVcs = 2.3
-            tk = 0.3
-            kj = 2.2
+            FV0 = 55.0
+            FVw = 0.0
+            FFVsf = 0.0
+            FFVcs = 0.94
+            tk = 1840.9
+            kj = 2241.45
         }
 
         // Soekarno-Hatta
         if (availableArea[5] == computerAreaFromApi) {
-            FV0 = 2.2
-            FVw = 2.3
-            FFVsf = 4.2
-            FFVcs = 2.3
-            tk = 0.3
-            kj = 2.2
+            FV0 = 55.0
+            FVw = 0.0
+            FFVsf = 0.0
+            FFVcs = 0.94
+            tk = 1996.0
+            kj = 4205.78
         }
 
         FV = speedCalculation(FV0, FVw, FFVsf, FFVcs)
 
-        timeCalculation = timeCalculation(distance, FV)
+        val timeCalculation: Double = timeCalculation(distance, FV)
 
-        streetDensity = streetDensity(tk, kj)
+        val streetDensity: Double = streetDensity(tk, kj)
 
-        return (distance + timeCalculation + streetDensity) / 3
+        return (timeCalculation + streetDensity) / 3
     }
 
     fun finalOutputWithEuclidean() {
