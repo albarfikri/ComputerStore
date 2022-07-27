@@ -4,7 +4,9 @@ import android.content.SharedPreferences
 import android.net.Uri
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
+import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.Constants.COMPUTER_STORE_PRODUCT_TABLE
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_TABLE
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
@@ -104,15 +106,33 @@ class ComputerStoreRepositoryImp(
         result: (Result<String>) -> Unit
     ) {
         val document = database.collection(COMPUTER_STORE_TABLE).document(computerStore.id)
+        deleteProductInComputerStore(computerStore)
         document
             .delete()
             .addOnSuccessListener {
+
                 result.invoke(
                     Result.Success("Computer Store has been deleted successfully")
                 )
             }
             .addOnFailureListener {
                 result.invoke(Result.Error(it.localizedMessage!!))
+            }
+    }
+
+    private fun deleteProductInComputerStore(computerStore: ComputerStore) {
+        val product = ComputerStoreProduct()
+        product.idComputerStore = computerStore.id
+
+        val document = database.collection(COMPUTER_STORE_PRODUCT_TABLE)
+        document
+            .document(product.idComputerStore)
+            .delete()
+            .addOnSuccessListener {
+                Result.Success("Computer Store has been deleted successfully")
+            }
+            .addOnFailureListener {
+                Result.Error(it.localizedMessage!!)
             }
     }
 

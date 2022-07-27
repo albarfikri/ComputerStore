@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.albar.computerstore.R
-import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 import com.albar.computerstore.databinding.ItemComputerStoreProductBinding
+import com.albar.computerstore.others.Tools.moneyConverter
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -60,7 +60,12 @@ class ComputerStoreProductAdapter(
                     .transform(CenterCrop(), RoundedCorners(10))
                     .into(ivProduct)
                 tvProduct.text = item.productName
-                tvPrice.text = item.productPrice
+                if (item.productPrice != "Not set") {
+                    val productPrice = item.productPrice.replace("[Rp. ]".toRegex(), "")
+                    tvPrice.text = moneyConverter(productPrice.toDouble())
+                } else {
+                    tvPrice.text = "Not set"
+                }
                 cvComputerProduct.setOnClickListener {
                     onItemClicked.invoke(adapterPosition, item)
                 }

@@ -77,6 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="6dp"
+            android:fontFamily="@font/avenir_bold"
+            android:textColor="@color/colorPrimary"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_Product"
             app:layout_constraintHorizontal_bias="0.0"

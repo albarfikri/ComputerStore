@@ -2,6 +2,8 @@ package com.albar.computerstore.others
 
 import android.util.Base64
 import java.lang.Math.toRadians
+import java.text.NumberFormat
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -20,6 +22,16 @@ object Tools {
 
     // Euclidean
     private const val earthDegree = 111.322
+
+    // Money Converter
+    fun moneyConverter(number: Double): String {
+        val localeID = Locale("IND", "ID")
+        val numberFormat = NumberFormat.getCurrencyInstance(localeID)
+        val rupiahFormat = numberFormat.format(number)
+        val split = rupiahFormat.split(",")
+        val length = split[0].length
+        return split[0].substring(0, 2) + ". " + split[0].substring(2, length)
+    }
 
     // Encrypt Formula
     fun String.encryptCBC(): String {

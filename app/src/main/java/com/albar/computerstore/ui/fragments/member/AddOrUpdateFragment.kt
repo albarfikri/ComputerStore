@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +26,7 @@ import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 import com.albar.computerstore.databinding.FragmentAddOrUpdateBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
 import com.albar.computerstore.others.*
+import com.albar.computerstore.others.Tools.moneyConverter
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -171,6 +174,34 @@ class AddOrUpdateFragment : Fragment() {
     }
 
     private fun addOrUpdateDataExecution() {
+        var getInputProductPrice = binding.etProductPrice.text.toString().trim()
+        binding.etProductPrice.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(text: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (text.toString() != getInputProductPrice) {
+                    binding.etProductPrice.removeTextChangedListener(this)
+                    val replace = text.toString().replace("[Rp. ]".toRegex(), "")
+                    if (replace.isNotEmpty()) {
+                        getInputProductPrice = moneyConverter(replace.toDouble())
+                    } else {
+                        getInputProductPrice = ""
+                    }
+                    binding.etProductPrice.setText(getInputProductPrice)
+                    binding.etProductPrice.setSelection(getInputProductPrice.length)
+                    binding.etProductPrice.addTextChangedListener(this)
+
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
         binding.apply {
             btnAddNewData.setOnClickListener {
                 var isEmptyFields = false
@@ -200,10 +231,9 @@ class AddOrUpdateFragment : Fragment() {
 
                     // from bundle
                     val idComputerStoreProduct =
-                        arguments?.getString(EXTRA_ID_COMPUTER_STORE_PRODUCT)!!
-                    val type = arguments?.getString(EXTRA_ACTION_TYPE, "")
+                        arguments?.getString(EXTRA_ID_COMPUTER_STORE_PRODUCT) ?: ""
 
-                    when (type) {
+                    when (arguments?.getString(EXTRA_ACTION_TYPE, "")) {
                         "add" -> {
                             viewModel.addData(
                                 ComputerStoreProduct(
@@ -242,6 +272,7 @@ class AddOrUpdateFragment : Fragment() {
             }
         }
     }
+
 
     private fun addOrUpdateData() {
         when (arguments?.getString(EXTRA_ACTION_TYPE, "")) {
@@ -319,7 +350,6 @@ class AddOrUpdateFragment : Fragment() {
             etUnit.clearFocus()
         }
     }
-
 
     private val startForImageResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->

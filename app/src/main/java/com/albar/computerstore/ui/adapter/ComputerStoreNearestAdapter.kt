@@ -13,7 +13,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 class ComputerStoreNearestAdapter(
     val onItemClicked: (Int, ComputerStore) -> Unit,
     val onCallClicked: (Int, String) -> Unit,
-    val onDetailClicked: (Int, ComputerStore) -> Unit,
+    val onNavigate: (Int, ComputerStore) -> Unit,
     val glide: RequestManager
 ) : RecyclerView.Adapter<ComputerStoreNearestAdapter.MyViewHolder>() {
 
@@ -64,7 +64,7 @@ class ComputerStoreNearestAdapter(
                     .placeholder(R.drawable.ic_broke_image)
                     .transform(CenterCrop(), RoundedCorners(10))
                     .into(imgComputerStore)
-                detail.setOnClickListener { onDetailClicked.invoke(adapterPosition, item) }
+                navigate.setOnClickListener { onNavigate.invoke(adapterPosition, item) }
                 call.setOnClickListener {
                     onCallClicked.invoke(
                         adapterPosition,

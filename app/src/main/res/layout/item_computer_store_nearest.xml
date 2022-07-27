@@ -108,17 +108,17 @@
             android:layout_marginTop="8dp"
             android:padding="8dp"
             android:src="@drawable/ic_round_phone"
-            app:layout_constraintEnd_toStartOf="@+id/detail"
+            app:layout_constraintEnd_toStartOf="@+id/navigate"
             app:layout_constraintTop_toBottomOf="@+id/divider" />
 
         <ImageView
-            android:id="@+id/detail"
+            android:id="@+id/navigate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:padding="8dp"
-            android:src="@drawable/ic_detail"
+            android:src="@drawable/ic_navigation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider"
             app:tint="@color/defaultColor" />

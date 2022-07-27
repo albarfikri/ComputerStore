@@ -43,7 +43,7 @@ class ComputerStoreListFragment : Fragment() {
 
     private val adapter by lazy {
         ComputerStoreListAdapter(
-            onItemClicked = { position, item ->
+            onItemClicked = { _, _ ->
 
             },
             onCallClicked = { _, item ->

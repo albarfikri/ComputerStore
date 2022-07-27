@@ -60,12 +60,8 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private val viewModel: ComputerStoreViewModel by viewModels()
 
     private var currentLocation: Location? = null
-    private var currentMarker: Marker? = null
-    private var map: GoogleMap? = null
-    private var isCurrentLocation = false
     private var isRequestingLocationUpdates = false
 
-    private lateinit var setLocation: LatLng
     private var addressBasedOnLatLng: String = ""
 
     private var originLatitude: Double = 0.0
@@ -82,19 +78,19 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private val adapter by lazy {
         ComputerStoreNearestAdapter(
-            onItemClicked = { position, item ->
-
+            onItemClicked = { _, item ->
+                findNavController().navigate(R.id.action_nearest_to_detailList, Bundle().apply {
+                    putBoolean(DetailComputerStoreFragment.D0_CALL_OR_VERIFIED_USER, false)
+                    putString(Constants.KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
+                    putParcelable(Constants.PARCELABLE_KEY, item)
+                })
             },
             onCallClicked = { _, item ->
                 val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$item"))
                 startActivity(dialPhoneIntent)
             },
-            onDetailClicked = { _, item ->
-                findNavController().navigate(R.id.action_list_to_detailList, Bundle().apply {
-                    putBoolean(DetailComputerStoreFragment.D0_CALL_OR_VERIFIED_USER, false)
-                    putString(Constants.KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
-                    putParcelable(Constants.PARCELABLE_KEY, item)
-                })
+            onNavigate = { _, _ ->
+
             },
             glide
         )
@@ -104,7 +100,7 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNearestBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -269,7 +265,7 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
 
-    private fun getAddress(lat: Double, lng: Double): String? {
+    private fun getAddress(lat: Double, lng: Double): String {
         val geoCoder = Geocoder(requireContext(), Locale.getDefault())
         val address = geoCoder.getFromLocation(lat, lng, 1)
         if (address.size > 0) {

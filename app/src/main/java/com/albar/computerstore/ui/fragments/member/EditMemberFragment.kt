@@ -165,7 +165,7 @@ class EditMemberFragment : Fragment() {
 
                 if (inputPhone.isEmpty()) {
                     isEmptyFields = true
-                    etPassword.error = "Phone Field cannot be empty"
+                    etPhone.error = "Phone Field cannot be empty"
                 }
 
                 if (inputUsername.isEmpty()) {

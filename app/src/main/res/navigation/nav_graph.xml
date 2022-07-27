@@ -28,7 +28,12 @@
     <fragment
         android:id="@+id/nearest"
         android:name="com.albar.computerstore.ui.fragments.main.NearestFragment"
-        android:label="NearestFragment"/>
+        android:label="NearestFragment">
+        <action
+            android:id="@+id/action_nearest_to_detailList"
+            app:destination="@id/detailList"
+            app:enterAnim="@anim/open_center" />
+    </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.albar.computerstore.ui.fragments.main.SplashScreenFragment"
@@ -55,7 +60,9 @@
             app:destination="@id/list" />
         <action
             android:id="@+id/action_detailList_to_detailComputerStoreProductFragment"
-            app:destination="@id/detailComputerStoreProductFragment" />
+            app:destination="@id/detailComputerStoreProductFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/exit_to_left" />
     </fragment>
     <fragment
         android:id="@+id/detailComputerStoreProductFragment"

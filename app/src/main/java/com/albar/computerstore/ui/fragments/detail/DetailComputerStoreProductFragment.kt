@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentDetailComputerStoreProductBinding
+import com.albar.computerstore.others.Tools.moneyConverter
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
@@ -56,6 +57,7 @@ class DetailComputerStoreProductFragment : Fragment() {
                 is Result.Success -> {
                     toastShort("Set Successfully")
                     binding.apply {
+                        val productPrice = output.data.productPrice.replace("[Rp. ]".toRegex(), "")
                         glide
                             .load(output.data.productImage)
                             .placeholder(R.drawable.ic_broke_image)
@@ -67,7 +69,7 @@ class DetailComputerStoreProductFragment : Fragment() {
                             .transform(CenterCrop(), RoundedCorners(12))
                             .into(binding.ivProductImage)
                         tvProductName.text = output.data.productName
-                        tvProductPrice.text = output.data.productPrice
+                        tvProductPrice.text = moneyConverter(productPrice.toDouble())
                         tvProductType.text = output.data.productType
                         tvUnit.text = "${output.data.unit.toString()} Unit"
                         tvSpecification.text = output.data.productSpecification
