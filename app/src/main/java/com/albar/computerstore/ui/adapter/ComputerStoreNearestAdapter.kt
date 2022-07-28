@@ -58,10 +58,13 @@ class ComputerStoreNearestAdapter(
             binding.apply {
                 tvName.text = item.name
                 tvAddress.text = item.address
-                tvDistance.text = "${item.distance} Km"
-                tvNearestLevel.text =
+                tvDistance.text = "${item.distance} km"
+                tvNearestLevel.text = if (item.positionOrder.toString() == "NaN") ({
+                    item.positionOrder = Float.NaN.toDouble()
+                }).toString() else {
                     item.positionOrder.toBigDecimal().setScale(12, RoundingMode.UP).toDouble()
                         .toString()
+                }
                 glide
                     .load(item.image)
                     .placeholder(R.drawable.ic_broke_image)

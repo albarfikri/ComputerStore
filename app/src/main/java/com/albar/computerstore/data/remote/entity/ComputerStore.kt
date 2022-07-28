@@ -24,7 +24,7 @@ class ComputerStore(
     val isVerified: Boolean = false,
     @field:JvmField
     val isAdmin: Boolean = false,
-    val positionOrder: Double = 0.0,
+    var positionOrder: Double = 0.0,
     var distance: Double = 0.0
     //val computerStoreData: List<ComputerStoreData>? = null
 ) : Parcelable
