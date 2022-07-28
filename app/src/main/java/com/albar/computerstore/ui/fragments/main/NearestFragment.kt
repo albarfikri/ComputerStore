@@ -13,6 +13,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -22,7 +23,8 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentNearestBinding
 import com.albar.computerstore.others.Constants
-import com.albar.computerstore.others.Tools.finalOutputWithHaversine
+import com.albar.computerstore.others.Tools.euclideanFormula
+import com.albar.computerstore.others.Tools.finalOutput
 import com.albar.computerstore.others.Tools.haversineFormula
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.permissions.AppUtility
@@ -34,9 +36,6 @@ import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
@@ -66,6 +65,9 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private var originLatitude: Double = 0.0
     private var originLongitude: Double = 0.0
+    private var position: Double = 0.0
+    private var distance: Double = 0.0
+    private var isHaversine: Boolean = true
 
 
     private lateinit var locationRequest: LocationRequest
@@ -124,6 +126,7 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
                     .show()
                 noNetworkAvailableSign(isConnected)
+                methodType()
                 retrieveData()
             }
         }
@@ -198,6 +201,29 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
+    private fun methodType() {
+        binding.spMethodType.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+                    when (p2) {
+                        0 -> {
+                            isHaversine = true
+                        }
+                        1 -> {
+                            isHaversine = false
+                        }
+                    }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
+    }
+
     private fun retrieveData() {
         viewModel.getComputerStore()
         viewModel.computerStore.observe(requireActivity()) { it ->
@@ -212,30 +238,48 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 }
                 is Result.Success -> {
                     binding.loading.hide()
-
                     it.data.forEach { output ->
                         val availableArea = resources.getStringArray(R.array.computerStoreArea)
 
                         val computerAreaFromAPI = output.area
 
-                        val position = finalOutputWithHaversine(
-                            availableArea,
-                            computerAreaFromAPI,
-                            // Distance
-                            haversineFormula(
+                        if (isHaversine) {
+                            position = finalOutput(
+                                availableArea,
+                                computerAreaFromAPI,
+                                // Distance
+                                haversineFormula(
+                                    originLatitude,
+                                    originLongitude,
+                                    output.lat,
+                                    output.lng
+                                )
+                            )
+                            distance = haversineFormula(
                                 originLatitude,
                                 originLongitude,
                                 output.lat,
                                 output.lng
                             )
-                        )
-
-                        val distance = haversineFormula(
-                            originLatitude,
-                            originLongitude,
-                            output.lat,
-                            output.lng
-                        )
+                        } else {
+                            position = finalOutput(
+                                availableArea,
+                                computerAreaFromAPI,
+                                // Distance
+                                euclideanFormula(
+                                    originLatitude,
+                                    originLongitude,
+                                    output.lat,
+                                    output.lng
+                                )
+                            )
+                            distance = euclideanFormula(
+                                originLatitude,
+                                originLongitude,
+                                output.lat,
+                                output.lng
+                            )
+                        }
 
                         val data = ComputerStore(
                             id = output.id,

@@ -192,7 +192,6 @@ class AddOrUpdateFragment : Fragment() {
                     binding.etProductPrice.setText(getInputProductPrice)
                     binding.etProductPrice.setSelection(getInputProductPrice.length)
                     binding.etProductPrice.addTextChangedListener(this)
-
                 }
             }
 

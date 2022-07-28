@@ -103,7 +103,7 @@ object Tools {
         return tk / kj
     }
 
-    fun finalOutputWithHaversine(
+    fun finalOutput(
         availableArea: Array<String>,
         computerAreaFromApi: String,
         distance: Double,

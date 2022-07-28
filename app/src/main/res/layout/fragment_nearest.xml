@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginBottom="46dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="46dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvLon"
@@ -156,16 +156,36 @@
 
     <TextView
         android:id="@+id/tv_nearestDetail"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="18dp"
         android:fontFamily="@font/avenir_bold"
-        android:text="Nearest Computer Store from you"
+        android:text="Nearest from you"
         android:textColor="@color/colorPrimaryVariant"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline" />
+
+    <ImageView
+        android:id="@+id/iconNearest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_nearest"
+        app:layout_constraintBottom_toBottomOf="@id/tv_nearestDetail"
+        app:layout_constraintStart_toEndOf="@id/tv_nearestDetail"
+        app:layout_constraintTop_toTopOf="@id/tv_nearestDetail"
+        app:tint="@color/colorPrimaryVariant" />
+
+    <Spinner
+        android:id="@+id/spMethodType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:entries="@array/filter_options"
+        app:layout_constraintBottom_toBottomOf="@+id/iconNearest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iconNearest" />
 
     <TextView
         android:id="@+id/noDataDescription"

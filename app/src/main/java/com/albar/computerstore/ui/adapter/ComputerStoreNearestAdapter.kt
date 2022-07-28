@@ -9,6 +9,7 @@ import com.albar.computerstore.databinding.ItemComputerStoreNearestBinding
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import java.math.RoundingMode
 
 class ComputerStoreNearestAdapter(
     val onItemClicked: (Int, ComputerStore) -> Unit,
@@ -58,7 +59,9 @@ class ComputerStoreNearestAdapter(
                 tvName.text = item.name
                 tvAddress.text = item.address
                 tvDistance.text = "${item.distance} Km"
-                tvNearestLevel.text = item.positionOrder.toString()
+                tvNearestLevel.text =
+                    item.positionOrder.toBigDecimal().setScale(12, RoundingMode.UP).toDouble()
+                        .toString()
                 glide
                     .load(item.image)
                     .placeholder(R.drawable.ic_broke_image)

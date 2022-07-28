@@ -88,4 +88,9 @@
         <item>Tambusai</item>
         <item>Soekarno-Hatta</item>
     </string-array>
+
+    <string-array name="filter_options">
+        <item>Haversine</item>
+        <item>Euclidean</item>
+    </string-array>
 </resources>

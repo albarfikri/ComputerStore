@@ -10,6 +10,7 @@ import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 
@@ -27,17 +28,20 @@ class CustomInfoWindowGoogleMap(
         val tvComputerAddress = view.findViewById<TextView>(R.id.iv_address)
         val tvComputerDistance = view.findViewById<TextView>(R.id.tv_computer_store_distance)
         val tvImage = view.findViewById<ImageView>(R.id.iv_location)
-
         val infoWindow = p0.tag as ComputerStore
-        tvComputerName.text = infoWindow.name
-        tvComputerAddress.text = infoWindow.address
-        tvComputerDistance.text = "± ${infoWindow.distance} Km"
-
+        val requestOption = RequestOptions.overrideOf(100, 80)
         glide
+            .asBitmap()
             .load(infoWindow.image)
             .placeholder(R.drawable.ic_broke_image)
+            .apply(requestOption)
             .transform(CenterCrop(), RoundedCorners(10))
             .into(tvImage)
+        tvComputerName.text = infoWindow.name
+        tvComputerAddress.text = infoWindow.address
+        tvComputerDistance.text = "± ${infoWindow.distance} km dari lokasi anda"
+
+
 
         return view
     }
