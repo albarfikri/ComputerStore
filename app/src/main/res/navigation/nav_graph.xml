@@ -63,10 +63,17 @@
             app:destination="@id/detailComputerStoreProductFragment"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/exit_to_left" />
+        <action
+            android:id="@+id/action_detailList_to_searchProductFragment2"
+            app:destination="@id/searchProductFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailComputerStoreProductFragment"
         android:name="com.albar.computerstore.ui.fragments.detail.DetailComputerStoreProductFragment"
         android:label="fragment_detail_computer_store_product"
         tools:layout="@layout/fragment_detail_computer_store_product" />
+    <fragment
+        android:id="@+id/searchProductFragment2"
+        android:name="com.albar.computerstore.ui.fragments.member.SearchProductFragment"
+        android:label="SearchProductFragment" />
 </navigation>

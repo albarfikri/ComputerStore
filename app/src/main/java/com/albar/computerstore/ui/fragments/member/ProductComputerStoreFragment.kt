@@ -67,7 +67,6 @@ class ProductComputerStoreFragment : Fragment() {
     private val adapter by lazy {
         ComputerStoreProductAdapter(
             onItemClicked = { _, item ->
-                toastShort(arguments?.getString(EXTRA_ADAPTER_SET_FROM))
                 when (arguments?.getString(EXTRA_ADAPTER_SET_FROM)) {
                     "Main" -> {
                         findNavController().navigate(

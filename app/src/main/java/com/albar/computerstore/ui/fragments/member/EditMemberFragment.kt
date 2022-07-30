@@ -219,7 +219,6 @@ class EditMemberFragment : Fragment() {
 
         // set to edit text
         binding.apply {
-            toastShort(objectComputerStore.image.toUri().toString())
             imageUri = objectComputerStore.image.toUri()
             glide
                 .load(imageUri)

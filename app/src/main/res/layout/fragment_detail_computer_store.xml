@@ -65,6 +65,17 @@
                 app:layout_constraintTop_toTopOf="@+id/bgToolbar"
                 app:tint="@color/white" />
 
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="@id/bgToolbar"
+                app:layout_constraintEnd_toEndOf="@+id/bgToolbar"
+                app:layout_constraintTop_toTopOf="@+id/bgToolbar"
+                app:tint="@color/white" />
+
             <TextView
                 android:id="@+id/collapsedTitle"
                 android:layout_width="wrap_content"

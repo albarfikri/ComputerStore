@@ -2,6 +2,7 @@ package com.albar.computerstore.ui.fragments.detail
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,8 @@ import com.albar.computerstore.others.show
 import com.albar.computerstore.others.snackBarShort
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
+import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment
+import com.albar.computerstore.ui.fragments.member.SearchProductFragment.Companion.EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -65,6 +68,19 @@ class DetailComputerStoreFragment : Fragment() {
         setUpAdapterAndViewPager()
         showDetail()
         buttonBack()
+        search()
+    }
+
+    private fun search() {
+        binding.search.setOnClickListener {
+            objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
+            findNavController().navigate(
+                R.id.action_detailList_to_searchProductFragment2,
+                Bundle().apply {
+                    putString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, objectComputerStore?.id)
+                }
+            )
+        }
     }
 
     private fun doCall() {
@@ -115,12 +131,14 @@ class DetailComputerStoreFragment : Fragment() {
                             "Computer Store has been Verified",
                             Snackbar.LENGTH_SHORT
                         )
-                        snackBar.view.setBackgroundColor(
-                            resources.getColor(
-                                R.color.verified,
-                                context?.theme
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            snackBar.view.setBackgroundColor(
+                                resources.getColor(
+                                    R.color.verified,
+                                    context?.theme
+                                )
                             )
-                        )
+                        }
                         snackBar.show()
                     } else {
                         binding.fabAction.setImageResource(R.drawable.ic_unverified_computer_store)

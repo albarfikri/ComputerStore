@@ -100,7 +100,6 @@ class AddOrUpdateFragment : Fragment() {
 
     private fun setDefaultText() {
         val idComputerStoreProduct = arguments?.getString(EXTRA_ID_COMPUTER_STORE_PRODUCT, "")!!
-        toastShort(idComputerStoreProduct)
         viewModel.getProductById(idComputerStoreProduct)
         viewModel.getProductById.observe(viewLifecycleOwner) { output ->
             when (output) {
@@ -186,10 +185,10 @@ class AddOrUpdateFragment : Fragment() {
                 if (text.toString() != getInputProductPrice) {
                     binding.etProductPrice.removeTextChangedListener(this)
                     val replace = text.toString().replace("[Rp. ]".toRegex(), "")
-                    if (replace.isNotEmpty()) {
-                        getInputProductPrice = moneyConverter(replace.toDouble())
+                    getInputProductPrice = if (replace.isNotEmpty()) {
+                        moneyConverter(replace.toDouble())
                     } else {
-                        getInputProductPrice = ""
+                        ""
                     }
                     binding.etProductPrice.setText(getInputProductPrice)
                     binding.etProductPrice.setSelection(getInputProductPrice.length)
@@ -305,7 +304,6 @@ class AddOrUpdateFragment : Fragment() {
                     toastShort(output.error)
                 }
                 is Result.Success -> {
-                    toastShort(output.data)
                     binding.btnProgressAdd.hide()
                     binding.btnAddNewData.text = getString(R.string.update_data)
                     binding.btnAddNewData.snackBarShort("Data updated successfully")
@@ -327,7 +325,6 @@ class AddOrUpdateFragment : Fragment() {
                     toastShort(output.error)
                 }
                 is Result.Success -> {
-                    toastShort(output.data)
                     clearFields()
                     binding.btnProgressAdd.hide()
                     binding.btnAddNewData.text = getString(R.string.signup)
