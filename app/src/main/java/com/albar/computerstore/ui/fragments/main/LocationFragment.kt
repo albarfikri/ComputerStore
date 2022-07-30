@@ -3,11 +3,8 @@ package com.albar.computerstore.ui.fragments.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -17,10 +14,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
-import com.albar.computerstore.data.remote.entity.MapData
+import com.albar.computerstore.data.remote.entity.DirectionLegModel
+import com.albar.computerstore.data.remote.entity.DirectionResponseModel
+import com.albar.computerstore.data.remote.entity.DirectionRouteModel
 import com.albar.computerstore.databinding.FragmentLocationBinding
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Formula.haversineFormula
@@ -30,6 +30,7 @@ import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomInfoWindowGoogleMap
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
+import com.albar.computerstore.ui.viewmodels.LocationViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.*
@@ -38,17 +39,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.android.libraries.places.api.Places
-import com.google.gson.Gson
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.Request
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCallbacks {
+class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.PermissionCallbacks,
+    GoogleMap.OnMarkerClickListener {
     private var _binding: FragmentLocationBinding? = null
     private val binding get() = _binding!!
 
@@ -65,18 +63,19 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
     private val viewModel: ComputerStoreViewModel by viewModels()
 
+    private val locationViewModel: LocationViewModel by viewModels()
+
     private var currentLocation: Location? = null
-    private var destinationLocation: Location? = null
 
     private var currentMarker: Marker? = null
     private var map: GoogleMap? = null
-    private var isCurrentLocation = false
     private var isRequestingLocationUpdates = false
 
     private lateinit var setLocation: LatLng
 
     private lateinit var locationRequest: LocationRequest
     private var locationCallback: LocationCallback? = null
+    private var polylineFinal: Polyline? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,25 +107,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         map?.uiSettings?.isZoomGesturesEnabled = true
         map?.uiSettings?.isMapToolbarEnabled = true
         map?.uiSettings?.isZoomControlsEnabled = true
-
-        // get coordinates by dragging marker
-        map!!.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
-            override fun onMarkerDrag(marker: Marker) {}
-
-            override fun onMarkerDragEnd(marker: Marker) {
-                // if marker is dragged, remove marker and add the new one
-                if (currentMarker != null) {
-                    currentMarker?.remove()
-                }
-
-                isCurrentLocation = true
-            }
-
-            override fun onMarkerDragStart(marker: Marker) {}
-        })
-
-//        map!!.setOnMarkerClickListener {
-//        }
+        map?.setOnMarkerClickListener(this)
     }
 
     private fun retrieveData() {
@@ -161,21 +142,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                 data.lat,
                 data.lng
             )
-
-
-            val ai: ApplicationInfo = requireActivity().packageManager
-                .getApplicationInfo(requireActivity().packageName, PackageManager.GET_META_DATA)
-            val value = ai.metaData["com.google.android.geo.API_KEY"]
-            val apiKey = value.toString()
-
-            if (!Places.isInitialized()) {
-                Places.initialize(requireActivity(), apiKey)
-            }
-
-            val origin = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
-            val destination = LatLng(data.lat, data.lng)
-            val url = getDirectionURL(origin, destination, apiKey)
-            GetDirection(url).execute()
 
             info.name = data.name
             info.address = data.address
@@ -228,9 +194,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                     if (location != null) {
                         currentLocation?.latitude
                         currentLocation?.longitude
-//                        val updateLatLng =
-//                            LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
-//                        drawMarker(updateLatLng)
                     }
                 }
             }
@@ -239,82 +202,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             locationRequest, locationCallback as LocationCallback,
             Looper.getMainLooper()
         )
-    }
-
-
-    private fun getDirectionURL(origin: LatLng, dest: LatLng, secret: String): String {
-        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
-                "&destination=${dest.latitude},${dest.longitude}" +
-                "&sensor=false" +
-                "&mode=driving" +
-                "&key=$secret"
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private inner class GetDirection(val url: String) :
-        AsyncTask<Void, Void, List<List<LatLng>>>() {
-        override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
-            val client = OkHttpClient()
-            val request = Request.Builder().url(url).build()
-            val response = client.newCall(request).execute()
-            val data = response.body().toString()
-
-            val result = ArrayList<List<LatLng>>()
-            try {
-                val respObj = Gson().fromJson(data, MapData::class.java)
-                val path = ArrayList<LatLng>()
-                for (i in 0 until respObj.routes[0].legs[0].steps.size) {
-                    path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
-                }
-                result.add(path)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-            return result
-        }
-
-        override fun onPostExecute(result: List<List<LatLng>>) {
-            val lineoption = PolylineOptions()
-            for (i in result.indices) {
-                lineoption.addAll(result[i])
-                lineoption.width(10f)
-                lineoption.color(Color.GREEN)
-                lineoption.geodesic(true)
-            }
-            map?.addPolyline(lineoption)
-        }
-    }
-
-    fun decodePolyline(encoded: String): List<LatLng> {
-        val poly = ArrayList<LatLng>()
-        var index = 0
-        val len = encoded.length
-        var lat = 0
-        var lng = 0
-        while (index < len) {
-            var b: Int
-            var shift = 0
-            var result = 0
-            do {
-                b = encoded[index++].code - 63
-                result = result or (b and 0x1f shl shift)
-                shift += 5
-            } while (b >= 0x20)
-            val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            lat += dlat
-            shift = 0
-            result = 0
-            do {
-                b = encoded[index++].code - 63
-                result = result or (b and 0x1f shl shift)
-                shift += 5
-            } while (b >= 0x20)
-            val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            lng += dlng
-            val latLng = LatLng((lat.toDouble() / 1E5), (lng.toDouble() / 1E5))
-            poly.add(latLng)
-        }
-        return poly
     }
 
     @SuppressLint("MissingPermission")
@@ -405,5 +292,117 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onMarkerClick(p0: Marker): Boolean {
+        val stepList: MutableList<LatLng> = ArrayList()
+        val options = PolylineOptions().apply {
+            width(14f)
+            color(Color.MAGENTA)
+            geodesic(true)
+            clickable(true)
+            visible(true)
+        }
+
+        polylineFinal?.remove()
+
+        val key = "AIzaSyAkmHpMq2iqx_Em1tP0P6tmA-wS3ePNaWM"
+        val url = "https://maps.googleapis.com/maps/api/directions/json?" +
+                "origin=" + currentLocation?.latitude + "," + currentLocation?.longitude +
+                "&destination=" + p0.position.latitude + "," + p0.position.longitude +
+                "&mode=driving" +
+                "&key=" + key
+
+        lifecycleScope.launchWhenCreated {
+            locationViewModel.getDirection(url).collect {
+                when (it) {
+                    is Result.Loading -> {
+                        binding.loading.show()
+                    }
+
+                    is Result.Success -> {
+                        binding.loading.hide()
+                        val directionResponseModel: DirectionResponseModel =
+                            it.data as DirectionResponseModel
+
+                        val routeModel: DirectionRouteModel =
+                            directionResponseModel.directionRouteModels!![0]
+
+
+                        val legModel: DirectionLegModel = routeModel.legs?.get(0)!!
+
+
+                        val pattern: List<PatternItem>
+                        pattern = listOf(Dash(30f))
+
+                        options.pattern(pattern)
+                        for (stepModel in legModel.steps!!) {
+                            val decodeList = decode(stepModel.polyline?.points!!)
+                            for (latLng in decodeList) {
+                                stepList.add(
+                                    LatLng(
+                                        latLng.latitude,
+                                        latLng.longitude
+                                    )
+                                )
+                            }
+                        }
+
+                        options.addAll(stepList)
+                        polylineFinal = map?.addPolyline(options)
+                        val startLocation = LatLng(
+                            legModel.startLocation?.lat!!,
+                            legModel.startLocation.lng!!
+                        )
+
+                        val endLocation = LatLng(
+                            legModel.endLocation?.lat!!,
+                            legModel.endLocation.lng!!
+                        )
+
+                        val builder = LatLngBounds.builder()
+                        builder.include(endLocation).include(startLocation)
+                        val latLngBounds = builder.build()
+
+                        map?.animateCamera(
+                            CameraUpdateFactory.newLatLngBounds(
+                                latLngBounds, 32
+                            )
+                        )
+                    }
+                }
+            }
+        }
+
+        return false
+    }
+
+    private fun decode(points: String): List<LatLng> {
+        val len = points.length
+        val path: MutableList<LatLng> = java.util.ArrayList(len / 2)
+        var index = 0
+        var lat = 0
+        var lng = 0
+        while (index < len) {
+            var result = 1
+            var shift = 0
+            var b: Int
+            do {
+                b = points[index++].code - 63 - 1
+                result += b shl shift
+                shift += 5
+            } while (b >= 0x1f)
+            lat += if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            result = 1
+            shift = 0
+            do {
+                b = points[index++].code - 63 - 1
+                result += b shl shift
+                shift += 5
+            } while (b >= 0x1f)
+            lng += if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            path.add(LatLng(lat * 1e-5, lng * 1e-5))
+        }
+        return path
     }
 }

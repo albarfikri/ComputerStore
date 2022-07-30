@@ -29,7 +29,7 @@ class CustomInfoWindowGoogleMap(
         val tvComputerDistance = view.findViewById<TextView>(R.id.tv_computer_store_distance)
         val tvImage = view.findViewById<ImageView>(R.id.iv_location)
         val infoWindow = p0.tag as ComputerStore
-        val requestOption = RequestOptions.overrideOf(100, 80)
+        val requestOption = RequestOptions.overrideOf(120, 100)
         glide
             .asBitmap()
             .load(infoWindow.image)
@@ -40,8 +40,6 @@ class CustomInfoWindowGoogleMap(
         tvComputerName.text = infoWindow.name
         tvComputerAddress.text = infoWindow.address
         tvComputerDistance.text = "± ${infoWindow.distance} km dari lokasi anda"
-
-
 
         return view
     }
