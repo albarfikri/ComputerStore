@@ -90,16 +90,16 @@ class ComputerStoreProductViewModel @Inject constructor(
         }
     }
 
-    fun getProductByName(productName: String) {
+    fun getProductByName(idComputerStore: String, productName: String) {
         _getProductByName.value = Result.Loading
-        computerStoreProductRepository.getProductByName(productName) {
+        computerStoreProductRepository.getProductByName(idComputerStore,productName) {
             _getProductByName.value = it
         }
     }
 
-    fun getAllProduct() {
+    fun getAllProductByIdComputerStore(idComputerStore: String) {
         _getAllProduct.value = Result.Loading
-        computerStoreProductRepository.getComputerStoreProduct {
+        computerStoreProductRepository.getAllProductByIdComputerStore(idComputerStore) {
             _getAllProduct.value = it
         }
     }

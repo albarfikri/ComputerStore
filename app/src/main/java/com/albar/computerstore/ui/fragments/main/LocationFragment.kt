@@ -3,7 +3,11 @@ package com.albar.computerstore.ui.fragments.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
@@ -16,9 +20,14 @@ import androidx.fragment.app.viewModels
 import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
+import com.albar.computerstore.data.remote.entity.MapData
 import com.albar.computerstore.databinding.FragmentLocationBinding
-import com.albar.computerstore.others.*
+import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.Formula.haversineFormula
+import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.permissions.AppUtility
+import com.albar.computerstore.others.show
+import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomInfoWindowGoogleMap
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
@@ -29,6 +38,10 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.Places
+import com.google.gson.Gson
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
 import timber.log.Timber
@@ -53,6 +66,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private val viewModel: ComputerStoreViewModel by viewModels()
 
     private var currentLocation: Location? = null
+    private var destinationLocation: Location? = null
+
     private var currentMarker: Marker? = null
     private var map: GoogleMap? = null
     private var isCurrentLocation = false
@@ -81,6 +96,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
+
         map = googleMap
 
         map!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
@@ -108,6 +124,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             override fun onMarkerDragStart(marker: Marker) {}
         })
+
+//        map!!.setOnMarkerClickListener {
+//        }
     }
 
     private fun retrieveData() {
@@ -136,12 +155,27 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private fun drawMarker(computerStoreData: List<ComputerStore>) {
         for (data in computerStoreData) {
             val info = ComputerStore()
-            val distance = Tools.haversineFormula(
+            val distance = haversineFormula(
                 currentLocation!!.latitude,
                 currentLocation!!.longitude,
                 data.lat,
                 data.lng
             )
+
+
+            val ai: ApplicationInfo = requireActivity().packageManager
+                .getApplicationInfo(requireActivity().packageName, PackageManager.GET_META_DATA)
+            val value = ai.metaData["com.google.android.geo.API_KEY"]
+            val apiKey = value.toString()
+
+            if (!Places.isInitialized()) {
+                Places.initialize(requireActivity(), apiKey)
+            }
+
+            val origin = LatLng(currentLocation!!.latitude, currentLocation!!.longitude)
+            val destination = LatLng(data.lat, data.lng)
+            val url = getDirectionURL(origin, destination, apiKey)
+            GetDirection(url).execute()
 
             info.name = data.name
             info.address = data.address
@@ -205,6 +239,82 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             locationRequest, locationCallback as LocationCallback,
             Looper.getMainLooper()
         )
+    }
+
+
+    private fun getDirectionURL(origin: LatLng, dest: LatLng, secret: String): String {
+        return "https://maps.googleapis.com/maps/api/directions/json?origin=${origin.latitude},${origin.longitude}" +
+                "&destination=${dest.latitude},${dest.longitude}" +
+                "&sensor=false" +
+                "&mode=driving" +
+                "&key=$secret"
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private inner class GetDirection(val url: String) :
+        AsyncTask<Void, Void, List<List<LatLng>>>() {
+        override fun doInBackground(vararg params: Void?): List<List<LatLng>> {
+            val client = OkHttpClient()
+            val request = Request.Builder().url(url).build()
+            val response = client.newCall(request).execute()
+            val data = response.body().toString()
+
+            val result = ArrayList<List<LatLng>>()
+            try {
+                val respObj = Gson().fromJson(data, MapData::class.java)
+                val path = ArrayList<LatLng>()
+                for (i in 0 until respObj.routes[0].legs[0].steps.size) {
+                    path.addAll(decodePolyline(respObj.routes[0].legs[0].steps[i].polyline.points))
+                }
+                result.add(path)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return result
+        }
+
+        override fun onPostExecute(result: List<List<LatLng>>) {
+            val lineoption = PolylineOptions()
+            for (i in result.indices) {
+                lineoption.addAll(result[i])
+                lineoption.width(10f)
+                lineoption.color(Color.GREEN)
+                lineoption.geodesic(true)
+            }
+            map?.addPolyline(lineoption)
+        }
+    }
+
+    fun decodePolyline(encoded: String): List<LatLng> {
+        val poly = ArrayList<LatLng>()
+        var index = 0
+        val len = encoded.length
+        var lat = 0
+        var lng = 0
+        while (index < len) {
+            var b: Int
+            var shift = 0
+            var result = 0
+            do {
+                b = encoded[index++].code - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlat = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lat += dlat
+            shift = 0
+            result = 0
+            do {
+                b = encoded[index++].code - 63
+                result = result or (b and 0x1f shl shift)
+                shift += 5
+            } while (b >= 0x20)
+            val dlng = if (result and 1 != 0) (result shr 1).inv() else result shr 1
+            lng += dlng
+            val latLng = LatLng((lat.toDouble() / 1E5), (lng.toDouble() / 1E5))
+            poly.add(latLng)
+        }
+        return poly
     }
 
     @SuppressLint("MissingPermission")

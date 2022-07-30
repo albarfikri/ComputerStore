@@ -213,6 +213,8 @@ class MemberFragment : Fragment() {
     }
 
     private fun fabButtons() {
+        val json = sharedPref.getString(Constants.COMPUTER_STORE_SESSION, "")
+        val obj = gson.fromJson(json, ComputerStore::class.java)
         binding.apply {
             btnGroup.setOnClickListener {
                 groupButtonClicked()
@@ -220,7 +222,7 @@ class MemberFragment : Fragment() {
 
             btnAdd.setOnClickListener {
                 val mBundle = Bundle()
-                mBundle.putString(EXTRA_ID_COMPUTER_STORE, id)
+                mBundle.putString(EXTRA_ID_COMPUTER_STORE, obj.id)
                 mBundle.putString(EXTRA_ACTION_TYPE, "add")
                 findNavController().navigate(
                     R.id.action_memberFragment_to_addOrUpdateFragment,
@@ -269,6 +271,8 @@ class MemberFragment : Fragment() {
     }
 
     private fun animationToSearchFragment() {
+        val json = sharedPref.getString(Constants.COMPUTER_STORE_SESSION, "")
+        val obj = gson.fromJson(json, ComputerStore::class.java)
         val animation =
             AnimationUtils.loadAnimation(requireContext(), R.anim.circle_explosion_anim).apply {
                 duration = 700
@@ -278,8 +282,13 @@ class MemberFragment : Fragment() {
         with(binding) {
             viewInterpolator.isInvisible = true
             viewInterpolator.startAnimation(animation) {
+                val mBundle = Bundle()
+                mBundle.putString(EXTRA_ID_COMPUTER_STORE, id)
                 findNavController().navigate(
-                    R.id.action_memberFragment_to_searchProductFragment
+                    R.id.action_memberFragment_to_searchProductFragment,
+                    Bundle().apply {
+                        putString(SearchProductFragment.EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, obj.id)
+                    }
                 )
                 viewInterpolator.isInvisible = false
             }

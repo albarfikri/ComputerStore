@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -112,6 +113,7 @@ class AddOrUpdateFragment : Fragment() {
                             .placeholder(R.drawable.ic_broke_image)
                             .transform(CenterCrop(), RoundedCorners(12))
                             .into(binding.image)
+                        imageUri = output.data.productImage.toUri()
                         etProductName.setText(output.data.productName)
                         etProductPrice.setText(output.data.productPrice)
                         etType.setText(output.data.productType)

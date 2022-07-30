@@ -36,6 +36,10 @@ class SearchProductFragment : Fragment() {
     @Inject
     lateinit var gson: Gson
 
+    companion object {
+        const val EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING = "extra_id_computer_store_for_searching"
+    }
+
     private val adapter by lazy {
         ComputerStoreProductAdapter(
             onItemClicked = { _, item ->
@@ -54,14 +58,17 @@ class SearchProductFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchProductBinding.inflate(inflater, container, false)
-        viewModel.getAllProduct()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val idComputerStoreProduct =
+            arguments?.getString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING) ?: ""
+        viewModel.getAllProductByIdComputerStore(idComputerStoreProduct)
         backToThePrevious()
         setUpRecyclerView()
         search()
@@ -69,7 +76,7 @@ class SearchProductFragment : Fragment() {
     }
 
     private fun search() {
-
+        val idComputerStore = arguments?.getString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING) ?: ""
         binding.svProduct.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String): Boolean {
                 return false
@@ -77,10 +84,10 @@ class SearchProductFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isNotEmpty()) {
-                    viewModel.getProductByName(newText)
+                    viewModel.getProductByName(idComputerStore, newText)
                     observeAdapterToGetSearch()
                 } else {
-                    viewModel.getAllProduct()
+                    viewModel.getAllProductByIdComputerStore(idComputerStore)
                 }
                 return true
             }

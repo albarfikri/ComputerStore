@@ -23,9 +23,9 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentNearestBinding
 import com.albar.computerstore.others.Constants
-import com.albar.computerstore.others.Tools.euclideanFormula
-import com.albar.computerstore.others.Tools.finalOutput
-import com.albar.computerstore.others.Tools.haversineFormula
+import com.albar.computerstore.others.Formula.euclideanFormula
+import com.albar.computerstore.others.Formula.finalOutput
+import com.albar.computerstore.others.Formula.haversineFormula
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.show

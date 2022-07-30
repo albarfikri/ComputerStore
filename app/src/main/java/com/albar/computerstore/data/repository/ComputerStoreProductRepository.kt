@@ -5,7 +5,10 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 
 interface ComputerStoreProductRepository {
-    fun getComputerStoreProduct(result: (Result<List<ComputerStoreProduct>>) -> Unit)
+    fun getAllProductByIdComputerStore(
+        idComputerStore: String,
+        result: (Result<List<ComputerStoreProduct>>) -> Unit
+    )
 
     fun getProductByType(
         idComputerStore: String,
@@ -19,6 +22,7 @@ interface ComputerStoreProductRepository {
     )
 
     fun getProductByName(
+        idComputerStore: String,
         productName: String,
         result: (Result<List<ComputerStoreProduct>>) -> Unit
     )

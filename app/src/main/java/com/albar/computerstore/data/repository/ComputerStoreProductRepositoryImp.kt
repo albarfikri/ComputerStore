@@ -3,7 +3,6 @@ package com.albar.computerstore.data.repository
 import android.content.SharedPreferences
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
-import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_PRODUCT_TABLE
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.StorageReference
@@ -15,9 +14,12 @@ class ComputerStoreProductRepositoryImp(
     private val sharedPref: SharedPreferences,
     private val gson: Gson
 ) : ComputerStoreProductRepository {
-    override fun getComputerStoreProduct(result: (Result<List<ComputerStoreProduct>>) -> Unit) {
-        val document = database.collection(Constants.COMPUTER_STORE_PRODUCT_TABLE)
-        document
+    override fun getAllProductByIdComputerStore(
+        idComputerStore: String,
+        result: (Result<List<ComputerStoreProduct>>) -> Unit
+    ) {
+        val document = database.collection(COMPUTER_STORE_PRODUCT_TABLE)
+        document.whereEqualTo("idComputerStore", idComputerStore)
             .get()
             .addOnSuccessListener {
                 if (it.isEmpty) {
@@ -90,11 +92,12 @@ class ComputerStoreProductRepositoryImp(
     }
 
     override fun getProductByName(
+        idComputerStore: String,
         productName: String,
         result: (Result<List<ComputerStoreProduct>>) -> Unit
     ) {
         val document = database.collection(COMPUTER_STORE_PRODUCT_TABLE)
-        document
+        document.whereEqualTo("idComputerStore", idComputerStore)
             .get()
             .addOnSuccessListener {
                 if (it.isEmpty) {

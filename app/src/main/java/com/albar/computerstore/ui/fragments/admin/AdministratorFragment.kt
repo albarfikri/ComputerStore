@@ -21,7 +21,6 @@ import com.albar.computerstore.databinding.FragmentAdministratorBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_SESSION
-import com.albar.computerstore.others.Tools.haversineFormula
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.AdministratorPagerAdapter
