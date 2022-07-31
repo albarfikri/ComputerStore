@@ -38,18 +38,30 @@ class SearchProductFragment : Fragment() {
 
     companion object {
         const val EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING = "extra_id_computer_store_for_searching"
+        const val EXTRA_TYPE = "extra_type"
     }
 
     private val adapter by lazy {
+        val type = arguments?.getString(EXTRA_TYPE)
         ComputerStoreProductAdapter(
             onItemClicked = { _, item ->
-                findNavController().navigate(
-                    R.id.action_searchProductFragment_to_addOrUpdateFragment,
-                    Bundle().apply {
-                        putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
-                        putString(AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
-                    }
-                )
+                if (type.equals("computer_store"))
+                    findNavController().navigate(
+                        R.id.action_searchProductFragment_to_addOrUpdateFragment,
+                        Bundle().apply {
+                            putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
+                            putString(AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
+                        }
+                    )
+                if (type.equals("user")) {
+                    findNavController().navigate(
+                        R.id.action_searchProductFragment2_to_detailComputerStoreProductFragment,
+                        Bundle().apply {
+                            putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
+                            putString(AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
+                        }
+                    )
+                }
             },
             glide
         )

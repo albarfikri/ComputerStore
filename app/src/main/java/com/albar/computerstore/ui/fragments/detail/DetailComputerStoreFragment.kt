@@ -22,8 +22,8 @@ import com.albar.computerstore.others.show
 import com.albar.computerstore.others.snackBarShort
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.DetailSectionsPagerAdapter
-import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment
 import com.albar.computerstore.ui.fragments.member.SearchProductFragment.Companion.EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING
+import com.albar.computerstore.ui.fragments.member.SearchProductFragment.Companion.EXTRA_TYPE
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -78,6 +78,7 @@ class DetailComputerStoreFragment : Fragment() {
                 R.id.action_detailList_to_searchProductFragment2,
                 Bundle().apply {
                     putString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, objectComputerStore?.id)
+                    putString(EXTRA_TYPE, "user")
                 }
             )
         }
@@ -223,7 +224,6 @@ class DetailComputerStoreFragment : Fragment() {
         val detailSectionsPagerAdapter = DetailSectionsPagerAdapter(this)
         objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
         detailSectionsPagerAdapter.objectComputerStore = objectComputerStore
-
 
         binding.apply {
             viewPager2.adapter = detailSectionsPagerAdapter

@@ -90,7 +90,7 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
     private fun askingForPermissionAgain() {
         Handler(Looper.myLooper()!!).postDelayed({
             requestPermission()
-        }, 1500L)
+        }, 1000L)
     }
 
     private fun tvAnimation() {

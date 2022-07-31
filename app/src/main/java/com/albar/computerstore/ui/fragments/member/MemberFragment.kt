@@ -288,6 +288,7 @@ class MemberFragment : Fragment() {
                     R.id.action_memberFragment_to_searchProductFragment,
                     Bundle().apply {
                         putString(SearchProductFragment.EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, obj.id)
+                        putString(SearchProductFragment.EXTRA_TYPE, "computer_store")
                     }
                 )
                 viewInterpolator.isInvisible = false

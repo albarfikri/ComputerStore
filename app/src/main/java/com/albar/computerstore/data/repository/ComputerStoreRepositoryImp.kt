@@ -10,15 +10,17 @@ import com.albar.computerstore.others.Constants.COMPUTER_STORE_PRODUCT_TABLE
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_TABLE
 import com.google.firebase.FirebaseException
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ComputerStoreRepositoryImp(
     private val database: FirebaseFirestore,
-    private val storageRef: StorageReference,
+    private val storageRef: FirebaseStorage,
     private val sharedPref: SharedPreferences,
     private val gson: Gson
 ) : ComputerStoreRepository {
@@ -137,14 +139,15 @@ class ComputerStoreRepositoryImp(
     }
 
     override suspend fun uploadImage(fileUri: Uri, onResult: (Result<Uri>) -> Unit) {
+        val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+        val now = Date()
+        val filename = formatter.format(now)
         try {
             val uri: Uri = withContext(Dispatchers.IO) {
-                storageRef
-                    .putFile(fileUri)
-                    .await()
+                storageRef.reference.child("Images/$filename")
+                    .putFile(fileUri).await()
                     .storage
-                    .downloadUrl
-                    .await()
+                    .downloadUrl.await()
             }
             onResult.invoke(Result.Success(uri))
         } catch (e: FirebaseException) {

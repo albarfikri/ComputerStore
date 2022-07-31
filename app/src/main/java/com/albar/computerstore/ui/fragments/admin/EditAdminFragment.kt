@@ -34,7 +34,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -216,7 +215,7 @@ class EditAdminFragment : Fragment() {
                     toastShort(ImagePicker.getError(data))
                 }
                 else -> {
-                    binding.progressBar.hide()
+                    toastShort("You've canceled selecting picture")
                 }
             }
         }
@@ -232,7 +231,7 @@ class EditAdminFragment : Fragment() {
                 ComputerStore(
                     id = objectComputerStore.id,
                     isAdmin = objectComputerStore.isAdmin,
-                    createAt = Date(),
+                    createAt = objectComputerStore.createAt,
                     name = etUsername.text.toString(),
                     address = etAddress.text.toString(),
                     image = imageUri.toString(),

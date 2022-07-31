@@ -9,6 +9,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,7 +63,6 @@ class AddOrUpdateFragment : Fragment() {
         const val EXTRA_ID_COMPUTER_STORE_PRODUCT = "extra_id_computer_store_product"
         const val EXTRA_ID_COMPUTER_STORE = "extra_id_computer_store"
         const val EXTRA_ACTION_TYPE = "extra_action_type"
-
     }
 
     override fun onCreateView(
@@ -104,7 +104,6 @@ class AddOrUpdateFragment : Fragment() {
         viewModel.getProductById.observe(viewLifecycleOwner) { output ->
             when (output) {
                 is Result.Success -> {
-                    toastShort("Set Successfully")
                     deleteProduct(output.data)
                     binding.apply {
                         glide
@@ -112,7 +111,9 @@ class AddOrUpdateFragment : Fragment() {
                             .placeholder(R.drawable.ic_broke_image)
                             .transform(CenterCrop(), RoundedCorners(12))
                             .into(binding.image)
+
                         imageUri = output.data.productImage.toUri()
+
                         etProductName.setText(output.data.productName)
                         etProductPrice.setText(output.data.productPrice)
                         etType.setText(output.data.productType)
@@ -246,7 +247,7 @@ class AddOrUpdateFragment : Fragment() {
                                     productSpecification = etSpecification.text.toString(),
                                     unit = productUnit.toInt(),
                                     isStockAvailable = productUnit.toInt() > 0,
-                                    createAt = Date()
+                                    createAt = obj.createAt
                                 )
                             )
                         }
@@ -262,7 +263,7 @@ class AddOrUpdateFragment : Fragment() {
                                     productSpecification = etSpecification.text.toString(),
                                     unit = productUnit.toInt(),
                                     isStockAvailable = productUnit.toInt() > 0,
-                                    createAt = Date()
+                                    createAt = obj.createAt
                                 )
                             )
                         }
@@ -307,6 +308,7 @@ class AddOrUpdateFragment : Fragment() {
                     binding.btnProgressAdd.hide()
                     binding.btnAddNewData.text = getString(R.string.update_data)
                     binding.btnAddNewData.snackBarShort("Data updated successfully")
+                    findNavController().navigateUp()
                 }
             }
         }
@@ -327,8 +329,9 @@ class AddOrUpdateFragment : Fragment() {
                 is Result.Success -> {
                     clearFields()
                     binding.btnProgressAdd.hide()
-                    binding.btnAddNewData.text = getString(R.string.signup)
+                    binding.btnAddNewData.text = getString(R.string.add_data)
                     binding.btnAddNewData.snackBarShort("Data added successfully")
+                    findNavController().navigateUp()
                 }
             }
         }
@@ -349,53 +352,26 @@ class AddOrUpdateFragment : Fragment() {
         }
     }
 
-    private val startForImageResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            val resultCode = result.resultCode
-            val data = result.data
-            when (resultCode) {
-                Activity.RESULT_OK -> {
-                    binding.progressBar.hide()
-                    val fileUri = data?.data!!
-                    imageUri = fileUri
-                    glide
-                        .load(imageUri)
-                        .placeholder(R.drawable.ic_broke_image)
-                        .transform(CenterCrop(), RoundedCorners(10))
-                        .into(binding.image)
-                    imageUpload()
-                }
-                ImagePicker.RESULT_ERROR -> {
-                    binding.progressBar.hide()
-                    toastShort(ImagePicker.getError(data))
-                }
-                else -> {
-                    binding.progressBar.show()
-                }
-            }
-        }
-
-    private fun imageUpload() {
-        imageUri.let {
-            if (it != null) {
-                viewModel.uploadImage(it) { uploadedUri ->
-                    when (uploadedUri) {
-                        is Result.Loading -> {
-                            binding.progressBar.show()
-                            binding.btnAddNewData.isClickable = false
-                            binding.btnAddNewData.alpha = 0.6F
-                        }
-                        is Result.Error -> {
-                            binding.btnAddNewData.isClickable = false
-                            binding.btnProgressAdd.alpha = 0.6F
-                            binding.btnAddNewData.hide()
-                        }
-                        is Result.Success -> {
-                            binding.btnAddNewData.isClickable = true
-                            binding.btnAddNewData.alpha = 1F
-                            imageUri = uploadedUri.data
-                            binding.progressBar.hide()
-                        }
+    private fun imageUpload(uri: Uri) {
+        uri.let { uploadImageUri ->
+            viewModel.uploadImage(uploadImageUri) { uploadedUri ->
+                when (uploadedUri) {
+                    is Result.Loading -> {
+                        binding.progressBar.show()
+                        binding.btnAddNewData.isClickable = false
+                        binding.btnAddNewData.alpha = 0.6F
+                    }
+                    is Result.Error -> {
+                        binding.btnAddNewData.isClickable = false
+                        binding.btnProgressAdd.alpha = 0.6F
+                        binding.btnAddNewData.hide()
+                    }
+                    is Result.Success -> {
+                        imageUri = uploadedUri.data
+                        Log.d("fileUri", uploadedUri.toString())
+                        binding.btnAddNewData.isClickable = true
+                        binding.btnAddNewData.alpha = 1F
+                        binding.progressBar.hide()
                     }
                 }
             }
@@ -436,6 +412,32 @@ class AddOrUpdateFragment : Fragment() {
             bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
     }
+
+    private val startForImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    binding.progressBar.hide()
+                    val fileUri = data?.data!!
+                    Log.d("fileUri", fileUri.toString())
+                    glide
+                        .load(fileUri)
+                        .placeholder(R.drawable.ic_broke_image)
+                        .transform(CenterCrop(), RoundedCorners(10))
+                        .into(binding.image)
+                    imageUpload(fileUri)
+                }
+                ImagePicker.RESULT_ERROR -> {
+                    binding.progressBar.hide()
+                    toastShort(ImagePicker.getError(data))
+                }
+                else -> {
+                    toastShort("You've canceled selecting picture")
+                }
+            }
+        }
 
     private fun backToThePrevious() {
         binding.back.setOnClickListener {

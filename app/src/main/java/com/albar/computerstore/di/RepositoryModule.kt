@@ -3,7 +3,7 @@ package com.albar.computerstore.di
 import android.content.SharedPreferences
 import com.albar.computerstore.data.repository.*
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -19,7 +19,7 @@ object RepositoryModule {
     @Singleton
     fun provideComputerStoreRepository(
         database: FirebaseFirestore,
-        storageReference: StorageReference,
+        storageReference: FirebaseStorage,
         sharedPref: SharedPreferences,
         gson: Gson
     ): ComputerStoreRepository =
@@ -45,7 +45,7 @@ object RepositoryModule {
     @Provides
     fun provideComputerStoreProductRepository(
         database: FirebaseFirestore,
-        storageReference: StorageReference,
+        storageReference: FirebaseStorage,
         sharedPref: SharedPreferences,
         gson: Gson
     ): ComputerStoreProductRepository =

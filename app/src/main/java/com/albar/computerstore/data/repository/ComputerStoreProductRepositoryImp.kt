@@ -5,12 +5,12 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStoreProduct
 import com.albar.computerstore.others.Constants.COMPUTER_STORE_PRODUCT_TABLE
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.FirebaseStorage
 import com.google.gson.Gson
 
 class ComputerStoreProductRepositoryImp(
     private val database: FirebaseFirestore,
-    private val storageRef: StorageReference,
+    private val storageRef: FirebaseStorage,
     private val sharedPref: SharedPreferences,
     private val gson: Gson
 ) : ComputerStoreProductRepository {

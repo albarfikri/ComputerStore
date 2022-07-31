@@ -3,7 +3,6 @@ package com.albar.computerstore.ui.fragments.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -158,7 +157,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             map?.setInfoWindowAdapter(customInfoWindow)
 
             currentMarker?.tag = info
-            currentMarker?.showInfoWindow()
 
             map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 12f))
 
@@ -297,8 +295,13 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     override fun onMarkerClick(p0: Marker): Boolean {
         val stepList: MutableList<LatLng> = ArrayList()
         val options = PolylineOptions().apply {
-            width(14f)
-            color(Color.MAGENTA)
+            width(15f)
+            color(
+                resources.getColor(
+                    R.color.search,
+                    context?.theme
+                )
+            )
             geodesic(true)
             clickable(true)
             visible(true)

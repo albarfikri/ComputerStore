@@ -1,6 +1,8 @@
 package com.albar.computerstore.ui.fragments.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +13,6 @@ import com.albar.computerstore.R
 import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentDetailComputerStoreProductBinding
 import com.albar.computerstore.others.Tools.moneyConverter
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
 import com.bumptech.glide.RequestManager
@@ -19,6 +20,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,7 +57,6 @@ class DetailComputerStoreProductFragment : Fragment() {
         viewModel.getProductById.observe(viewLifecycleOwner) { output ->
             when (output) {
                 is Result.Success -> {
-                    toastShort("Set Successfully")
                     binding.apply {
                         val productPrice = output.data.productPrice.replace("[Rp. ]".toRegex(), "")
                         glide
@@ -68,6 +69,7 @@ class DetailComputerStoreProductFragment : Fragment() {
                             .placeholder(R.drawable.ic_broke_image)
                             .transform(CenterCrop(), RoundedCorners(12))
                             .into(binding.ivProductImage)
+                       Log.d("test", output.data.productImage)
                         tvProductName.text = output.data.productName
                         tvProductPrice.text = moneyConverter(productPrice.toDouble())
                         tvProductType.text = output.data.productType

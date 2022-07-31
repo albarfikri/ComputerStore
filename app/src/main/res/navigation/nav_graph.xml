@@ -75,5 +75,9 @@
     <fragment
         android:id="@+id/searchProductFragment2"
         android:name="com.albar.computerstore.ui.fragments.member.SearchProductFragment"
-        android:label="SearchProductFragment" />
+        android:label="SearchProductFragment" >
+        <action
+            android:id="@+id/action_searchProductFragment2_to_detailComputerStoreProductFragment"
+            app:destination="@id/detailComputerStoreProductFragment" />
+    </fragment>
 </navigation>

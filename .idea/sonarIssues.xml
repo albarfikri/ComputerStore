@@ -133,7 +133,22 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/di/FirebaseModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/di/RepositoryModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/others/CustomInfoWindowGoogleMap.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/others/Extensions.kt">
           <value>
             <set />
           </value>

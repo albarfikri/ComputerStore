@@ -23,12 +23,9 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.local.entity.Coordinate
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentEditMemberBinding
-import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Tools.decryptCBC
 import com.albar.computerstore.others.Tools.encryptCBC
-import com.albar.computerstore.others.hide
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragment
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.bumptech.glide.RequestManager
@@ -79,6 +76,7 @@ class EditMemberFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hideSoftKeyboard()
         setTextToEditText()
         backToThePrevious()
         openDialogFragment()
@@ -110,6 +108,12 @@ class EditMemberFragment : Fragment() {
                     snackBar.show()
                 }
             }
+        }
+    }
+
+    private fun hideSoftKeyboard() {
+        binding.addImage.setOnClickListener {
+            binding.addImage.hideKeyboard()
         }
     }
 
@@ -266,7 +270,7 @@ class EditMemberFragment : Fragment() {
                     toastShort(ImagePicker.getError(data))
                 }
                 else -> {
-                    binding.progressBar.show()
+                    toastShort("You've canceled selecting picture")
                 }
             }
         }

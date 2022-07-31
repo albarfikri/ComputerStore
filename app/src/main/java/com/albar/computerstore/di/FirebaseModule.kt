@@ -23,11 +23,7 @@ object FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseStorageInstance(): StorageReference {
-        val formatter = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
-        val now = Date()
-        val filename = formatter.format(now)
-        return FirebaseStorage.getInstance().getReference("Images/$filename")
+    fun provideFirebaseStorageInstance(): FirebaseStorage {
+        return FirebaseStorage.getInstance()
     }
-
 }
