@@ -206,6 +206,9 @@ class EditMemberFragment : Fragment() {
                         etPassword.error = "Must contain 1 Special Character.*[@#\$%^&+=!()"
                         isEmptyFields = true
                     }
+                    else{
+                        isEmptyFields = false
+                    }
                 }
 
                 if (!isEmptyFields) {

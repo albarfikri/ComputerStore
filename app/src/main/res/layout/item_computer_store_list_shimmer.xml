@@ -31,8 +31,9 @@
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="140dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="16dp"
             android:background="@color/shimmer"
@@ -47,9 +48,9 @@
 
         <TextView
             android:id="@+id/tvAddress"
-            android:layout_width="190dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="80dp"
             android:layout_marginTop="12dp"
             android:background="@color/shimmer"
             android:gravity="right"
@@ -99,7 +100,7 @@
 
         <ImageView
             android:id="@+id/delete"
-             android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"

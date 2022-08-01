@@ -1,5 +1,6 @@
 package com.albar.computerstore.others
 
+import android.util.Log
 import kotlin.math.*
 
 object Formula {
@@ -11,11 +12,9 @@ object Formula {
 
     // Haversine Formula & Euclidean Formula
     // o -> origin, d -> destination
-
     fun haversineFormula(oLat: Double, oLon: Double, dLat: Double, dLon: Double): Double {
         val Δlat = Math.toRadians(dLat - oLat)
         val Δlon = Math.toRadians(dLon - oLon)
-
         val d = 2 * R * asin(
             sqrt(
                 sin(Δlat / 2).pow(2.0) + cos(oLat) *
@@ -29,7 +28,7 @@ object Formula {
 
     fun euclideanFormula(oLat: Double, oLon: Double, dLat: Double, dLon: Double): Double {
         val l = sqrt((dLat - oLat).pow(2) + (dLon - oLon).pow(2)) * earthDegree
-        return (l * 100.0).roundToInt() / 100.0
+        return (l * 10000.0).roundToInt() / 10000.0
     }
 
     // Parameter Kecepatan Arus Bebas

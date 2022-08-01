@@ -91,9 +91,7 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$item"))
                 startActivity(dialPhoneIntent)
             },
-            onNavigate = { _, _ ->
-
-            },
+            onNavigate = { _, _ -> },
             glide
         )
     }
@@ -211,12 +209,8 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     p3: Long
                 ) {
                     when (p2) {
-                        0 -> {
-                            isHaversine = true
-                        }
-                        1 -> {
-                            isHaversine = false
-                        }
+                        0 -> isHaversine = true
+                        1 -> isHaversine = false
                     }
                 }
 
@@ -240,7 +234,6 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     binding.loading.hide()
                     it.data.forEach { output ->
                         val availableArea = resources.getStringArray(R.array.computerStoreArea)
-
                         val computerAreaFromAPI = output.area
 
                         if (isHaversine) {

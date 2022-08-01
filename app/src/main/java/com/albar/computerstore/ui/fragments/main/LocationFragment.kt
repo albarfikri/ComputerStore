@@ -155,7 +155,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             val customInfoWindow = CustomInfoWindowGoogleMap(requireActivity(), glide)
             map?.setInfoWindowAdapter(customInfoWindow)
-
             currentMarker?.tag = info
 
             map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 12f))
