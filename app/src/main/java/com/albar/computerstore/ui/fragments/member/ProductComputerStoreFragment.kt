@@ -16,6 +16,9 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentProductComputerStoreBinding
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.Constants.ADMIN
+import com.albar.computerstore.others.Constants.MAIN
+import com.albar.computerstore.others.Constants.MEMBER
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
@@ -49,7 +52,6 @@ class ProductComputerStoreFragment : Fragment() {
 
     companion object {
         const val EXTRA_ADAPTER_SET_FROM = "extra_adapter_set_from"
-        const val EXTRA_ID_COMPUTER = "extra_id_computer"
         private const val TYPE = "type"
         const val EXTRA_COMPUTER_STORE_OBJECT = "extra_computer_store_object"
 
@@ -68,7 +70,7 @@ class ProductComputerStoreFragment : Fragment() {
         ComputerStoreProductAdapter(
             onItemClicked = { _, item ->
                 when (arguments?.getString(EXTRA_ADAPTER_SET_FROM)) {
-                    "Main" -> {
+                    MAIN -> {
                         findNavController().navigate(
                             R.id.action_detailList_to_detailComputerStoreProductFragment,
                             Bundle().apply {
@@ -76,11 +78,19 @@ class ProductComputerStoreFragment : Fragment() {
                             }
                         )
                     }
-                    "Member" -> {
+                    MEMBER -> {
                         findNavController().navigate(
                             R.id.action_memberFragment_to_addOrUpdateFragment,
                             Bundle().apply {
                                 putString(EXTRA_ACTION_TYPE, "edit")
+                                putString(EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
+                            }
+                        )
+                    }
+                    ADMIN -> {
+                        findNavController().navigate(
+                            R.id.action_detailComputerStoreFragment_to_detailComputerStoreProductFragment2,
+                            Bundle().apply {
                                 putString(EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
                             }
                         )

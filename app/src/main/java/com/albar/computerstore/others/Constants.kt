@@ -54,4 +54,14 @@ object Constants {
     const val COMPUTER_STORE_SESSION = "computer_store_session"
     const val VERIFIED_NUMBERS = "verified_numbers"
     const val UNVERIFIED_NUMBERS = "unverified_numbers"
+
+
+    // const product type
+    const val COMPUTER = "Computer"
+    const val ACCESSORY = "Accessory"
+
+    // const val user type
+    const val MAIN = "Main"
+    const val MEMBER = "Member"
+    const val ADMIN = "Admin"
 }

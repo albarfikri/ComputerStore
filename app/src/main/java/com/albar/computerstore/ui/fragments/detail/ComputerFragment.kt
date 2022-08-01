@@ -27,6 +27,10 @@ import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class ComputerFragment : Fragment() {
+    companion object{
+        const val EXTRA_IS_ADMIN = "extra_is_admin"
+    }
+
     private var _binding: FragmentComputerBinding? = null
     private val binding get() = _binding!!
 
@@ -98,12 +102,18 @@ class ComputerFragment : Fragment() {
     }
 
     private fun setTabAndViewPager() {
+        val isAdmin = arguments?.getBoolean(EXTRA_IS_ADMIN)
         objectComputerStoreComputerFragment = arguments?.getParcelable(PARCELABLE_KEY)
 
         val computerStoreProductPagerAdapter = ComputerStoreProductPagerAdapter(this)
         computerStoreProductPagerAdapter.apply {
             objectComputerStore = objectComputerStoreComputerFragment
-            chosenAdapterSetFrom = adapterSetFrom[0]
+            if (!isAdmin!!) {
+                chosenAdapterSetFrom = adapterSetFrom[0]
+            }else{
+                chosenAdapterSetFrom = adapterSetFrom[2]
+            }
+
         }
         val titles = ArrayList(tabTitles.keys)
         binding.viewPager2.adapter = computerStoreProductPagerAdapter

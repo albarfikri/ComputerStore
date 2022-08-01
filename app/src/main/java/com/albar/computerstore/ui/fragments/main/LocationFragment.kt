@@ -59,9 +59,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     private val networkStatusViewModel: NetworkViewModel by viewModels()
-
     private val viewModel: ComputerStoreViewModel by viewModels()
-
     private val locationViewModel: LocationViewModel by viewModels()
 
     private var currentLocation: Location? = null

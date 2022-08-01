@@ -145,7 +145,6 @@ class EditMemberFragment : Fragment() {
                 val inputUsername = etUsername.text.toString().trim()
                 val inputPassword = etPassword.text.toString().trim()
 
-
                 if (inputStoreName.isEmpty()) {
                     isEmptyFields = true
                     etStoreName.error = "Store Name Field cannot be empty"
@@ -164,7 +163,7 @@ class EditMemberFragment : Fragment() {
                 }
                 if (inputEmail.isEmpty()) {
                     isEmptyFields = true
-                    etUsername.error = "Email Field cannot be empty"
+                    etEmail.error = "Email Field cannot be empty"
                 }
 
                 if (inputPhone.isEmpty()) {
@@ -177,37 +176,34 @@ class EditMemberFragment : Fragment() {
                     etUsername.error = "Username Field cannot be empty"
                 }
 
+                if (inputEmail.isNotEmpty()) {
+                    if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()) {
+                        isEmptyFields = true
+                        etEmail.error = "Email isn't valid"
+                    }
+                }
+
                 if (inputPassword.isEmpty()) {
                     isEmptyFields = true
                     etPassword.error = "Password Field cannot be empty"
                 }
 
-                if (inputEmail.isNotEmpty()) {
-                    if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()) {
-                        etEmail.error = "Email isn't valid"
-                        isEmptyFields = true
-                    }
-                }
-
                 if (inputPassword.isNotEmpty()) {
                     if (inputPassword.length < 5) {
-                        etPassword.error = "Minimum 5 Character Password"
                         isEmptyFields = true
+                        etPassword.error = "Minimum 5 Character Password"
                     }
                     if (!inputPassword.matches(".*[A-Z].*".toRegex())) {
-                        etPassword.error = "Must contain 1 Upper-case Character"
                         isEmptyFields = true
+                        etPassword.error = "Must contain 1 Upper-case Character"
                     }
                     if (!inputPassword.matches(".*[a-z].*".toRegex())) {
-                        etPassword.error = "Must contain 1 Lower-case Character"
                         isEmptyFields = true
+                        etPassword.error = "Must contain 1 Lower-case Character"
                     }
                     if (!inputPassword.matches(".*[@#\$%^&+=!()].*".toRegex())) {
-                        etPassword.error = "Must contain 1 Special Character.*[@#\$%^&+=!()"
                         isEmptyFields = true
-                    }
-                    else{
-                        isEmptyFields = false
+                        etPassword.error = "Must contain 1 Special Character.*[@#\$%^&+=!()"
                     }
                 }
 

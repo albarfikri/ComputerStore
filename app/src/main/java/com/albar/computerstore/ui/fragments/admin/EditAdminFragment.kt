@@ -144,12 +144,12 @@ class EditAdminFragment : Fragment() {
 
                 if (inputEmail.isEmpty()) {
                     isEmptyFields = true
-                    etUsername.error = "Email Field cannot be empty"
+                    etEmail.error = "Email Field cannot be empty"
                 }
 
                 if (inputPhone.isEmpty()) {
                     isEmptyFields = true
-                    etPassword.error = "Phone Field cannot be empty"
+                    etPhone.error = "Phone Field cannot be empty"
                 }
 
                 if (inputAddress.isEmpty()) {
@@ -180,9 +180,6 @@ class EditAdminFragment : Fragment() {
                     if (!inputPassword.matches(".*[@#\$%^&+=!()].*".toRegex())) {
                         etPassword.error = "Must contain 1 Special Character.*[@#\$%^&+=!()"
                         isEmptyFields = true
-                    }
-                    else{
-                        isEmptyFields = false
                     }
                 }
 

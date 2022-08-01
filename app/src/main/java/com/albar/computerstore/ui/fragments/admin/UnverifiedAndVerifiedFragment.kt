@@ -18,6 +18,7 @@ import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.databinding.FragmentUnverifiedAndVerifiedBinding
 import com.albar.computerstore.databinding.ViewConfirmationDialogBinding
 import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.Constants.KEY
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
@@ -72,7 +73,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     R.id.action_administratorFragment_to_detailComputerStoreFragment,
                     Bundle().apply {
                         putBoolean(DetailComputerStoreFragment.D0_CALL_OR_VERIFIED_USER, true)
-                        putString(Constants.KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
+                        putString(KEY, DetailComputerStoreFragment.DETAIL_CLICKED)
                         putParcelable(Constants.PARCELABLE_KEY, item)
                     })
             },

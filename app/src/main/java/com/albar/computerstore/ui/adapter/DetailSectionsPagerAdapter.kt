@@ -6,10 +6,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.albar.computerstore.data.remote.entity.ComputerStore
 import com.albar.computerstore.others.Constants.PARCELABLE_KEY
 import com.albar.computerstore.ui.fragments.detail.ComputerFragment
+import com.albar.computerstore.ui.fragments.detail.ComputerFragment.Companion.EXTRA_IS_ADMIN
 import com.albar.computerstore.ui.fragments.detail.OverviewFragment
 
 class DetailSectionsPagerAdapter(fm: Fragment) : FragmentStateAdapter(fm) {
     var objectComputerStore: ComputerStore? = null
+
+    var isAdmin: Boolean = false
 
     var fragment: Fragment? = null
 
@@ -29,6 +32,7 @@ class DetailSectionsPagerAdapter(fm: Fragment) : FragmentStateAdapter(fm) {
                 fragment = totalFragment[position].apply {
                     this.arguments = Bundle().apply {
                         putParcelable(PARCELABLE_KEY, objectComputerStore)
+                        putBoolean(EXTRA_IS_ADMIN, isAdmin)
                     }
                 }
             }

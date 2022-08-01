@@ -38,8 +38,6 @@ import javax.inject.Inject
 class DetailComputerStoreFragment : Fragment() {
 
     companion object {
-        const val ITEM_CLICKED = "item"
-        const val CALL_CLICKED = "call"
         const val D0_CALL_OR_VERIFIED_USER = "do_call_or_verified_user"
         const val DETAIL_CLICKED = "detail"
     }
@@ -221,9 +219,14 @@ class DetailComputerStoreFragment : Fragment() {
 
     private fun setUpAdapterAndViewPager() {
         // Sending object to DetailSectionsPagerAdapter
+        val isAdmin = arguments?.getBoolean(D0_CALL_OR_VERIFIED_USER)
         val detailSectionsPagerAdapter = DetailSectionsPagerAdapter(this)
         objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
         detailSectionsPagerAdapter.objectComputerStore = objectComputerStore
+
+        if (isAdmin == true) {
+            detailSectionsPagerAdapter.isAdmin = isAdmin
+        }
 
         binding.apply {
             viewPager2.adapter = detailSectionsPagerAdapter

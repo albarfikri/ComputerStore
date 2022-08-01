@@ -243,11 +243,12 @@
                         android:layout_height="wrap_content"
                         android:gravity="top"
                         android:inputType="textMultiLine"
-                        android:lines="6"
+                        android:lines="8"
                         android:longClickable="true"
                         android:overScrollMode="always"
                         android:scrollbarStyle="insideInset"
                         android:scrollbars="vertical"
+                        android:scrollbarTrackVertical="@color/defaultColor"
                         android:scrollHorizontally="false" />
                 </com.google.android.material.textfield.TextInputLayout>
 
