@@ -3,6 +3,8 @@ package com.albar.computerstore.ui.fragments.main
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
@@ -23,6 +25,7 @@ import com.albar.computerstore.data.remote.entity.DirectionRouteModel
 import com.albar.computerstore.databinding.FragmentLocationBinding
 import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Formula.haversineFormula
+import com.albar.computerstore.others.Tools.decode
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.others.show
@@ -73,6 +76,12 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private lateinit var locationRequest: LocationRequest
     private var locationCallback: LocationCallback? = null
     private var polylineFinal: Polyline? = null
+    private val stepList: MutableList<LatLng> = ArrayList()
+
+    private val ai: ApplicationInfo = requireActivity().packageManager
+        .getApplicationInfo(requireActivity().packageName, PackageManager.GET_META_DATA)
+    val value = ai.metaData["com.google.android.geo.API_KEY"]
+    private val apiKey = value.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -263,7 +272,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     }
 
     override fun onMarkerClick(p0: Marker): Boolean {
-        val stepList: MutableList<LatLng> = ArrayList()
         val options = PolylineOptions().apply {
             width(15f)
             color(
@@ -279,12 +287,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
         polylineFinal?.remove()
 
-        val key = "AIzaSyAkmHpMq2iqx_Em1tP0P6tmA-wS3ePNaWM"
         val url = "https://maps.googleapis.com/maps/api/directions/json?" +
                 "origin=" + currentLocation?.latitude + "," + currentLocation?.longitude +
                 "&destination=" + p0.position.latitude + "," + p0.position.longitude +
                 "&mode=driving" +
-                "&key=" + key
+                "&key=" + apiKey
 
         lifecycleScope.launchWhenCreated {
             locationViewModel.getDirection(url).collect {
@@ -301,9 +308,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                         val routeModel: DirectionRouteModel =
                             directionResponseModel.directionRouteModels!![0]
 
-
                         val legModel: DirectionLegModel = routeModel.legs?.get(0)!!
-
 
                         val pattern: List<PatternItem>
                         pattern = listOf(Dash(30f))
@@ -343,40 +348,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                             )
                         )
                     }
+                    else -> {}
                 }
             }
         }
-
         return false
-    }
-
-    private fun decode(points: String): List<LatLng> {
-        val len = points.length
-        val path: MutableList<LatLng> = java.util.ArrayList(len / 2)
-        var index = 0
-        var lat = 0
-        var lng = 0
-        while (index < len) {
-            var result = 1
-            var shift = 0
-            var b: Int
-            do {
-                b = points[index++].code - 63 - 1
-                result += b shl shift
-                shift += 5
-            } while (b >= 0x1f)
-            lat += if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            result = 1
-            shift = 0
-            do {
-                b = points[index++].code - 63 - 1
-                result += b shl shift
-                shift += 5
-            } while (b >= 0x1f)
-            lng += if (result and 1 != 0) (result shr 1).inv() else result shr 1
-            path.add(LatLng(lat * 1e-5, lng * 1e-5))
-        }
-        return path
     }
 
     override fun onPause() {
