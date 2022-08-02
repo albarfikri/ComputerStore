@@ -288,6 +288,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/fragments/opening/OnBoardingFragment1.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/viewmodels/ComputerStoreProductViewModel.kt">
           <value>
             <set />
@@ -309,6 +314,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_on_boarding.xml">
           <value>
             <set />
           </value>

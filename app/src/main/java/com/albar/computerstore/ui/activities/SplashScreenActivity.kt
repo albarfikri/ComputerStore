@@ -48,25 +48,24 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         if (AppUtility.hasLocationPermission(this)) {
             navigateBasedOnStatus()
             return
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-            EasyPermissions.requestPermissions(
-                this, "You need to accept location permissions to use this app.",
-                Constants.REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        }
-        else {
-            EasyPermissions.requestPermissions(
-                this,
-                "You need to accept location permissions to use this app.",
-                Constants.REQUEST_CODE_LOCATION_PERMISSION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-            )
+        }else{
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+                EasyPermissions.requestPermissions(
+                    this, "You need to accept location permissions to use this app.",
+                    Constants.REQUEST_CODE_LOCATION_PERMISSION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+            } else {
+                EasyPermissions.requestPermissions(
+                    this,
+                    "You need to accept location permissions to use this app.",
+                    Constants.REQUEST_CODE_LOCATION_PERMISSION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+            }
         }
     }
 
@@ -103,17 +102,13 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show()
-        if (requestCode == Constants.REQUEST_CODE_LOCATION_PERMISSION) {
-            navigateBasedOnStatus()
-        }
+        navigateBasedOnStatus()
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
             askingForPermissionAgain()
-        } else {
-            requestPermission()
         }
     }
 
