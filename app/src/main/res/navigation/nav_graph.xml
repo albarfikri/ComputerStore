@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/location">
 
     <fragment
         android:id="@+id/location"
@@ -34,22 +34,6 @@
             app:destination="@id/detailList"
             app:enterAnim="@anim/open_center" />
     </fragment>
-    <fragment
-        android:id="@+id/splashScreenFragment"
-        android:name="com.albar.computerstore.ui.fragments.main.SplashScreenFragment"
-        android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" >
-        <action
-            android:id="@+id/action_splashScreenFragment_to_locationFragment"
-            app:destination="@id/location"
-            app:launchSingleTop="false"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_locationFragment"
-        app:destination="@id/location"
-        app:launchSingleTop="false"
-        app:popUpToInclusive="false" />
     <fragment
         android:id="@+id/detailList"
         android:name="com.albar.computerstore.ui.fragments.detail.DetailComputerStoreFragment"

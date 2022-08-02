@@ -178,6 +178,7 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     isRequestingLocationUpdates = true
                 }
             }
+            return
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {

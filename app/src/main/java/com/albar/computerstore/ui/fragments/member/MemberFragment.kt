@@ -139,7 +139,6 @@ class MemberFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener { clicked ->
             when (clicked.itemId) {
                 R.id.nav_edit -> {
-                    toastShort("Head up to Edit")
                     findNavController().navigate(R.id.action_memberFragment_to_editMemberFragment)
                     true
                 }
@@ -179,7 +178,6 @@ class MemberFragment : Fragment() {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         viewDialog.btnYes.setOnClickListener {
-            toastShort("Exit")
             viewModel.logout {
                 viewDialog.btnYes.text = ""
                 viewDialog.btnProgressSignUp.show()

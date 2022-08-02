@@ -96,7 +96,6 @@ class AdministratorFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener { clicked ->
             when (clicked.itemId) {
                 R.id.nav_edit -> {
-                    toastShort("Head up to Edit")
                     findNavController().navigate(R.id.action_administratorFragment_to_editUserFragment)
                     true
                 }
@@ -139,7 +138,6 @@ class AdministratorFragment : Fragment() {
 
         viewDialog.apply {
             btnYes.setOnClickListener {
-                toastShort("Exit")
                 viewModel.logout {
                     btnYes.text = ""
                     btnProgressSignUp.show()

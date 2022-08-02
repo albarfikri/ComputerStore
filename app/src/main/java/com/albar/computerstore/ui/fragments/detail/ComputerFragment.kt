@@ -122,8 +122,7 @@ class ComputerFragment : Fragment() {
         }.attach()
 
         tabTitles.values.forEachIndexed { index, imageResId ->
-            val textView =
-                LayoutInflater.from(requireContext()).inflate(R.layout.tab_title, null) as TextView
+            val textView = LayoutInflater.from(requireContext()).inflate(R.layout.tab_title, null) as TextView
             textView.setCompoundDrawablesWithIntrinsicBounds(imageResId, 0, 0, 0)
             textView.compoundDrawablePadding = TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 4f, resources.displayMetrics
@@ -131,81 +130,6 @@ class ComputerFragment : Fragment() {
             binding.tabLayout.getTabAt(index)?.customView = textView
         }
     }
-
-
-//    private fun fabButtons() {
-//        binding.apply {
-//            btnGroup.setOnClickListener {
-//                groupButtonClicked()
-//            }
-//
-//            btnAdd.setOnClickListener {
-//                val mBundle = Bundle()
-//                mBundle.putString(AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE, id)
-//                mBundle.putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "add")
-//                findNavController().navigate(
-//                    R.id.action_memberFragment_to_addOrUpdateFragment,
-//                    mBundle
-//                )
-//                fabClicked = false
-//            }
-//
-//            btnSearch.setOnClickListener {
-//                animationToSearchFragment()
-//                fabClicked = false
-//            }
-//        }
-//    }
-//
-//    private fun groupButtonClicked() {
-//        setVisibility(fabClicked)
-//        setAnimation(fabClicked)
-//        fabClicked = !fabClicked
-//    }
-//
-//    private fun setAnimation(clicked: Boolean) {
-//        binding.apply {
-//            if (!clicked) {
-//                btnAdd.show()
-//                btnSearch.show()
-//            } else {
-//                btnAdd.hide()
-//                btnSearch.hide()
-//            }
-//        }
-//    }
-//
-//    private fun setVisibility(clicked: Boolean) {
-//        binding.apply {
-//            if (!clicked) {
-//                btnAdd.startAnimation(fromBottom)
-//                btnSearch.startAnimation(fromBottom)
-//                btnGroup.startAnimation(rotateOpen)
-//            } else {
-//                btnAdd.startAnimation(toBottom)
-//                btnSearch.startAnimation(toBottom)
-//                btnGroup.startAnimation(requireContext().rotateClose())
-//            }
-//        }
-//    }
-//
-//    private fun animationToSearchFragment() {
-//        val animation =
-//            AnimationUtils.loadAnimation(requireContext(), R.anim.circle_explosion_anim).apply {
-//                duration = 700
-//                interpolator = AccelerateInterpolator()
-//            }
-//
-//        with(binding) {
-//            viewInterpolator.isInvisible = true
-//            viewInterpolator.startAnimation(animation) {
-//                findNavController().navigate(
-//                    R.id.action_memberFragment_to_searchProductFragment
-//                )
-//                viewInterpolator.isInvisible = false
-//            }
-//        }
-//    }
 
     override fun onDestroy() {
         super.onDestroy()

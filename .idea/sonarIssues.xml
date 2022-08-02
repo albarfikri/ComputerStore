@@ -168,6 +168,16 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/others/permissions/AppUtility.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/activities/SignInSignUpActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/activities/SplashScreenActivity.kt">
           <value>
             <set />
@@ -189,6 +199,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/adapter/DetailSectionsPagerAdapter.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/dialogfragments/CustomDialogSearchlatlngFragment.kt">
           <value>
             <set />
           </value>
@@ -233,7 +248,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/fragments/main/LocationFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/fragments/main/NearestFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/fragments/main/SplashScreenFragment.kt">
           <value>
             <set />
           </value>
@@ -329,6 +354,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_product_computer_store.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/res/layout/fragment_splash_screen.xml">
           <value>
             <set />
           </value>

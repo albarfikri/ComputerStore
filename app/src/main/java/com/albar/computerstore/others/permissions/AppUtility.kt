@@ -13,6 +13,17 @@ object AppUtility {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
+        } else if (EasyPermissions.hasPermissions(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+        ) {
+            EasyPermissions.hasPermissions(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
         } else {
             EasyPermissions.hasPermissions(
                 context,

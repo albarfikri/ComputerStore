@@ -201,7 +201,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
     @SuppressLint("MissingPermission")
     private fun requestPermission() {
-        if (AppUtility.hasLocationPermission(requireContext())) {
+        if (AppUtility.hasLocationPermission(requireActivity())) {
             val task = fusedLocationProviderClient.lastLocation
 
             task.addOnSuccessListener { location ->
@@ -217,6 +217,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                     isRequestingLocationUpdates = true
                 }
             }
+            return
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
@@ -259,34 +260,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                 noNetworkAvailableSign(isConnected)
             }
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (!isRequestingLocationUpdates) stopLocationUpdates()
-    }
-
-    override fun onResume() {
-        if (!isRequestingLocationUpdates) startLocationUpdates()
-        super.onResume()
-    }
-
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        Toast.makeText(requireContext(), "accepted", Toast.LENGTH_SHORT).show()
-        if (requestCode == Constants.REQUEST_CODE_LOCATION_PERMISSION) {
-            return
-        }
-    }
-
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            requestPermission()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     override fun onMarkerClick(p0: Marker): Boolean {
@@ -404,5 +377,33 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             path.add(LatLng(lat * 1e-5, lng * 1e-5))
         }
         return path
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (!isRequestingLocationUpdates) stopLocationUpdates()
+    }
+
+    override fun onResume() {
+        if (!isRequestingLocationUpdates) startLocationUpdates()
+        super.onResume()
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
+        Toast.makeText(requireContext(), "accepted", Toast.LENGTH_SHORT).show()
+        if (requestCode == Constants.REQUEST_CODE_LOCATION_PERMISSION) {
+            return
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            requestPermission()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

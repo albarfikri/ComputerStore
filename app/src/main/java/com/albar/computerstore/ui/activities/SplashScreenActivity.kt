@@ -52,15 +52,16 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
-                this, "You need to accept allow all time to location permissions to use this app.",
+                this, "You need to accept location permissions to use this app.",
                 Constants.REQUEST_CODE_LOCATION_PERMISSION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
-        } else {
+        }
+        else {
             EasyPermissions.requestPermissions(
                 this,
-                "You need to accept allow all time location permissions to use this app.",
+                "You need to accept location permissions to use this app.",
                 Constants.REQUEST_CODE_LOCATION_PERMISSION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
