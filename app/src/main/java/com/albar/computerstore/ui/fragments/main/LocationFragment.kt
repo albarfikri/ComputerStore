@@ -92,7 +92,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         super.onViewCreated(view, savedInstanceState)
         networkStatus()
         requestPermission()
-        retrieveData()
     }
 
 
@@ -234,7 +233,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
         locationRequest.apply {
             priority = Priority.PRIORITY_HIGH_ACCURACY
-            interval = 30000L
+            interval = 3000L
         }
 
         locationCallback = object : LocationCallback() {
@@ -261,6 +260,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             task.addOnSuccessListener { location ->
                 if (location != null) {
+                    retrieveData()
                     isRequestingLocationUpdates = false
                     this.currentLocation = location
                     val mapFragment =

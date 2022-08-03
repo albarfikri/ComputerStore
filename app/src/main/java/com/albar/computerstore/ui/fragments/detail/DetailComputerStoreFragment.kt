@@ -72,13 +72,25 @@ class DetailComputerStoreFragment : Fragment() {
     private fun search() {
         binding.search.setOnClickListener {
             objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
-            findNavController().navigate(
-                R.id.action_detailList_to_searchProductFragment2,
-                Bundle().apply {
-                    putString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, objectComputerStore?.id)
-                    putString(EXTRA_TYPE, "user")
-                }
-            )
+            val isAdmin = arguments?.getBoolean(D0_CALL_OR_VERIFIED_USER)
+
+            if (isAdmin == true) {
+                findNavController().navigate(
+                    R.id.action_detailComputerStoreFragment_to_searchProductFragment,
+                    Bundle().apply {
+                        putString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, objectComputerStore?.id)
+                        putString(EXTRA_TYPE, "user")
+                    }
+                )
+            } else {
+                findNavController().navigate(
+                    R.id.action_detailList_to_searchProductFragment2,
+                    Bundle().apply {
+                        putString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, objectComputerStore?.id)
+                        putString(EXTRA_TYPE, "user")
+                    }
+                )
+            }
         }
     }
 

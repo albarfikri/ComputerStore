@@ -90,6 +90,9 @@
         <action
             android:id="@+id/action_detailComputerStoreFragment_to_detailComputerStoreProductFragment2"
             app:destination="@id/detailComputerStoreProductFragment2" />
+        <action
+            android:id="@+id/action_detailComputerStoreFragment_to_searchProductFragment"
+            app:destination="@id/searchProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/editUserFragment"
