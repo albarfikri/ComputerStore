@@ -9,6 +9,7 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,13 +24,10 @@ import com.albar.computerstore.data.remote.entity.DirectionLegModel
 import com.albar.computerstore.data.remote.entity.DirectionResponseModel
 import com.albar.computerstore.data.remote.entity.DirectionRouteModel
 import com.albar.computerstore.databinding.FragmentLocationBinding
-import com.albar.computerstore.others.Constants
+import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Formula.haversineFormula
 import com.albar.computerstore.others.Tools.decode
-import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.permissions.AppUtility
-import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.dialogfragments.CustomInfoWindowGoogleMap
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.LocationViewModel
@@ -76,12 +74,10 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private lateinit var locationRequest: LocationRequest
     private var locationCallback: LocationCallback? = null
     private var polylineFinal: Polyline? = null
-    private val stepList: MutableList<LatLng> = ArrayList()
 
-    private val ai: ApplicationInfo = requireActivity().packageManager
-        .getApplicationInfo(requireActivity().packageName, PackageManager.GET_META_DATA)
-    val value = ai.metaData["com.google.android.geo.API_KEY"]
-    private val apiKey = value.toString()
+    private var position: Double = 0.0
+    private var onceOnLaunchDraw: Boolean = true
+    var nearest = LatLng(0.0, 0.0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,6 +92,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         super.onViewCreated(view, savedInstanceState)
         networkStatus()
         requestPermission()
+        retrieveData()
     }
 
 
@@ -104,7 +101,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
         map = googleMap
 
-        map!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style));
+        map!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
 
         map!!.isMyLocationEnabled = true
         map?.setPadding(0, 0, 0, 125)
@@ -128,15 +125,64 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                     toastShort(it.error)
                 }
                 is Result.Success -> {
+                    val listAfterCalculating = arrayListOf<ComputerStore>()
                     binding.loading.hide()
                     if (it.data.isNotEmpty()) {
                         drawMarker(it.data)
+                        for (output in it.data) {
+                            val availableArea = resources.getStringArray(R.array.computerStoreArea)
+                            val computerAreaFromAPI = output.area
+
+                            position = Formula.finalOutput(
+                                availableArea,
+                                computerAreaFromAPI,
+                                // Distance
+                                haversineFormula(
+                                    currentLocation!!.latitude,
+                                    currentLocation!!.longitude,
+                                    output.lat,
+                                    output.lng
+                                )
+                            )
+                            val dataObject = ComputerStore(
+                                id = output.id,
+                                isAdmin = output.isAdmin,
+                                isVerified = output.isVerified,
+                                lat = output.lat,
+                                lng = output.lng,
+                                createAt = output.createAt,
+                                name = output.name,
+                                address = output.address,
+                                image = output.image,
+                                phone = output.phone,
+                                email = output.email,
+                                username = output.username,
+                                password = output.password,
+                                positionOrder = position
+                            )
+                            listAfterCalculating.add(dataObject)
+                        }
+
+                        val findMinOutput = findMin(listAfterCalculating)
+
+                        Log.d("output", listAfterCalculating.count().toString())
+
+                        if (onceOnLaunchDraw) {
+                            nearest = LatLng(findMinOutput.lat, findMinOutput.lng)
+                            drawLine(nearest)
+                            onceOnLaunchDraw = false
+                        }
                     } else {
                         toastShort("Have no computer store data!")
                     }
                 }
             }
         }
+    }
+
+    private fun findMin(list: List<ComputerStore>): ComputerStore {
+        //list.distinctBy { it.id }.sortedBy { it.positionOrder }.toMutableList()
+        return list.sortedWith(compareBy { it.positionOrder }).first()
     }
 
     private fun drawMarker(computerStoreData: List<ComputerStore>) {
@@ -188,7 +234,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
         locationRequest.apply {
             priority = Priority.PRIORITY_HIGH_ACCURACY
-            interval = 1000L
+            interval = 30000L
         }
 
         locationCallback = object : LocationCallback() {
@@ -215,7 +261,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             task.addOnSuccessListener { location ->
                 if (location != null) {
-                    retrieveData()
                     isRequestingLocationUpdates = false
                     this.currentLocation = location
                     val mapFragment =
@@ -272,6 +317,13 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     }
 
     override fun onMarkerClick(p0: Marker): Boolean {
+        val destination = LatLng(p0.position.latitude, p0.position.longitude)
+        drawLine(destination)
+        return false
+    }
+
+    private fun drawLine(destination: LatLng) {
+        val stepList: MutableList<LatLng> = ArrayList()
         val options = PolylineOptions().apply {
             width(15f)
             color(
@@ -287,9 +339,14 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
         polylineFinal?.remove()
 
+        val ai: ApplicationInfo = requireContext().packageManager
+            .getApplicationInfo(requireContext().packageName, PackageManager.GET_META_DATA)
+        val value = ai.metaData["com.google.android.geo.API_KEY"]
+        val apiKey = value.toString()
+
         val url = "https://maps.googleapis.com/maps/api/directions/json?" +
                 "origin=" + currentLocation?.latitude + "," + currentLocation?.longitude +
-                "&destination=" + p0.position.latitude + "," + p0.position.longitude +
+                "&destination=" + destination.latitude + "," + destination.longitude +
                 "&mode=driving" +
                 "&key=" + apiKey
 
@@ -299,7 +356,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                     is Result.Loading -> {
                         binding.loading.show()
                     }
-
                     is Result.Success -> {
                         binding.loading.hide()
                         val directionResponseModel: DirectionResponseModel =
@@ -328,6 +384,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
                         options.addAll(stepList)
                         polylineFinal = map?.addPolyline(options)
+
+
                         val startLocation = LatLng(
                             legModel.startLocation?.lat!!,
                             legModel.startLocation.lng!!
@@ -338,21 +396,20 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                             legModel.endLocation.lng!!
                         )
 
-                        val builder = LatLngBounds.builder()
-                        builder.include(endLocation).include(startLocation)
-                        val latLngBounds = builder.build()
-
-                        map?.animateCamera(
-                            CameraUpdateFactory.newLatLngBounds(
-                                latLngBounds, 32
-                            )
-                        )
+//                        val builder = LatLngBounds.builder()
+//                        builder.include(endLocation).include(startLocation)
+//                        val latLngBounds = builder.build()
+//
+//                        map?.animateCamera(
+//                            CameraUpdateFactory.newLatLngBounds(
+//                                latLngBounds, 32
+//                            )
+//                        )
                     }
                     else -> {}
                 }
             }
         }
-        return false
     }
 
     override fun onPause() {

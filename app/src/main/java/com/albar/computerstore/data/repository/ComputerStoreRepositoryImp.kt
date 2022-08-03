@@ -42,8 +42,8 @@ class ComputerStoreRepositoryImp(
                     val computerStore = document.toObject(ComputerStore::class.java)
                     // then adding to our array list
                     computerStoreList.add(computerStore)
-                    result.invoke(Result.Success(computerStoreList))
                 }
+                result.invoke(Result.Success(computerStoreList))
             }
             .addOnFailureListener {
                 result.invoke(
