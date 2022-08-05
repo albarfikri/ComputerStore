@@ -4,9 +4,6 @@ import androidx.annotation.StringRes
 import com.albar.computerstore.R
 
 object Constants {
-
-    const val REQUEST_CODE_LOCATION_PERMISSION_ONLY = 101
-    const val REQUEST_CODE_LOCATION_PERMISSION_ALL_TIME = 102
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
     // for onBoarding screen Adapter

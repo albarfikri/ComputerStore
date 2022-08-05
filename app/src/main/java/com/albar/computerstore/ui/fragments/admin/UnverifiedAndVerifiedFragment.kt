@@ -86,7 +86,7 @@ class UnverifiedAndVerifiedFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUnverifiedAndVerifiedBinding.inflate(inflater, container, false)
         return binding.root
     }

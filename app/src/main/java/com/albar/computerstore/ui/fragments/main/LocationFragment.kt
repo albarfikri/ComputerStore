@@ -9,7 +9,6 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -164,8 +163,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
                         val findMinOutput = findMin(listAfterCalculating)
 
-                        Log.d("output", listAfterCalculating.count().toString())
-
                         if (onceOnLaunchDraw) {
                             nearest = LatLng(findMinOutput.lat, findMinOutput.lng)
                             drawLine(nearest)
@@ -180,7 +177,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     }
 
     private fun findMin(list: List<ComputerStore>): ComputerStore {
-        //list.distinctBy { it.id }.sortedBy { it.positionOrder }.toMutableList()
         return list.sortedWith(compareBy { it.positionOrder }).first()
     }
 
@@ -328,7 +324,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             width(15f)
             color(
                 resources.getColor(
-                    R.color.search,
+                    R.color.path,
                     context?.theme
                 )
             )
@@ -367,6 +363,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                         val legModel: DirectionLegModel = routeModel.legs?.get(0)!!
 
                         val pattern: List<PatternItem>
+
                         pattern = listOf(Dash(30f))
 
                         options.pattern(pattern)
@@ -381,10 +378,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                                 )
                             }
                         }
-
                         options.addAll(stepList)
                         polylineFinal = map?.addPolyline(options)
-
 
                         val startLocation = LatLng(
                             legModel.startLocation?.lat!!,

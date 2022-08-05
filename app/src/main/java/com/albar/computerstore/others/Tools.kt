@@ -2,23 +2,18 @@ package com.albar.computerstore.others
 
 import android.util.Base64
 import com.google.android.gms.maps.model.LatLng
-import java.lang.Math.toRadians
 import java.text.NumberFormat
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import kotlin.math.asin
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
 
 
 object Tools {
     private const val SECRET_KEY = "abcdefghijklmnop"
     private const val SECRET_IV = "ponmlkjihgfedcba"
 
-    // Money Converter
+    // Money Converter to Rupiah -> Rp.x.xxx
     fun moneyConverter(number: Double): String {
         val localeID = Locale("IND", "ID")
         val numberFormat = NumberFormat.getCurrencyInstance(localeID)
@@ -52,7 +47,7 @@ object Tools {
 
     fun decode(points: String): List<LatLng> {
         val len = points.length
-        val path: MutableList<LatLng> = java.util.ArrayList(len / 2)
+        val path: MutableList<LatLng> = ArrayList(len / 2)
         var index = 0
         var lat = 0
         var lng = 0
