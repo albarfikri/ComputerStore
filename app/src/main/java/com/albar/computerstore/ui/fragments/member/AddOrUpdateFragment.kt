@@ -168,7 +168,7 @@ class AddOrUpdateFragment : Fragment() {
                     toastShort(it.error)
                 }
                 is Result.Success -> {
-                    toastShort(outputGeneral)
+                    toastShort("Deleted Successfully")
                 }
                 else -> {}
             }
@@ -431,7 +431,6 @@ class AddOrUpdateFragment : Fragment() {
                 }
                 ImagePicker.RESULT_ERROR -> {
                     binding.progressBar.hide()
-                    toastShort(ImagePicker.getError(data))
                 }
                 else -> {
                     toastShort("You've canceled selecting picture")

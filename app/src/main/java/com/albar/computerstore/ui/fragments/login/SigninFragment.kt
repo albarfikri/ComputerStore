@@ -91,13 +91,13 @@ class SigninFragment : Fragment() {
                 }
                 is Result.Success -> {
                     if (status.data) {
-                        toastShort("Login As Member")
+                        toastShort("Login as Member")
                         clearFields()
                         Handler(Looper.getMainLooper()).postDelayed({
                             headingToMember()
                         }, DELAY_TO_MOVE_ANOTHER_ACTIVITY)
                     } else {
-                        toastShort("Login As Admin")
+                        toastShort("Login as Admin")
                         clearFields()
                         Handler(Looper.getMainLooper()).postDelayed({
                             headingToAdmin()

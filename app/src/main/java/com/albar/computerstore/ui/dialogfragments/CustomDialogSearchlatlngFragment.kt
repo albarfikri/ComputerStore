@@ -23,7 +23,6 @@ import com.albar.computerstore.others.Constants
 import com.albar.computerstore.others.Constants.BUNDLE_KEY
 import com.albar.computerstore.others.Constants.REQUEST_KEY
 import com.albar.computerstore.others.permissions.AppUtility
-import com.albar.computerstore.others.toastShort
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

@@ -82,7 +82,6 @@ class EditMemberFragment : Fragment() {
         openDialogFragment()
         uploadPhotoButtonClick()
         editData()
-
         viewModel.updateComputerStore.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.Loading -> {
@@ -266,7 +265,6 @@ class EditMemberFragment : Fragment() {
                 }
                 ImagePicker.RESULT_ERROR -> {
                     binding.progressBar.hide()
-                    toastShort(ImagePicker.getError(data))
                 }
                 else -> {
                     toastShort("You've canceled selecting picture")

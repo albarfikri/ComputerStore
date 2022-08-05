@@ -193,9 +193,8 @@ class ProductComputerStoreFragment : Fragment() {
                 }
             }
         } else {
-            toastShort(type)
-        }
 
+        }
     }
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
