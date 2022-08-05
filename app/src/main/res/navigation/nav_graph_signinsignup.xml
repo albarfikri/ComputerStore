@@ -135,6 +135,9 @@
         <action
             android:id="@+id/action_searchProductFragment_to_addOrUpdateFragment"
             app:destination="@id/addOrUpdateFragment" />
+        <action
+            android:id="@+id/action_searchProductFragment_to_detailComputerStoreProductFragment2"
+            app:destination="@id/detailComputerStoreProductFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailComputerStoreProductFragment2"

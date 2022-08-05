@@ -79,7 +79,7 @@ class DetailComputerStoreFragment : Fragment() {
                     R.id.action_detailComputerStoreFragment_to_searchProductFragment,
                     Bundle().apply {
                         putString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING, objectComputerStore?.id)
-                        putString(EXTRA_TYPE, "user")
+                        putString(EXTRA_TYPE, "admin")
                     }
                 )
             } else {

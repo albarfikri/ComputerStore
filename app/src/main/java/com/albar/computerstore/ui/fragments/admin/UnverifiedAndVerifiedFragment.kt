@@ -175,14 +175,9 @@ class UnverifiedAndVerifiedFragment : Fragment() {
 
     private fun networkStatus() {
         networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
-            Timber.d("Ini Koneksi $isConnected")
             if (!isConnected) {
-                Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
-                    .show()
                 noNetworkAvailableSign(isConnected)
             } else {
-                Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
-                    .show()
                 noNetworkAvailableSign(isConnected)
                 retrieveData()
             }
@@ -201,10 +196,10 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     binding.shimmer.show()
                 }
                 is Result.Error -> {
+                    dataAvailableCheck(false)
                     binding.shimmer.stopShimmer()
                     binding.shimmer.hide()
                     binding.rvUnverifiedList.hide()
-                    dataAvailableCheck(false)
                     toastShort(it.error)
                 }
                 is Result.Success -> {

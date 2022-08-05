@@ -137,14 +137,9 @@ class ProductComputerStoreFragment : Fragment() {
 
     private fun networkStatus() {
         networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
-            Timber.d("Ini Koneksi $isConnected")
             if (!isConnected) {
-                Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
-                    .show()
                 noNetworkAvailableSign(isConnected)
             } else {
-                Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
-                    .show()
                 noNetworkAvailableSign(isConnected)
                 retrieveData()
             }

@@ -13,24 +13,20 @@
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_computer_store_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ComputerStore">
-        <activity
-            android:name=".ui.activities.MemberActivity"
-            android:exported="false" >
-        </activity>
 
         <activity
             android:name=".ui.activities.SignInSignUpActivity"
-            android:exported="false"/>
+            android:exported="false" />
 
         <activity
             android:name=".ui.activities.SplashScreenActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,13 +36,12 @@
 
         <activity
             android:name=".ui.activities.OnBoardingActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
-        </activity>
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

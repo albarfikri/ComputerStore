@@ -114,15 +114,10 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun networkStatus() {
         networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
-            Timber.d("Ini Koneksi $isConnected")
             if (!isConnected) {
-                Toast.makeText(requireContext(), "No internet connection !", Toast.LENGTH_SHORT)
-                    .show()
                 noNetworkAvailableSign(isConnected)
                 dataAvailableCheck(true)
             } else {
-                Toast.makeText(requireContext(), "Internet is Available", Toast.LENGTH_SHORT)
-                    .show()
                 noNetworkAvailableSign(isConnected)
                 methodType()
                 retrieveData()
@@ -224,14 +219,18 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         viewModel.computerStore.observe(requireActivity()) { it ->
             when (it) {
                 is Result.Loading -> {
+                    dataAvailableCheck(true)
                     listAfterCalculating.clear()
                     binding.loading.show()
                 }
                 is Result.Error -> {
+                    stopLocationUpdates()
+                    dataAvailableCheck(false)
                     binding.loading.hide()
                     toastShort(it.error)
                 }
                 is Result.Success -> {
+                    dataAvailableCheck(true)
                     binding.loading.hide()
                     it.data.forEach { output ->
                         val availableArea = resources.getStringArray(R.array.computerStoreArea)

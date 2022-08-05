@@ -18,6 +18,7 @@ import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreProductAdapter
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
+import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +30,7 @@ class SearchProductFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ComputerStoreProductViewModel by viewModels()
+    private val networkStatusViewModel: NetworkViewModel by viewModels()
 
     @Inject
     lateinit var glide: RequestManager
@@ -45,22 +47,44 @@ class SearchProductFragment : Fragment() {
         val type = arguments?.getString(EXTRA_TYPE)
         ComputerStoreProductAdapter(
             onItemClicked = { _, item ->
-                if (type.equals("computer_store"))
-                    findNavController().navigate(
-                        R.id.action_searchProductFragment_to_addOrUpdateFragment,
-                        Bundle().apply {
-                            putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
-                            putString(AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
-                        }
-                    )
-                if (type.equals("user")) {
-                    findNavController().navigate(
-                        R.id.action_searchProductFragment2_to_detailComputerStoreProductFragment,
-                        Bundle().apply {
-                            putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
-                            putString(AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT, item.id)
-                        }
-                    )
+                when (type) {
+                    "computer_store" -> {
+                        findNavController().navigate(
+                            R.id.action_searchProductFragment_to_addOrUpdateFragment,
+                            Bundle().apply {
+                                putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
+                                putString(
+                                    AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT,
+                                    item.id
+                                )
+                            }
+                        )
+                    }
+                    "user" -> {
+                        findNavController().navigate(
+                            R.id.action_searchProductFragment2_to_detailComputerStoreProductFragment,
+                            Bundle().apply {
+                                putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
+                                putString(
+                                    AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT,
+                                    item.id
+                                )
+                            }
+                        )
+                    }
+                    "admin" -> {
+                        findNavController().navigate(
+                            R.id.action_searchProductFragment_to_detailComputerStoreProductFragment2,
+                            Bundle().apply {
+                                putString(AddOrUpdateFragment.EXTRA_ACTION_TYPE, "edit")
+                                putString(
+                                    AddOrUpdateFragment.EXTRA_ID_COMPUTER_STORE_PRODUCT,
+                                    item.id
+                                )
+                            }
+                        )
+                    }
+
                 }
             },
             glide
@@ -82,9 +106,22 @@ class SearchProductFragment : Fragment() {
             arguments?.getString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING) ?: ""
         viewModel.getAllProductByIdComputerStore(idComputerStoreProduct)
         backToThePrevious()
-        setUpRecyclerView()
-        search()
-        observeAdapterToGetAll()
+
+        networkStatus()
+
+    }
+
+    private fun networkStatus() {
+        networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
+            if (!isConnected) {
+                noNetworkAvailableSign(isConnected)
+            } else {
+                noNetworkAvailableSign(isConnected)
+                setUpRecyclerView()
+                search()
+                observeAdapterToGetAll()
+            }
+        }
     }
 
     private fun search() {
@@ -171,6 +208,20 @@ class SearchProductFragment : Fragment() {
             binding.apply {
                 noDataLottie.hide()
                 noDataDescription.hide()
+            }
+        }
+    }
+
+    private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
+        if (!isConnectionAvailable) {
+            binding.apply {
+                dataAvailableCheck(true)
+                rvProductList.hide()
+                noNetwork.show()
+            }
+        } else {
+            binding.apply {
+                noNetwork.hide()
             }
         }
     }
