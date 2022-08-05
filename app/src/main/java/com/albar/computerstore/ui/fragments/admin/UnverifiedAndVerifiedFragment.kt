@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -29,7 +28,6 @@ import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,7 +36,6 @@ class UnverifiedAndVerifiedFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: ComputerStoreViewModel by viewModels()
-
     private val networkStatusViewModel: NetworkViewModel by viewModels()
 
     @Inject
@@ -203,11 +200,15 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                     toastShort(it.error)
                 }
                 is Result.Success -> {
-                    dataAvailableCheck(true)
-                    binding.shimmer.stopShimmer()
-                    binding.shimmer.hide()
-                    binding.rvUnverifiedList.show()
-                    adapter.updateList(it.data.toMutableList())
+                    if (it.data.isNotEmpty()) {
+                        dataAvailableCheck(true)
+                        binding.shimmer.stopShimmer()
+                        binding.shimmer.hide()
+                        binding.rvUnverifiedList.show()
+                        adapter.updateList(it.data.toMutableList())
+                    } else {
+                        dataAvailableCheck(false)
+                    }
                 }
             }
         }

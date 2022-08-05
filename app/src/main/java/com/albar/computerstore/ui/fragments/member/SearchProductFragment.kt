@@ -96,7 +96,6 @@ class SearchProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchProductBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -106,9 +105,7 @@ class SearchProductFragment : Fragment() {
             arguments?.getString(EXTRA_ID_COMPUTER_STORE_FOR_SEARCHING) ?: ""
         viewModel.getAllProductByIdComputerStore(idComputerStoreProduct)
         backToThePrevious()
-
         networkStatus()
-
     }
 
     private fun networkStatus() {

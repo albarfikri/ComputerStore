@@ -38,7 +38,6 @@ import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.*
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -230,72 +229,76 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     toastShort(it.error)
                 }
                 is Result.Success -> {
-                    dataAvailableCheck(true)
-                    binding.loading.hide()
-                    it.data.forEach { output ->
-                        val availableArea = resources.getStringArray(R.array.computerStoreArea)
-                        val computerAreaFromAPI = output.area
+                    if (it.data.isNotEmpty()) {
+                        dataAvailableCheck(true)
+                        binding.loading.hide()
+                        it.data.forEach { output ->
+                            val availableArea = resources.getStringArray(R.array.computerStoreArea)
+                            val computerAreaFromAPI = output.area
 
-                        if (isHaversine) {
-                            position = finalOutput(
-                                availableArea,
-                                computerAreaFromAPI,
-                                // Distance
-                                haversineFormula(
+                            if (isHaversine) {
+                                position = finalOutput(
+                                    availableArea,
+                                    computerAreaFromAPI,
+                                    // Distance
+                                    haversineFormula(
+                                        originLatitude,
+                                        originLongitude,
+                                        output.lat,
+                                        output.lng
+                                    )
+                                )
+                                distance = haversineFormula(
                                     originLatitude,
                                     originLongitude,
                                     output.lat,
                                     output.lng
                                 )
-                            )
-                            distance = haversineFormula(
-                                originLatitude,
-                                originLongitude,
-                                output.lat,
-                                output.lng
-                            )
-                        } else {
-                            position = finalOutput(
-                                availableArea,
-                                computerAreaFromAPI,
-                                // Distance
-                                euclideanFormula(
+                            } else {
+                                position = finalOutput(
+                                    availableArea,
+                                    computerAreaFromAPI,
+                                    // Distance
+                                    euclideanFormula(
+                                        originLatitude,
+                                        originLongitude,
+                                        output.lat,
+                                        output.lng
+                                    )
+                                )
+                                distance = euclideanFormula(
                                     originLatitude,
                                     originLongitude,
                                     output.lat,
                                     output.lng
                                 )
+                            }
+
+                            val data = ComputerStore(
+                                id = output.id,
+                                isAdmin = output.isAdmin,
+                                isVerified = output.isVerified,
+                                lat = output.lat,
+                                lng = output.lng,
+                                createAt = output.createAt,
+                                name = output.name,
+                                address = output.address,
+                                image = output.image,
+                                phone = output.phone,
+                                email = output.email,
+                                username = output.username,
+                                password = output.password,
+                                positionOrder = position,
+                                distance = distance
                             )
-                            distance = euclideanFormula(
-                                originLatitude,
-                                originLongitude,
-                                output.lat,
-                                output.lng
-                            )
+                            listAfterCalculating.add(data)
                         }
-
-                        val data = ComputerStore(
-                            id = output.id,
-                            isAdmin = output.isAdmin,
-                            isVerified = output.isVerified,
-                            lat = output.lat,
-                            lng = output.lng,
-                            createAt = output.createAt,
-                            name = output.name,
-                            address = output.address,
-                            image = output.image,
-                            phone = output.phone,
-                            email = output.email,
-                            username = output.username,
-                            password = output.password,
-                            positionOrder = position,
-                            distance = distance
-                        )
-                        listAfterCalculating.add(data)
+                        adapter.updateList(listAfterCalculating.distinctBy { it.id }
+                            .sortedBy { it.positionOrder }.toMutableList())
+                        adapter.notifyDataSetChanged()
+                    } else {
+                        dataAvailableCheck(false)
                     }
-                    adapter.updateList(listAfterCalculating.distinctBy { it.id }
-                        .sortedBy { it.positionOrder }.toMutableList())
-                    adapter.notifyDataSetChanged()
                 }
             }
         }
