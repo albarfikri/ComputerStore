@@ -43,6 +43,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/remote/entity/ComputerStoreNearest.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/remote/entity/ComputerStoreProduct.kt">
           <value>
             <set />
@@ -139,6 +144,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/repository/AdministratorRepositoryImp.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/repository/AuthRepositoryImp.kt">
           <value>
             <set />
           </value>
@@ -564,6 +574,26 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../../../Semester VI_Bangkit/Capstone Project/Final App/app/src/main/java/com/cap0323/medy/testing/CalculatingWithBigData.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/plantmonitor/app/src/main/java/com/example/ta/ui/home/MainActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/plantmonitor/app/src/main/java/com/example/ta/ui/informasi/InformasiFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/plantmonitor/app/src/main/java/com/example/ta/ui/kontrol/KontrolFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/plantmonitor/app/src/main/res/navigation/mobile_navigation.xml">
           <value>
             <set />
           </value>

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -21,7 +20,6 @@ import com.albar.computerstore.others.Constants.MAIN
 import com.albar.computerstore.others.Constants.MEMBER
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreProductAdapter
 import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment.Companion.EXTRA_ACTION_TYPE
 import com.albar.computerstore.ui.fragments.member.AddOrUpdateFragment.Companion.EXTRA_ID_COMPUTER_STORE_PRODUCT
@@ -30,7 +28,6 @@ import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -176,7 +173,6 @@ class ProductComputerStoreFragment : Fragment() {
                         binding.shimmer.hide()
                         binding.rvProductList.hide()
                         dataAvailableCheck(false)
-                        toastShort(it.error)
                     }
                     is Result.Success -> {
                         dataAvailableCheck(true)

@@ -160,10 +160,6 @@ class EditMemberFragment : Fragment() {
                     isEmptyFields = true
                     etLng.error = "Longitude Field cannot be empty"
                 }
-                if (inputEmail.isEmpty()) {
-                    isEmptyFields = true
-                    etEmail.error = "Email Field cannot be empty"
-                }
 
                 if (inputPhone.isEmpty()) {
                     isEmptyFields = true
@@ -180,11 +176,9 @@ class EditMemberFragment : Fragment() {
                         isEmptyFields = true
                         etEmail.error = "Email isn't valid"
                     }
-                }
-
-                if (inputPassword.isEmpty()) {
+                }else{
                     isEmptyFields = true
-                    etPassword.error = "Password Field cannot be empty"
+                    etEmail.error = "Email Field cannot be empty"
                 }
 
                 if (inputPassword.isNotEmpty()) {
@@ -204,6 +198,9 @@ class EditMemberFragment : Fragment() {
                         isEmptyFields = true
                         etPassword.error = "Must contain 1 Special Character.*[@#\$%^&+=!()"
                     }
+                }else{
+                    isEmptyFields = true
+                    etPassword.error = "Password Field cannot be empty"
                 }
 
                 if (!isEmptyFields) {

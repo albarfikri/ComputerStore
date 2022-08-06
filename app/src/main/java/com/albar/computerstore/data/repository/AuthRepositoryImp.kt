@@ -15,11 +15,7 @@ class AuthRepositoryImp(
     private val sharedPref: SharedPreferences,
     private val gson: Gson
 ) : AuthRepository {
-    override fun loginComputerStore(
-        username: String,
-        password: String,
-        result: (Result<Boolean>) -> Unit
-    ) {
+    override fun loginComputerStore(username: String, password: String, result: (Result<Boolean>) -> Unit) {
         val document = database.collection(Constants.COMPUTER_STORE_TABLE)
         document.whereEqualTo(USERNAME_FIELD, username)
             .get()

@@ -155,7 +155,6 @@ class SearchProductFragment : Fragment() {
                     binding.shimmer.hide()
                     binding.rvProductList.hide()
                     dataAvailableCheck(false)
-                    toastShort(it.error)
                 }
                 is Result.Success -> {
                     dataAvailableCheck(true)
@@ -182,7 +181,6 @@ class SearchProductFragment : Fragment() {
                     binding.shimmer.hide()
                     binding.rvProductList.hide()
                     dataAvailableCheck(false)
-                    toastShort(it.error)
                 }
                 is Result.Success -> {
                     dataAvailableCheck(true)

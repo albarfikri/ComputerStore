@@ -6,6 +6,8 @@ import com.albar.computerstore.R
 object Constants {
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
+    const val NOT_SET = "Not set"
+
     // for onBoarding screen Adapter
     const val NUM_PAGES = 3
 
