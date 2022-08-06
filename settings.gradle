@@ -5,6 +5,6 @@ pluginManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "ComputerStore"
 include ':app'
+rootProject.name = "ComputerStore"
+

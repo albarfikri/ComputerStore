@@ -7,6 +7,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
+    id 'org.sonarqube'
 }
 
 android {
@@ -38,6 +39,23 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+}
+
+//./gradlew sonarqube -D sonar.host.url=http://localhost:9000/
+//taskkill /im java.exe /f
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "ComputerStore"
+        property "sonar.projectKey", "ComputerStore"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.language", "kotlin"
+        property "sonar.sources", "src/main/java"
+        property "sonar.java.sources", "src/main/java"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.login", "admin"
+        property "sonar.password", "fikrialbar4"
     }
 }
 

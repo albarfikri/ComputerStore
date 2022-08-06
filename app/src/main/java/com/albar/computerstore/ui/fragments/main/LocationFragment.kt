@@ -40,7 +40,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -98,16 +97,16 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     override fun onMapReady(googleMap: GoogleMap) {
 
         map = googleMap
-
-        map!!.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-
-        map!!.isMyLocationEnabled = true
-        map?.setPadding(0, 0, 0, 125)
-        map?.uiSettings?.setAllGesturesEnabled(true)
-        map?.uiSettings?.isMyLocationButtonEnabled = true
-        map?.uiSettings?.isZoomGesturesEnabled = true
-        map?.uiSettings?.isMapToolbarEnabled = true
-        map?.uiSettings?.isZoomControlsEnabled = true
+        map?.apply {
+            setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            isMyLocationEnabled = true
+            setPadding(0, 0, 0, 125)
+            uiSettings.setAllGesturesEnabled(true)
+            uiSettings.isMyLocationButtonEnabled = true
+            uiSettings.isZoomGesturesEnabled = true
+            uiSettings.isMapToolbarEnabled = true
+            uiSettings.isZoomControlsEnabled = true
+        }
         map?.setOnMarkerClickListener(this)
     }
 
@@ -299,11 +298,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
     private fun networkStatus() {
         networkStatusViewModel.hasConnection.observe(viewLifecycleOwner) { isConnected ->
-            if (!isConnected) {
-                noNetworkAvailableSign(isConnected)
-            } else {
-                noNetworkAvailableSign(isConnected)
-            }
+            noNetworkAvailableSign(isConnected)
         }
     }
 

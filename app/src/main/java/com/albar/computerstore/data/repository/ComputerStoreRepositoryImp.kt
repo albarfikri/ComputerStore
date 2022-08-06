@@ -33,9 +33,6 @@ class ComputerStoreRepositoryImp(
         document.whereNotEqualTo("isAdmin", true).whereEqualTo("isVerified", true)
             .get()
             .addOnSuccessListener {
-                if (it.isEmpty) {
-                    result.invoke(Result.Error("Data is empty"))
-                }
                 val computerStoreList = arrayListOf<ComputerStore>()
                 it.forEach { document ->
                     //convert document from firebase to our data class

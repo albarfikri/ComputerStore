@@ -22,9 +22,6 @@ class ComputerStoreProductRepositoryImp(
         document.whereEqualTo("idComputerStore", idComputerStore)
             .get()
             .addOnSuccessListener {
-                if (it.isEmpty) {
-                    result.invoke(Result.Error("Data is empty"))
-                }
                 val computerStoreList = arrayListOf<ComputerStoreProduct>()
                 it.forEach { document ->
                     //convert document from firebase to our data class
@@ -50,9 +47,6 @@ class ComputerStoreProductRepositoryImp(
         document.whereEqualTo("idComputerStore", idComputerStore).whereEqualTo("productType", type)
             .get()
             .addOnSuccessListener {
-                if (it.isEmpty) {
-                    result.invoke(Result.Error("No data Available"))
-                }
                 val computerStoreProductList = arrayListOf<ComputerStoreProduct>()
 
                 it.forEach { document ->
@@ -75,10 +69,6 @@ class ComputerStoreProductRepositoryImp(
         document.whereEqualTo("id", id)
             .get()
             .addOnSuccessListener {
-                if (it.isEmpty) {
-                    result.invoke(Result.Error("No data Available"))
-                }
-
                 it.forEach { document ->
                     val computerStoreProduct = document.toObject(ComputerStoreProduct::class.java)
                     result.invoke(Result.Success(computerStoreProduct))
@@ -100,10 +90,6 @@ class ComputerStoreProductRepositoryImp(
         document.whereEqualTo("idComputerStore", idComputerStore)
             .get()
             .addOnSuccessListener {
-                if (it.isEmpty) {
-                    result.invoke(Result.Error("No data Available"))
-                }
-
                 val computerStoreProductList = arrayListOf<ComputerStoreProduct>()
 
                 it.forEach { document ->
@@ -115,10 +101,6 @@ class ComputerStoreProductRepositoryImp(
                         computerStoreProductList.add(computerStoreProduct)
                         result.invoke(Result.Success(computerStoreProductList))
                     }
-                    if (computerStoreProductList.isEmpty()) {
-                        result.invoke(Result.Error("No data Available"))
-                    }
-
                 }
             }
             .addOnFailureListener {

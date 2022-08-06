@@ -348,11 +348,6 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/viewmodels/LocationViewModel.kt">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/drawable-nodpi/custom_tooltip_bg.xml">
           <value>
             <set />
@@ -543,7 +538,17 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/local.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/settings.gradle">
           <value>
             <set />
           </value>
