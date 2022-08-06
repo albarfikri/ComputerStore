@@ -119,14 +119,8 @@ class DetailComputerStoreFragment : Fragment() {
 
             fabAction.setOnClickListener {
                 isVerifiedChecked = !isVerifiedChecked
-
-                if (isVerifiedChecked) {
-                    updateVerifiedOrUnverifiedComputerStore(isVerifiedChecked)
-                    observerOutputVerifiedOrUnverified(isVerifiedChecked)
-                } else {
-                    updateVerifiedOrUnverifiedComputerStore(isVerifiedChecked)
-                    observerOutputVerifiedOrUnverified(isVerifiedChecked)
-                }
+                updateVerifiedOrUnverifiedComputerStore(isVerifiedChecked)
+                observerOutputVerifiedOrUnverified(isVerifiedChecked)
             }
         }
     }
@@ -216,7 +210,9 @@ class DetailComputerStoreFragment : Fragment() {
                         collapsedTitle.text = objectComputerStore?.name
                     }
                 }
-                else -> {}
+                else -> {
+                    print("Show Detail")
+                }
             }
         }
     }

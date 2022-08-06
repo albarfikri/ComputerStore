@@ -25,7 +25,6 @@ import com.albar.computerstore.ui.dialogfragments.CustomDialogSearchlatlngFragme
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -135,31 +134,30 @@ class SignupFragment : Fragment() {
         }
     }
 
-    private fun checkIfFieldEmpty() {
-        binding.apply {
-            etUsername.doOnTextChanged { _, _, _, _ ->
-                viewModel.isUsernameUsed(binding.etUsername.text.toString().trim())
-                viewModel.isUsernameUsed.observe(viewLifecycleOwner) { isUsernameUsed ->
-                    when (isUsernameUsed) {
-                        is Result.Success -> {
-                            if (isUsernameUsed.data) {
-                                btnSignup.enable()
-                            } else {
-                                btnSignup.disable()
-                                etUsername.error = "Username is Already used"
-                            }
+    private fun checkUsername() {
+        binding.etUsername.doOnTextChanged { _, _, _, _ ->
+            viewModel.isUsernameUsed(binding.etUsername.text.toString().trim())
+            viewModel.isUsernameUsed.observe(viewLifecycleOwner) { isUsernameUsed ->
+                when (isUsernameUsed) {
+                    is Result.Success -> {
+                        if (isUsernameUsed.data) {
+                            binding.btnSignup.enable()
+                        } else {
+                            binding.btnSignup.disable()
+                            binding.etUsername.error = "Username is Already used"
                         }
-                        is Result.Error -> {
-                            toastShort(isUsernameUsed.error)
-                        }
-                        is Result.Loading -> {
-
-                        }
-                        else -> {}
+                    }
+                    is Result.Error -> {
+                        toastShort(isUsernameUsed.error)
                     }
                 }
             }
+        }
+    }
 
+    private fun checkIfFieldEmpty() {
+        checkUsername()
+        binding.apply {
             btnSignup.setOnClickListener {
                 var isEmptyFields = false
 
@@ -195,6 +193,11 @@ class SignupFragment : Fragment() {
                 if (inputEmail.isEmpty()) {
                     isEmptyFields = true
                     etEmail.error = "Email Field cannot be empty"
+                }else{
+                    if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()) {
+                        etEmail.error = "Email isn't valid"
+                        isEmptyFields = true
+                    }
                 }
 
                 if (inputPhone.isEmpty()) {
@@ -210,13 +213,6 @@ class SignupFragment : Fragment() {
                 if (inputPassword.isEmpty()) {
                     isEmptyFields = true
                     etPassword.error = "Password Field cannot be empty"
-                }
-
-                if (inputEmail.isNotEmpty()) {
-                    if (!Patterns.EMAIL_ADDRESS.matcher(inputEmail).matches()) {
-                        etEmail.error = "Email isn't valid"
-                        isEmptyFields = true
-                    }
                 }
 
                 if (inputPassword.isNotEmpty()) {

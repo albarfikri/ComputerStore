@@ -15,7 +15,6 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentSearchProductBinding
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
-import com.albar.computerstore.others.toastShort
 import com.albar.computerstore.ui.adapter.ComputerStoreProductAdapter
 import com.albar.computerstore.ui.viewmodels.ComputerStoreProductViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel

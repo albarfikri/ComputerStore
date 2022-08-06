@@ -268,7 +268,6 @@ class AddOrUpdateFragment : Fragment() {
                             )
                         }
                     }
-
                 }
             }
         }
@@ -421,7 +420,6 @@ class AddOrUpdateFragment : Fragment() {
                 Activity.RESULT_OK -> {
                     binding.progressBar.hide()
                     val fileUri = data?.data!!
-                    Log.d("fileUri", fileUri.toString())
                     glide
                         .load(fileUri)
                         .placeholder(R.drawable.ic_broke_image)

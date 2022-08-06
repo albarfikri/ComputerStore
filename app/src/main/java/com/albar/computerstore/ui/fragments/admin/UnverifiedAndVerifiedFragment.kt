@@ -207,6 +207,9 @@ class UnverifiedAndVerifiedFragment : Fragment() {
                         binding.rvUnverifiedList.show()
                         adapter.updateList(it.data.toMutableList())
                     } else {
+                        binding.shimmer.stopShimmer()
+                        binding.shimmer.hide()
+                        binding.rvUnverifiedList.hide()
                         dataAvailableCheck(false)
                     }
                 }

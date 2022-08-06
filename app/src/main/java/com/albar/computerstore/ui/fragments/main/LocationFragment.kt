@@ -391,7 +391,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 //                            )
 //                        )
                     }
-                    else -> {}
                 }
             }
         }
