@@ -12,5 +12,4 @@ interface RetrofitApi {
 
     @GET
     suspend fun getDirection(@Url url: String): Response<DirectionResponseModel>
-
 }

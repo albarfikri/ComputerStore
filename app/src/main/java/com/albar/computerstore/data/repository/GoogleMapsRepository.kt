@@ -11,9 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 class GoogleMapsRepository {
     fun getDirection(url: String): Flow<Result<Any>> = flow<Result<Any>> {
         emit(Result.Loading)
-
         val response = RetrofitClient.retrofitApi.getDirection(url)
-
         if (response.body()?.directionRouteModels?.size!! > 0) {
             emit(Result.Success(response.body()!!))
         } else {

@@ -49,6 +49,7 @@ class OnBoardingFragment3 : Fragment() {
                         Handler(Looper.getMainLooper()).postDelayed({
                             val intent = Intent(context, MainActivity::class.java)
                             startActivity(intent)
+                            requireActivity().finish()
                         }, 800L)
 
                     }

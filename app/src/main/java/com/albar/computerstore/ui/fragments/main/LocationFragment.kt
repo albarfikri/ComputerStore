@@ -9,6 +9,7 @@ import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -198,7 +199,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             map?.setInfoWindowAdapter(customInfoWindow)
             currentMarker?.tag = info
 
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 13.5f))
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 12f))
 
             setLocation = LatLng(data.lat, data.lng)
         }
@@ -232,7 +233,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                     if (location != null) {
                         currentLocation?.latitude
                         currentLocation?.longitude
-
                     }
                 }
             }
@@ -279,7 +279,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                 Constants.REQUEST_CODE_LOCATION_PERMISSION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+//                Manifest.permission.ACCESS_BACKGROUND_LOCATION
             )
         }
     }
@@ -367,6 +367,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                         options.addAll(stepList)
                         polylineFinal = map?.addPolyline(options)
                     }
+                    is Result.Error -> Log.d("output", it.error)
                 }
             }
         }

@@ -63,7 +63,7 @@ class ComputerStoreListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentComputerStoreListBinding.inflate(inflater, container, false)
         return binding.root
     }

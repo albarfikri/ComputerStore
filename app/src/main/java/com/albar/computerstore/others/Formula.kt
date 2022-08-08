@@ -1,6 +1,13 @@
 package com.albar.computerstore.others
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
+import java.time.Duration
+import java.time.LocalTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.*
 
 object Formula {
@@ -109,5 +116,19 @@ object Formula {
         val timeCalculation: Double = timeCalculation(distance, FV)
         val streetDensity: Double = streetDensity(tk, kj)
         return (distance + timeCalculation + streetDensity) / 3
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun timeUntilInMadrid(hour: Int): Duration {
+        val timezone = ZoneId.of("UTC")
+        val now = ZonedDateTime.now(timezone).truncatedTo(ChronoUnit.MINUTES)
+
+        val targetTime = LocalTime.of(hour, 0)
+        val targetDate =
+            if (now.toLocalTime() <= targetTime) now.toLocalDate()
+            else now.toLocalDate().plusDays(1)
+
+        val then = ZonedDateTime.of(targetDate, targetTime, timezone)
+        return Duration.between(now, then)
     }
 }
