@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
@@ -36,6 +38,7 @@ import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
 import com.albar.computerstore.ui.viewmodels.NetworkViewModel
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
@@ -90,7 +93,9 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 val dialPhoneIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$item"))
                 startActivity(dialPhoneIntent)
             },
-            onNavigate = { _, _ -> },
+            onNavigate = { _, item ->
+                navigate(LatLng(item.lat, item.lng), item.name)
+            },
             glide
         )
     }
@@ -122,6 +127,19 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 retrieveData()
             }
         }
+    }
+
+    private fun navigate(destination: LatLng, computerStore: String) {
+        val uri = java.lang.String.format(
+            Locale.US,
+            "http://maps.google.com/maps?daddr=%f,%f (%s)",
+            destination.latitude,
+            destination.longitude,
+            computerStore
+        )
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        intent.setPackage("com.google.android.apps.maps")
+        startActivity(intent)
     }
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {

@@ -190,7 +190,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             val markerOptions = MarkerOptions()
                 .position(LatLng(data.lat, data.lng))
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker))
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
 
             currentMarker = map?.addMarker(markerOptions)
 
