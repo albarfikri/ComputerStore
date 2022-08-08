@@ -56,23 +56,17 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
     private val networkStatusViewModel: NetworkViewModel by viewModels()
     private val viewModel: ComputerStoreViewModel by viewModels()
     private val locationViewModel: LocationViewModel by viewModels()
-
     private var currentLocation: Location? = null
-
     private var currentMarker: Marker? = null
     private var map: GoogleMap? = null
     private var isRequestingLocationUpdates = false
-
     private lateinit var setLocation: LatLng
-
     private lateinit var locationRequest: LocationRequest
     private var locationCallback: LocationCallback? = null
     private var polylineFinal: Polyline? = null
-
     private var position: Double = 0.0
     private var onceOnLaunchDraw: Boolean = true
     var nearest = LatLng(0.0, 0.0)
@@ -196,7 +190,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             val markerOptions = MarkerOptions()
                 .position(LatLng(data.lat, data.lng))
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker))
 
             currentMarker = map?.addMarker(markerOptions)
 
@@ -204,7 +198,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             map?.setInfoWindowAdapter(customInfoWindow)
             currentMarker?.tag = info
 
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 12f))
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 13.5f))
 
             setLocation = LatLng(data.lat, data.lng)
         }
@@ -238,6 +232,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                     if (location != null) {
                         currentLocation?.latitude
                         currentLocation?.longitude
+
                     }
                 }
             }
@@ -262,6 +257,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                         childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
                     mapFragment.getMapAsync(this)
                 } else {
+                    toastShort("Your gps is disabled")
                     startLocationUpdates()
                     isRequestingLocationUpdates = true
                 }
@@ -370,26 +366,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                         }
                         options.addAll(stepList)
                         polylineFinal = map?.addPolyline(options)
-
-                        val startLocation = LatLng(
-                            legModel.startLocation?.lat!!,
-                            legModel.startLocation.lng!!
-                        )
-
-                        val endLocation = LatLng(
-                            legModel.endLocation?.lat!!,
-                            legModel.endLocation.lng!!
-                        )
-
-//                        val builder = LatLngBounds.builder()
-//                        builder.include(endLocation).include(startLocation)
-//                        val latLngBounds = builder.build()
-//
-//                        map?.animateCamera(
-//                            CameraUpdateFactory.newLatLngBounds(
-//                                latLngBounds, 32
-//                            )
-//                        )
                     }
                 }
             }

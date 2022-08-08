@@ -23,6 +23,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/BaseApplication.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/CalculatingBigData.kt">
           <value>
             <set />
@@ -139,6 +144,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/remote/interfaceretrofit/RetrofitClient.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/repository/AdministratorRepository.kt">
           <value>
             <set />
           </value>
@@ -354,6 +364,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/fragments/opening/OnBoardingFragment1.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/fragments/opening/OnBoardingFragment3.kt">
           <value>
             <set />
           </value>
@@ -604,6 +619,31 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/../../../../debby/plantmonitor/app/src/main/res/navigation/mobile_navigation.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/ta/plantmonitor/app/src/main/java/com/example/ta/ui/DataClass.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/ta/plantmonitor/app/src/main/java/com/example/ta/ui/DataTa.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/ta/plantmonitor/app/src/main/java/com/example/ta/ui/detail/Result.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/ta/plantmonitor/app/src/main/java/com/example/ta/ui/kontrol/KontrolFragment.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../debby/ta/plantmonitor/app/src/main/java/com/example/ta/ui/viewmodel.kt">
           <value>
             <set />
           </value>

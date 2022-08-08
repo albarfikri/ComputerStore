@@ -4,6 +4,9 @@ import android.util.Log
 import kotlin.math.*
 
 object Formula {
+ const val SECRET_KEY = "abcdefghijklmnop"
+    const val SECRET_IV = "ponmlkjihgfedcba"
+
     // Haversine
     private const val R = 6372.8
 

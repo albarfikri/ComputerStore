@@ -1,6 +1,8 @@
 package com.albar.computerstore.others
 
 import android.util.Base64
+import com.albar.computerstore.others.Formula.SECRET_IV
+import com.albar.computerstore.others.Formula.SECRET_KEY
 import com.google.android.gms.maps.model.LatLng
 import java.text.NumberFormat
 import java.util.*
@@ -10,9 +12,6 @@ import javax.crypto.spec.SecretKeySpec
 
 
 object Tools {
-    private const val SECRET_KEY = "abcdefghijklmnop"
-    private const val SECRET_IV = "ponmlkjihgfedcba"
-
     // Money Converter to Rupiah -> Rp.x.xxx
     fun moneyConverter(number: Double): String {
         val localeID = Locale("IND", "ID")

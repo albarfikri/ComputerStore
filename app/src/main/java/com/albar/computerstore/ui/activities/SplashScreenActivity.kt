@@ -48,25 +48,26 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         if (AppUtility.hasLocationPermission(this)) {
             navigateBasedOnStatus()
             return
-        }else{
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
-                EasyPermissions.requestPermissions(
-                    this, "You need to accept location permissions to use this app.",
-                    Constants.REQUEST_CODE_LOCATION_PERMISSION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                )
-            } else {
-                EasyPermissions.requestPermissions(
-                    this,
-                    "You need to accept location permissions to use this app.",
-                    Constants.REQUEST_CODE_LOCATION_PERMISSION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
-            }
         }
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            EasyPermissions.requestPermissions(
+                this, "You need to accept location permissions to use this app.",
+                Constants.REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        } else {
+            EasyPermissions.requestPermissions(
+                this,
+                "You need to accept location permissions to use this app.",
+                Constants.REQUEST_CODE_LOCATION_PERMISSION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+        }
+
     }
 
     private fun navigate(navigationCode: Int) {
@@ -87,12 +88,6 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         }, 1000L)
     }
 
-    private fun askingForPermissionAgain() {
-        Handler(Looper.myLooper()!!).postDelayed({
-            requestPermission()
-        }, 1000L)
-    }
-
     private fun tvAnimation() {
         val animationText = AnimationUtils.loadAnimation(this, R.anim.enter_from_left)
         val animationTextDesc = AnimationUtils.loadAnimation(this, R.anim.enter_from_right)
@@ -100,6 +95,11 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
         binding.textDesc.startAnimation(animationTextDesc)
     }
 
+    private fun askingForPermissionAgain() {
+        Handler(Looper.myLooper()!!).postDelayed({
+            requestPermission()
+        }, 1000L)
+    }
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show()
         navigateBasedOnStatus()
@@ -108,6 +108,8 @@ class SplashScreenActivity : AppCompatActivity(), EasyPermissions.PermissionCall
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
+            askingForPermissionAgain()
+        }else{
             askingForPermissionAgain()
         }
     }

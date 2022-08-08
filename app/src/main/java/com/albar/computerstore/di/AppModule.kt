@@ -1,9 +1,12 @@
 package com.albar.computerstore.di
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import com.albar.computerstore.others.Constants.LOCAL_SHARED_PREF
 import com.albar.computerstore.others.DataStoreUtility
 import com.bumptech.glide.Glide
@@ -27,7 +30,6 @@ object AppModule {
     fun provideDataStoreContext(@ApplicationContext appContext: Context): DataStoreUtility =
         DataStoreUtility(appContext)
 
-    @SuppressLint("VisibleForTests")
     @Provides
     @Singleton
     fun provideFusedLocationProviderClient(@ApplicationContext app: Context) =
@@ -40,8 +42,28 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSharedPref(@ApplicationContext context: Context): SharedPreferences =
-        context.getSharedPreferences(LOCAL_SHARED_PREF, Context.MODE_PRIVATE)
+    fun provideSharedPref(@ApplicationContext context: Context): SharedPreferences {
+        val spec = KeyGenParameterSpec.Builder(
+            MasterKey.DEFAULT_MASTER_KEY_ALIAS,
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+        )
+            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+            .setKeySize(MasterKey.DEFAULT_AES_GCM_MASTER_KEY_SIZE)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .build()
+        val masterKey = MasterKey.Builder(context)
+            .setKeyGenParameterSpec(spec)
+            .build()
+        return EncryptedSharedPreferences
+            .create(
+                context,
+                LOCAL_SHARED_PREF,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+            )
+    }
+
 
     @Provides
     @Singleton

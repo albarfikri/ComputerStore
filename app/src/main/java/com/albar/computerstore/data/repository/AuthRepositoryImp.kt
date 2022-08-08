@@ -26,7 +26,6 @@ class AuthRepositoryImp(
 
                 snapshot.forEach { document ->
                     val computerStore = document.toObject(ComputerStore::class.java)
-
                     if (computerStore.username == username &&
                         computerStore.password.decryptCBC() == password && !computerStore.isAdmin
                         && !computerStore.isVerified
