@@ -653,6 +653,56 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/build.gradle">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/AndroidManifest.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/java/com/example/myapplication/AcoMethod.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/java/com/example/myapplication/Permissions.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/java/com/example/myapplication/di/FirebaseModule.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/java/com/example/myapplication/ui/MainActivity.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/java/com/example/myapplication/ui/viewmodels/ambulanceViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/res/drawable-v24/category_indicator.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/app/src/main/res/layout/activity_main.xml">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../../../../imron/Ambulans/local.properties">
+          <value>
+            <set />
+          </value>
+        </entry>
       </map>
     </option>
   </component>

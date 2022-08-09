@@ -13,7 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -71,6 +71,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     private var position: Double = 0.0
     private var onceOnLaunchDraw: Boolean = true
     var nearest = LatLng(0.0, 0.0)
+    private val locationLatLng = arrayListOf<ComputerStore>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,7 +85,12 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkStatus()
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+        retrieveData()
         requestPermission()
+        search()
     }
 
 
@@ -94,7 +100,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         map = googleMap
         map?.apply {
             setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-            isMyLocationEnabled = true
+            //isMyLocationEnabled = true
             setPadding(0, 0, 0, 125)
             uiSettings.setAllGesturesEnabled(true)
             uiSettings.isMyLocationButtonEnabled = true
@@ -153,6 +159,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                                 positionOrder = position
                             )
                             listAfterCalculating.add(dataObject)
+                            locationLatLng.add(dataObject)
                         }
 
                         val findMinOutput = findMin(listAfterCalculating)
@@ -162,12 +169,40 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                             drawLine(nearest)
                             onceOnLaunchDraw = false
                         }
-                    } else {
-                        toastShort("Have no computer store data!")
                     }
                 }
             }
         }
+    }
+
+    private fun search() {
+        binding.svProduct.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String): Boolean {
+                var output: ComputerStore? = null
+                locationLatLng.forEach {
+                    if (it.name.trim().lowercase().contains(newText.lowercase().trim())) {
+                        output = it
+                        return@forEach
+                    }
+                }
+                if (output != null) {
+                    drawMarker2(output!!)
+                } else {
+                    toastShort("No computer store.")
+                }
+
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isEmpty()) {
+                    map?.clear()
+                    drawMarker(locationLatLng)
+                }
+                return true
+            }
+
+        })
     }
 
     private fun findMin(list: List<ComputerStore>): ComputerStore {
@@ -199,11 +234,48 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             map?.setInfoWindowAdapter(customInfoWindow)
             currentMarker?.tag = info
 
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 12f))
+            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 13.6f))
 
             setLocation = LatLng(data.lat, data.lng)
         }
     }
+
+    private fun drawMarker2(computerStoreData: ComputerStore) {
+        val distance = haversineFormula(
+            currentLocation!!.latitude,
+            currentLocation!!.longitude,
+            computerStoreData.lat,
+            computerStoreData.lng
+        )
+
+        computerStoreData.name = computerStoreData.name
+        computerStoreData.address = computerStoreData.address
+        computerStoreData.image = computerStoreData.image
+        computerStoreData.distance = distance
+
+        val markerOptions = MarkerOptions()
+            .position(LatLng(computerStoreData.lat, computerStoreData.lng))
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+
+        currentMarker = map?.addMarker(markerOptions)
+
+        val customInfoWindow = CustomInfoWindowGoogleMap(requireActivity(), glide)
+        map?.setInfoWindowAdapter(customInfoWindow)
+        currentMarker?.tag = computerStoreData
+        currentMarker?.showInfoWindow()
+
+        map?.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(
+                    computerStoreData.lat,
+                    computerStoreData.lng
+                ), 17f
+            )
+        )
+
+        setLocation = LatLng(computerStoreData.lat, computerStoreData.lng)
+    }
+
 
     private fun noNetworkAvailableSign(isConnectionAvailable: Boolean) {
         if (!isConnectionAvailable) {
@@ -250,12 +322,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             task.addOnSuccessListener { location ->
                 if (location != null) {
-                    retrieveData()
                     isRequestingLocationUpdates = false
                     this.currentLocation = location
-                    val mapFragment =
-                        childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-                    mapFragment.getMapAsync(this)
                 } else {
                     toastShort("Your gps is disabled")
                     startLocationUpdates()
@@ -384,7 +452,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        Toast.makeText(requireContext(), "accepted", Toast.LENGTH_SHORT).show()
+        toastShort("Accepted")
         if (requestCode == Constants.REQUEST_CODE_LOCATION_PERMISSION) {
             return
         }

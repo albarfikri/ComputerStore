@@ -75,40 +75,42 @@ object Formula {
     ): Double {
         // Sudirman
         if (availableArea[0] == computerAreaFromApi) {
-            FV = speedCalculation(57.0 , 0.0 ,  0.0, 0.94)
+            FV = speedCalculation(57.0 , 0.0 ,  0.96, 0.94)
             tk = 3395.0
             kj = 4203.11
         }
 
         // Riau
         if (availableArea[1] == computerAreaFromApi) {
-            FV = speedCalculation(42.0 , 3.0 ,  0.0, 0.94)
+            FV = speedCalculation(42.0 , 3.0 ,  0.93, 0.94)
             tk = 1888.96
             kj = 2726.05
         }
 
         // Ahmad Yani
         if (availableArea[2] == computerAreaFromApi) {
-            FV = speedCalculation(51.0 , 0.0,  0.0, 0.94)
+            FV = speedCalculation(51.0 , 0.0,  0.95, 0.94)
             tk = 1675.0
             kj = 4022.37
         }
+
         // Durian
         if (availableArea[3] == computerAreaFromApi) {
-            FV = speedCalculation(42.0 , 3.0,  0.0, 0.94)
+            FV = speedCalculation(42.0 , 3.0,  0.93, 0.94)
             tk = 928.5
             kj = 1745.63
         }
+
         // Tambusai
         if (availableArea[4] == computerAreaFromApi) {
-            FV = speedCalculation(55.0 , 0.0,  0.0, 0.94)
+            FV = speedCalculation(55.0 , 0.0,  0.96, 0.94)
             tk = 1840.9
             kj = 2241.45
         }
 
         // Soekarno-Hatta
         if (availableArea[5] == computerAreaFromApi) {
-            FV = speedCalculation(55.0 , 0.0,  0.0, 0.94)
+            FV = speedCalculation(55.0 , 0.0,  0.96, 0.94)
             tk = 1996.0
             kj = 4205.78
         }
