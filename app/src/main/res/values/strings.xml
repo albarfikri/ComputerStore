@@ -59,6 +59,8 @@
     <string name="update_data">Update Data</string>
     <string name="productAdd">Product Add</string>
     <string name="choose_computer_store_area">Choose Computer Store Area</string>
+    <string name="openHint">Open Store</string>
+    <string name="closeHint">Closed Store</string>
 
 
     <style name="adminMember">

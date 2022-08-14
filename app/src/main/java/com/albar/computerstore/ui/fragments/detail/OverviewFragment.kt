@@ -35,6 +35,7 @@ class OverviewFragment : Fragment() {
             tvAddress.text = objectComputerStore?.address
             tvPhone.text = objectComputerStore?.phone
             tvEmail.text = objectComputerStore?.email
+            tvTime.text = "Operasional time ${objectComputerStore?.open} - ${objectComputerStore?.close}"
         }
     }
 

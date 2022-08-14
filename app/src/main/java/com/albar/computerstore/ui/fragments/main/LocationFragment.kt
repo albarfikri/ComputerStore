@@ -85,10 +85,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         networkStatus()
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-        retrieveData()
         requestPermission()
         search()
     }
@@ -96,12 +92,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
-
         map = googleMap
         map?.apply {
             setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
-            //isMyLocationEnabled = true
-            setPadding(0, 0, 0, 125)
+            isMyLocationEnabled = true
+            setPadding(0, 300, 0, 125)
             uiSettings.setAllGesturesEnabled(true)
             uiSettings.isMyLocationButtonEnabled = true
             uiSettings.isZoomGesturesEnabled = true
@@ -295,7 +290,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
         locationRequest.apply {
             priority = Priority.PRIORITY_HIGH_ACCURACY
-            interval = 3000L
+            interval = 2000L
         }
 
         locationCallback = object : LocationCallback() {
@@ -322,8 +317,13 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
 
             task.addOnSuccessListener { location ->
                 if (location != null) {
+                    retrieveData()
                     isRequestingLocationUpdates = false
                     this.currentLocation = location
+                    val mapFragment =
+                        childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+                    mapFragment.getMapAsync(this)
+
                 } else {
                     toastShort("Your gps is disabled")
                     startLocationUpdates()

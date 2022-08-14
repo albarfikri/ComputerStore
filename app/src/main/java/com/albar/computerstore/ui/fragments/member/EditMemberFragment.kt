@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateFormat.is24HourFormat
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -108,6 +111,41 @@ class EditMemberFragment : Fragment() {
                 }
             }
         }
+
+        binding.btnOpen.setOnClickListener {
+            selectTime("Open Time", 1)
+        }
+
+        binding.btnClose.setOnClickListener {
+            selectTime("Close Time", 2)
+        }
+    }
+
+    private fun selectTime(title: String, flag: Int) {
+        val isSystem24Hour = is24HourFormat(requireContext())
+        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
+        val picker = MaterialTimePicker.Builder()
+            .setTimeFormat(clockFormat)
+            .setHour(12)
+            .setMinute(0)
+            .setTitleText(title)
+            .build()
+        picker.show(childFragmentManager, "TAG")
+
+        picker.addOnPositiveButtonClickListener {
+            val hour = picker.hour
+            val minute = picker.minute
+            val output = "$hour : ${if (minute == 0) minute.toString() + 0 else minute}"
+
+            when (flag) {
+                1 -> binding.etOpen.setText(output)
+                else -> binding.etClose.setText(output)
+            }
+        }
+        picker.addOnNegativeButtonClickListener {
+            toastShort("Cancel choosing time")
+        }
     }
 
     private fun hideSoftKeyboard() {
@@ -134,9 +172,11 @@ class EditMemberFragment : Fragment() {
                 val inputStoreName = etStoreName.text.toString().trim()
                 val inputAddress = etAddress.text.toString().trim()
 
-                // boolean type convert to string for checking space
                 val inputLat = etLat.text.toString().trim()
                 val inputLng = etLng.text.toString().trim()
+
+                val inputOpen = etOpen.text.toString().trim()
+                val inputClose = etClose.text.toString().trim()
 
                 val inputEmail = etEmail.text.toString().trim()
                 val inputPhone = etPhone.text.toString().trim()
@@ -161,6 +201,15 @@ class EditMemberFragment : Fragment() {
                     etLng.error = "Longitude Field cannot be empty"
                 }
 
+                if (inputOpen.isEmpty()) {
+                    isEmptyFields = true
+                    etOpen.error = "Open Time Field cannot be empty"
+                }
+                if (inputClose.isEmpty()) {
+                    isEmptyFields = true
+                    etClose.error = "Close Time Field cannot be empty"
+                }
+
                 if (inputPhone.isEmpty()) {
                     isEmptyFields = true
                     etPhone.error = "Phone Field cannot be empty"
@@ -176,7 +225,7 @@ class EditMemberFragment : Fragment() {
                         isEmptyFields = true
                         etEmail.error = "Email isn't valid"
                     }
-                }else{
+                } else {
                     isEmptyFields = true
                     etEmail.error = "Email Field cannot be empty"
                 }
@@ -198,7 +247,7 @@ class EditMemberFragment : Fragment() {
                         isEmptyFields = true
                         etPassword.error = "Must contain 1 Special Character.*[@#\$%^&+=!()"
                     }
-                }else{
+                } else {
                     isEmptyFields = true
                     etPassword.error = "Password Field cannot be empty"
                 }
@@ -228,7 +277,8 @@ class EditMemberFragment : Fragment() {
             etAddress.setText(objectComputerStore.address)
             etLat.setText(objectComputerStore.lat.toString())
             etLng.setText(objectComputerStore.lng.toString())
-
+            etOpen.setText(objectComputerStore.open)
+            etClose.setText(objectComputerStore.close)
             etArea.setText(objectComputerStore.area)
             areaOutput = objectComputerStore.area
             setUpDropDown()
@@ -374,6 +424,8 @@ class EditMemberFragment : Fragment() {
                     isVerified = objectComputerStore.isVerified,
                     lat = etLat.text.toString().toDouble(),
                     lng = etLng.text.toString().toDouble(),
+                    open = etOpen.text.toString(),
+                    close = etClose.text.toString(),
                     area = areaOutput,
                     createAt = Date(),
                     name = etStoreName.text.toString(),

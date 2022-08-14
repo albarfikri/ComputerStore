@@ -56,7 +56,7 @@ object Formula {
         return (l * 10000.0).roundToInt() / 10000.0
     }
 
-    private fun speedCalculation(FV0: Double, FVw: Double, FFVsf: Double, FFVcs: Double): Double {
+    fun speedCalculation(FV0: Double, FVw: Double, FFVsf: Double, FFVcs: Double): Double {
         return (FV0 - FVw) + FFVsf * FFVcs
     }
 

@@ -23,7 +23,6 @@ class AuthRepositoryImp(
                 if (snapshot.isEmpty) {
                     result.invoke(Result.Error("You are not registered"))
                 }
-
                 snapshot.forEach { document ->
                     val computerStore = document.toObject(ComputerStore::class.java)
                     if (computerStore.username == username &&

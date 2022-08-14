@@ -8,8 +8,7 @@ fun main() {
     val originLat = 0.5122466
     val originLng = 101.4571391
 
-    var destLatLng = arrayListOf<LatLng>()
-    destLatLng = arrayListOf(
+    val destLatLng: ArrayList<LatLng> = arrayListOf(
         LatLng(
             desLat = 0.5082327,
             desLng = 101.4401780
@@ -52,7 +51,6 @@ fun main() {
         )
     )
 
-
 //    for (data in 0..1000000) {
 //        destLatLng.add(LatLng(desLat = random(data), desLng = random(data)))
 //    }
@@ -60,7 +58,7 @@ fun main() {
     destLatLng.forEach { latLng ->
         println(
             "Jarak Pengguna ke lokasi tujuan : " +
-                    "${euclideanFormula(originLat, originLng, latLng.desLat, latLng.desLng)} km"
+                    "${haversineAlgorithm(originLat, originLng, latLng.desLat, latLng.desLng)} km"
         )
     }
 
@@ -75,7 +73,7 @@ data class LatLng(
 )
 
 fun random(seed: Int): Double {
-    val leftLimit = 0F
+    val leftLimit = 10F
     val rightLimit = 100F
     return leftLimit + Random(seed).nextDouble() * (rightLimit - leftLimit)
 }

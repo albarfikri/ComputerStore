@@ -13,6 +13,8 @@ class ComputerStore(
     var address: String = NOT_SET,
     val lat: Double = 0.0,
     val lng: Double = 0.0,
+    val open: String = "",
+    val close: String = "",
     val area: String = "",
     val email: String = NOT_SET,
     var image: String = "",
