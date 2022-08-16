@@ -253,7 +253,6 @@ class NearestFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                         it.data.forEach { output ->
                             val availableArea = resources.getStringArray(R.array.computerStoreArea)
                             val computerAreaFromAPI = output.area
-
                             if (isHaversine) {
                                 position = finalOutput(
                                     availableArea,

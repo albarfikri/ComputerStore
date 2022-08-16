@@ -1,6 +1,10 @@
 package com.albar.computerstore.others
 
+import android.content.Context
 import android.util.Base64
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat.getSystemService
 import com.albar.computerstore.others.Formula.SECRET_IV
 import com.albar.computerstore.others.Formula.SECRET_KEY
 import com.google.android.gms.maps.model.LatLng
@@ -71,5 +75,10 @@ object Tools {
             path.add(LatLng(lat * 1e-5, lng * 1e-5))
         }
         return path
+    }
+
+    fun hideKeyboard(context: Context, view: View) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

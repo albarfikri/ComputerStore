@@ -1,5 +1,6 @@
 package com.albar.computerstore.ui.fragments.detail
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,13 +30,24 @@ class OverviewFragment : Fragment() {
         retrieveData()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun retrieveData() {
         objectComputerStore = arguments?.getParcelable(PARCELABLE_KEY)
         binding.apply {
             tvAddress.text = objectComputerStore?.address
             tvPhone.text = objectComputerStore?.phone
             tvEmail.text = objectComputerStore?.email
-            tvTime.text = "Operasional time ${objectComputerStore?.open} - ${objectComputerStore?.close}"
+            tvTime.text = "Operasional time ${
+                objectComputerStore?.open?.replace(
+                    " ",
+                    ""
+                )
+            } - ${
+                objectComputerStore?.close?.replace(
+                    " ",
+                    ""
+                )
+            }"
         }
     }
 

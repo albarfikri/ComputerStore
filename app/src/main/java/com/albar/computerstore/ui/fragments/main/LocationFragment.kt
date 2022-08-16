@@ -27,6 +27,7 @@ import com.albar.computerstore.databinding.FragmentLocationBinding
 import com.albar.computerstore.others.*
 import com.albar.computerstore.others.Formula.haversineFormula
 import com.albar.computerstore.others.Tools.decode
+import com.albar.computerstore.others.Tools.hideKeyboard
 import com.albar.computerstore.others.permissions.AppUtility
 import com.albar.computerstore.ui.dialogfragments.CustomInfoWindowGoogleMap
 import com.albar.computerstore.ui.viewmodels.ComputerStoreViewModel
@@ -88,7 +89,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
         requestPermission()
         search()
     }
-
 
     @SuppressLint("MissingPermission")
     override fun onMapReady(googleMap: GoogleMap) {
@@ -181,11 +181,12 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                     }
                 }
                 if (output != null) {
+                    hideKeyboard(requireContext(), binding.mapView)
                     drawMarker2(output!!)
                 } else {
+                    hideKeyboard(requireContext(), binding.mapView)
                     toastShort("No computer store.")
                 }
-
                 return true
             }
 
@@ -229,10 +230,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
             map?.setInfoWindowAdapter(customInfoWindow)
             currentMarker?.tag = info
 
-            map?.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(data.lat, data.lng), 13.6f))
 
-            setLocation = LatLng(data.lat, data.lng)
         }
+        val middleList = computerStoreData.size / 2
+        map?.animateCamera(CameraUpdateFactory.newLatLngZoom(
+            LatLng(computerStoreData[middleList].lat, computerStoreData[middleList].lng), 13.6f))
     }
 
     private fun drawMarker2(computerStoreData: ComputerStore) {
@@ -267,8 +269,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback, EasyPermissions.Permiss
                 ), 17f
             )
         )
-
-        setLocation = LatLng(computerStoreData.lat, computerStoreData.lng)
     }
 
 

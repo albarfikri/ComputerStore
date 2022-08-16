@@ -170,6 +170,8 @@ class DetailComputerStoreFragment : Fragment() {
                 email = objectComputerStore!!.email,
                 lat = objectComputerStore!!.lat,
                 lng = objectComputerStore!!.lng,
+                open = objectComputerStore!!.open,
+                close = objectComputerStore!!.close,
                 image = objectComputerStore!!.image,
                 username = objectComputerStore!!.username,
                 password = objectComputerStore!!.password,
