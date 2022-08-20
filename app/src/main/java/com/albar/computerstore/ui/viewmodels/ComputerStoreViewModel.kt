@@ -25,6 +25,10 @@ class ComputerStoreViewModel @Inject constructor(
     val computerStore: LiveData<Result<List<ComputerStore>>>
         get() = _computerStore
 
+    private val _computerStoreByName = MutableLiveData<Result<List<ComputerStore>>>()
+    val computerStoreByName: LiveData<Result<List<ComputerStore>>>
+        get() = _computerStoreByName
+
     private val _updateComputerStore = MutableLiveData<Result<String>>()
     val updateComputerStore: LiveData<Result<String>>
         get() = _updateComputerStore
@@ -63,6 +67,13 @@ class ComputerStoreViewModel @Inject constructor(
     fun getComputerStore() {
         _computerStore.value = Result.Loading
         repository.getComputerStore { _computerStore.value = it }
+    }
+
+    fun getComputerStoreByName(name: String) {
+        _computerStoreByName.value = Result.Loading
+        repository.getComputerStoreByName(name){
+            _computerStoreByName.value = it
+        }
     }
 
     fun updateComputerStore(computerStore: ComputerStore) {

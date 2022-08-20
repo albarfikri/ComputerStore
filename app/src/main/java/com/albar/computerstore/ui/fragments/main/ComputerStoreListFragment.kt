@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.albar.computerstore.data.Result
 import com.albar.computerstore.databinding.FragmentComputerStoreListBinding
 import com.albar.computerstore.others.Constants.KEY
 import com.albar.computerstore.others.Constants.PARCELABLE_KEY
+import com.albar.computerstore.others.Tools
 import com.albar.computerstore.others.hide
 import com.albar.computerstore.others.show
 import com.albar.computerstore.others.toastShort
@@ -79,9 +81,56 @@ class ComputerStoreListFragment : Fragment() {
             if (!isConnected) {
                 noNetworkAvailableSign(isConnected)
                 dataAvailableCheck(true)
+                Tools.hideKeyboard(requireContext(), binding.rvComputerList)
             } else {
                 noNetworkAvailableSign(isConnected)
                 retrieveData()
+                search()
+                Tools.hideKeyboard(requireContext(), binding.rvComputerList)
+            }
+        }
+    }
+
+    private fun search() {
+        binding.svProduct.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isNotEmpty()) {
+                    viewModel.getComputerStoreByName(newText)
+                    observeAdapterToGetSearchByName()
+                } else {
+                    retrieveData()
+                }
+                return true
+            }
+
+        })
+    }
+
+    private fun observeAdapterToGetSearchByName() {
+        viewModel.computerStoreByName.observe(viewLifecycleOwner) {
+            when (it) {
+                is Result.Loading -> {
+                    dataAvailableCheck(true)
+                    binding.rvComputerList.hide()
+                    binding.shimmer.startShimmer()
+                    binding.shimmer.show()
+                }
+                is Result.Error -> {
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
+                    binding.rvComputerList.hide()
+                    dataAvailableCheck(false)
+                }
+                is Result.Success -> {
+                    dataAvailableCheck(true)
+                    binding.shimmer.stopShimmer()
+                    binding.shimmer.hide()
+                    binding.rvComputerList.show()
+                    adapter.updateList(it.data.toMutableList())
+                }
             }
         }
     }

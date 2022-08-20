@@ -173,6 +173,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/repository/ComputerStoreRepository.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/data/repository/ComputerStoreRepositoryImp.kt">
           <value>
             <set />
@@ -384,6 +389,11 @@
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/viewmodels/ComputerStoreProductViewModel.kt">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/albar/computerstore/ui/viewmodels/ComputerStoreViewModel.kt">
           <value>
             <set />
           </value>

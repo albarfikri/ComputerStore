@@ -49,6 +49,33 @@ class ComputerStoreRepositoryImp(
             }
     }
 
+    override fun getComputerStoreByName(
+        name: String,
+        result: (Result<List<ComputerStore>>) -> Unit
+    ) {
+        val databaseRef = database.collection(COMPUTER_STORE_TABLE)
+            databaseRef.get()
+            .addOnSuccessListener {
+                val computerStoreList = arrayListOf<ComputerStore>()
+                it.forEach { document ->
+                    val computerStore =
+                        document.toObject(ComputerStore::class.java)
+                    if (computerStore.name.lowercase()
+                            .contains(name.lowercase())
+                    ) {
+                        computerStoreList.add(computerStore)
+                        result.invoke(Result.Success(computerStoreList))
+                    }
+                    if (computerStoreList.isEmpty()) {
+                        result.invoke(Result.Error("No data Available"))
+                    }
+                }
+            }
+            .addOnFailureListener {
+                result.invoke(Result.Error(it.localizedMessage!!))
+            }
+    }
+
     override fun updateComputerStore(
         computerStore: ComputerStore,
         result: (Result<String>) -> Unit
