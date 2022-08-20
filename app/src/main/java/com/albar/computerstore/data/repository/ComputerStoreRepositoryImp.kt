@@ -32,15 +32,15 @@ class ComputerStoreRepositoryImp(
         val document = database.collection(COMPUTER_STORE_TABLE)
         document.whereNotEqualTo("isAdmin", true).whereEqualTo("isVerified", true)
             .get()
-            .addOnSuccessListener {
+            .addOnSuccessListener { data ->
                 val computerStoreList = arrayListOf<ComputerStore>()
-                it.forEach { document ->
+                data.forEach { document ->
                     //convert document from firebase to our data class
                     val computerStore = document.toObject(ComputerStore::class.java)
                     // then adding to our array list
                     computerStoreList.add(computerStore)
                 }
-                result.invoke(Result.Success(computerStoreList))
+                result.invoke(Result.Success(computerStoreList.sortedBy { it.name }))
             }
             .addOnFailureListener {
                 result.invoke(
@@ -54,17 +54,18 @@ class ComputerStoreRepositoryImp(
         result: (Result<List<ComputerStore>>) -> Unit
     ) {
         val databaseRef = database.collection(COMPUTER_STORE_TABLE)
-            databaseRef.get()
-            .addOnSuccessListener {
+        databaseRef.whereNotEqualTo("isAdmin", true).whereEqualTo("isVerified", true)
+            .get()
+            .addOnSuccessListener { data ->
                 val computerStoreList = arrayListOf<ComputerStore>()
-                it.forEach { document ->
+                data.forEach { document ->
                     val computerStore =
                         document.toObject(ComputerStore::class.java)
                     if (computerStore.name.lowercase()
                             .contains(name.lowercase())
                     ) {
                         computerStoreList.add(computerStore)
-                        result.invoke(Result.Success(computerStoreList))
+                        result.invoke(Result.Success(computerStoreList.sortedBy { it.name }))
                     }
                     if (computerStoreList.isEmpty()) {
                         result.invoke(Result.Error("No data Available"))
